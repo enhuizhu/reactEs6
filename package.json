@@ -15,7 +15,9 @@
     "babel-preset-es2015": "^6.3.13",
     "babel-preset-react": "^6.3.13",
     "babel-preset-stage-0": "^6.5.0",
-    "webpack": "^1.12.14"
+    "webpack": "^1.12.14",
+    "grunt": "^0.4.5",
+    "grunt-contrib-watch": "^1.0.0"
   },
   "dependencies": {
     "react": "^0.14.7",
