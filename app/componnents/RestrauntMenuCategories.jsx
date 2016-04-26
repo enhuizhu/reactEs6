@@ -16,7 +16,7 @@ export default class RestrauntMenuCategories extends React.Component {
 
     return (
       <ul className="category">
-        {lists}
+        { lists }
       </ul>
     );
 	}
