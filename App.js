@@ -1,8 +1,5 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-import RestrauntMenuCategories from "./app/components/RestrauntMenuCategories.jsx";
+import Products from "./app/components/Product.jsx";
 
-var categories = [ "ALL", "APPETIZERS", "BREAKFAST", "PASTA", "SPECIALS", "DESERT" ]
-
-
-ReactDom.render(<RestrauntMenuCategories data={categories}/>, document.getElementById('menu'));
+ReactDom.render(<Products/>, document.getElementById('app'));

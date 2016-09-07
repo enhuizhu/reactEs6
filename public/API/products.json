@@ -1,0 +1,17 @@
+{
+	"success": true,
+	"data": [
+		{
+			"id": 1,
+			"title": "onion"
+		},
+		{
+			"id": 2,
+			"title": "ginger"
+		},
+		{
+			"id": 3,
+			"title": "garlic"
+		}
+	]
+}
