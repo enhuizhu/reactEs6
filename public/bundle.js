@@ -19800,31 +19800,58 @@
 			_this.state = {
 				products: []
 			};
+
+			/**
+	  * register store change events
+	  **/
+			_productsStore2.default.addChangeListener(function (products) {
+				_this._onChange(products);
+			});
 			return _this;
 		}
 
 		_createClass(Products, [{
 			key: 'componentDidMount',
 			value: function componentDidMount() {
-
-				_productAction2.default.setProducts().then(function () {}).catch(function (e) {});
+				_productAction2.default.setProducts().then(function (products) {}).catch(function (e) {});
 			}
 		}, {
 			key: '_onChange',
-			value: function _onChange() {}
+			value: function _onChange(products) {
+				this.setState({ products: products });
+			}
 		}, {
 			key: 'render',
 			value: function render() {
+				var items = this.state.products.map(function (v) {
+					return _react2.default.createElement(
+						'li',
+						{ key: v.id },
+						'id: ',
+						v.id,
+						'  ',
+						v.title
+					);
+				});
+
 				return _react2.default.createElement(
 					'div',
 					null,
-					'this is product page'
+					_react2.default.createElement(
+						'ul',
+						null,
+						items
+					)
 				);
 			}
 		}]);
 
 		return Products;
 	}(_react2.default.Component);
+
+	Products.propTypes = {};
+
+	Products.defaultProps = {};
 
 	exports.default = Products;
 
@@ -19859,10 +19886,8 @@
 		setProducts: function setProducts() {
 			return new Promise(function (resolve, reject) {
 				fetch('./API/products.json').then(function (res) {
-					console.info("--- value of res ---", res);
 					return res.json();
 				}).then(function (json) {
-					console.info("--- value of json --", json);
 					var payLoad = {
 						action: productConstants.SET_PRODUCT,
 						data: json.data
@@ -19870,7 +19895,7 @@
 
 					dispatcher.dispatch(payLoad);
 
-					resolve(json);
+					resolve(json.data);
 				}).catch(function (e) {
 					reject(e);
 				});
@@ -20323,7 +20348,10 @@
 		},
 
 		addChangeListener: function addChangeListener(callback) {
-			this.on(CHANGE_EVENT, callback);
+			this.on(CHANGE_EVENT, function () {
+				console.info("change fired");
+				callback(_products);
+			});
 		},
 
 		emitChange: function emitChange() {
@@ -20373,6 +20401,11 @@
 				case productConstrants.DELETE_PRODUCT:
 					productsStore.deleteProductById(payLoad.data.id);
 					productsStore.emitChange();
+					break;
+				case productConstrants.SET_PRODUCT:
+					productsStore.setProducts(payLoad.data);
+					productsStore.emitChange();
+					break;
 				default:
 					break;
 			}

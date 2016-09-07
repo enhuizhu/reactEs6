@@ -25,10 +25,8 @@ module.exports = {
 	setProducts: function() {
 		return new Promise((resolve, reject) => {
 			fetch('./API/products.json').then((res) => {
-				console.info("--- value of res ---", res);
 				return res.json();
 			}).then((json) => {
-				console.info("--- value of json --", json)
 				let payLoad = {
 					action: productConstants.SET_PRODUCT,
 					data: json.data
@@ -36,7 +34,7 @@ module.exports = {
 
 				dispatcher.dispatch(payLoad);
 				
-				resolve(json);
+				resolve(json.data);
 			}).catch((e) => {
 				reject(e);
 			});

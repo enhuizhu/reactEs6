@@ -13,7 +13,10 @@ let productsStore = assign({}, EventEmiter.prototype, {
 	},
 
 	addChangeListener: function(callback) {
-		this.on(CHANGE_EVENT, callback);
+		this.on(CHANGE_EVENT, () => {
+			console.info("change fired");
+			callback(_products);
+		});
 	},
 
 	emitChange: function() {
@@ -63,6 +66,11 @@ let productsStore = assign({}, EventEmiter.prototype, {
 			case productConstrants.DELETE_PRODUCT:
 				productsStore.deleteProductById(payLoad.data.id);
 				productsStore.emitChange();
+				break;
+			case productConstrants.SET_PRODUCT:
+				productsStore.setProducts(payLoad.data);
+				productsStore.emitChange();
+				break;
 			default:
 				break;	
 		}
