@@ -7,31 +7,14 @@ import productsStore from '../stores/productsStore';
 class Products extends React.Component {
 	constructor(props) {
 		super(props);
-		
-		this.state = {
-			products: []
-		}
-
-		/**
-		* register store change events
-		**/		
-		productsStore.addChangeListener((products) => {this._onChange(products)});
 	}
 
 	componentDidMount() {
-		productActions.setProducts().then((products) => {
 		
-		}).catch((e) => {
-		
-		});
-	}
-
-	_onChange(products) {
-		this.setState({products: products});
 	}
 
 	render() {
-		let items = this.state.products.map((v) => {
+		let items = this.props.config.products.map((v) => {
 			return (<li key={v.id}>id: {v.id}&nbsp;&nbsp;{v.title}</li>);
 		})
 
@@ -44,12 +27,13 @@ class Products extends React.Component {
 }
 
 Products.propTypes = {
-
+	config: React.PropTypes.object
 };
 
-
 Products.defaultProps = {
-
+	config: {
+		products: []
+	}
 };
 
 export default Products;
