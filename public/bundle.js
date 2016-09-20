@@ -19777,7 +19777,7 @@
 
 	var _productAction2 = _interopRequireDefault(_productAction);
 
-	var _productsStore = __webpack_require__(249);
+	var _productsStore = __webpack_require__(163);
 
 	var _productsStore2 = _interopRequireDefault(_productsStore);
 
@@ -19937,19 +19937,124 @@
 	};
 
 /***/ },
-/* 163 */,
-/* 164 */,
-/* 165 */,
-/* 166 */,
-/* 167 */,
-/* 168 */,
-/* 169 */,
-/* 170 */,
-/* 171 */,
-/* 172 */,
-/* 173 */,
-/* 174 */,
-/* 175 */
+/* 163 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var dispatcher = __webpack_require__(161);
+	var productConstrants = __webpack_require__(162);
+	var _products = [];
+	var assign = __webpack_require__(164);
+	var EventEmiter = __webpack_require__(165).EventEmitter;
+	var CHANGE_EVENT = "change";
+
+	var productsStore = assign({}, EventEmiter.prototype, {
+		getAll: function getAll() {
+			return _products;
+		},
+
+		addChangeListener: function addChangeListener(callback) {
+			this.on(CHANGE_EVENT, function () {
+				console.info("change fired");
+				callback(_products);
+			});
+		},
+
+		emitChange: function emitChange() {
+			this.emit(CHANGE_EVENT);
+		},
+
+		removeChangeListener: function removeChangeListener(callback) {
+			this.removeListener(CHANGE_EVENT, callback);
+		},
+
+		deleteProductById: function deleteProductById(id) {
+			var index = this.getProductIndexBaseOnProductId(id);
+
+			if (index === false) {
+				return false;
+			}
+
+			_products.splice(index, 1);
+		},
+
+		getProductIndexBaseOnProductId: function getProductIndexBaseOnProductId(id) {
+			for (var index in _products) {
+				var product = _products[index];
+
+				if (product.id === id) {
+					return parseInt(index);
+				}
+			}
+
+			return false;
+		},
+
+		setProducts: function setProducts(products) {
+			_products = products;
+		},
+
+		addProduct: function addProduct(product) {
+			_products.push(product);
+		},
+
+		dispatchIndex: dispatcher.register(function (payLoad) {
+			switch (payLoad.action) {
+				case productConstrants.ADD_PRODUCT:
+					productsStore.addProduct(payLoad.data);
+					productsStore.emitChange();
+					break;
+				case productConstrants.DELETE_PRODUCT:
+					productsStore.deleteProductById(payLoad.data.id);
+					productsStore.emitChange();
+					break;
+				case productConstrants.SET_PRODUCT:
+					productsStore.setProducts(payLoad.data);
+					productsStore.emitChange();
+					break;
+				default:
+					break;
+			}
+		})
+	});
+
+	module.exports = productsStore;
+
+/***/ },
+/* 164 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	function ToObject(val) {
+		if (val == null) {
+			throw new TypeError('Object.assign cannot be called with null or undefined');
+		}
+
+		return Object(val);
+	}
+
+	module.exports = Object.assign || function (target, source) {
+		var from;
+		var keys;
+		var to = ToObject(target);
+
+		for (var s = 1; s < arguments.length; s++) {
+			from = arguments[s];
+			keys = Object.keys(Object(from));
+
+			for (var i = 0; i < keys.length; i++) {
+				to[keys[i]] = from[keys[i]];
+			}
+		}
+
+		return to;
+	};
+
+
+/***/ },
+/* 165 */
 /***/ function(module, exports) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -20254,196 +20359,6 @@
 	function isUndefined(arg) {
 	  return arg === void 0;
 	}
-
-
-/***/ },
-/* 176 */,
-/* 177 */,
-/* 178 */,
-/* 179 */,
-/* 180 */,
-/* 181 */,
-/* 182 */,
-/* 183 */,
-/* 184 */,
-/* 185 */,
-/* 186 */,
-/* 187 */,
-/* 188 */,
-/* 189 */,
-/* 190 */,
-/* 191 */,
-/* 192 */,
-/* 193 */,
-/* 194 */,
-/* 195 */,
-/* 196 */,
-/* 197 */,
-/* 198 */,
-/* 199 */,
-/* 200 */,
-/* 201 */,
-/* 202 */,
-/* 203 */,
-/* 204 */,
-/* 205 */,
-/* 206 */,
-/* 207 */,
-/* 208 */,
-/* 209 */,
-/* 210 */,
-/* 211 */,
-/* 212 */,
-/* 213 */,
-/* 214 */,
-/* 215 */,
-/* 216 */,
-/* 217 */,
-/* 218 */,
-/* 219 */,
-/* 220 */,
-/* 221 */,
-/* 222 */,
-/* 223 */,
-/* 224 */,
-/* 225 */,
-/* 226 */,
-/* 227 */,
-/* 228 */,
-/* 229 */,
-/* 230 */,
-/* 231 */,
-/* 232 */,
-/* 233 */,
-/* 234 */,
-/* 235 */,
-/* 236 */,
-/* 237 */,
-/* 238 */,
-/* 239 */,
-/* 240 */,
-/* 241 */,
-/* 242 */,
-/* 243 */,
-/* 244 */,
-/* 245 */,
-/* 246 */,
-/* 247 */,
-/* 248 */,
-/* 249 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var dispatcher = __webpack_require__(161);
-	var productConstrants = __webpack_require__(162);
-	var _products = [];
-	var assign = __webpack_require__(250);
-	var EventEmiter = __webpack_require__(175).EventEmitter;
-	var CHANGE_EVENT = "change";
-
-	var productsStore = assign({}, EventEmiter.prototype, {
-		getAll: function getAll() {
-			return _products;
-		},
-
-		addChangeListener: function addChangeListener(callback) {
-			this.on(CHANGE_EVENT, function () {
-				console.info("change fired");
-				callback(_products);
-			});
-		},
-
-		emitChange: function emitChange() {
-			this.emit(CHANGE_EVENT);
-		},
-
-		removeChangeListener: function removeChangeListener(callback) {
-			this.removeListener(CHANGE_EVENT, callback);
-		},
-
-		deleteProductById: function deleteProductById(id) {
-			var index = this.getProductIndexBaseOnProductId(id);
-
-			if (index === false) {
-				return false;
-			}
-
-			_products.splice(index, 1);
-		},
-
-		getProductIndexBaseOnProductId: function getProductIndexBaseOnProductId(id) {
-			for (var index in _products) {
-				var product = _products[index];
-
-				if (product.id === id) {
-					return parseInt(index);
-				}
-			}
-
-			return false;
-		},
-
-		setProducts: function setProducts(products) {
-			_products = products;
-		},
-
-		addProduct: function addProduct(product) {
-			_products.push(product);
-		},
-
-		dispatchIndex: dispatcher.register(function (payLoad) {
-			switch (payLoad.action) {
-				case productConstrants.ADD_PRODUCT:
-					productsStore.addProduct(payLoad.data);
-					productsStore.emitChange();
-					break;
-				case productConstrants.DELETE_PRODUCT:
-					productsStore.deleteProductById(payLoad.data.id);
-					productsStore.emitChange();
-					break;
-				case productConstrants.SET_PRODUCT:
-					productsStore.setProducts(payLoad.data);
-					productsStore.emitChange();
-					break;
-				default:
-					break;
-			}
-		})
-	});
-
-	module.exports = productsStore;
-
-/***/ },
-/* 250 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	function ToObject(val) {
-		if (val == null) {
-			throw new TypeError('Object.assign cannot be called with null or undefined');
-		}
-
-		return Object(val);
-	}
-
-	module.exports = Object.assign || function (target, source) {
-		var from;
-		var keys;
-		var to = ToObject(target);
-
-		for (var s = 1; s < arguments.length; s++) {
-			from = arguments[s];
-			keys = Object.keys(Object(from));
-
-			for (var i = 0; i < keys.length; i++) {
-				to[keys[i]] = from[keys[i]];
-			}
-		}
-
-		return to;
-	};
 
 
 /***/ }
