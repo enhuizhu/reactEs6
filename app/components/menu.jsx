@@ -1,10 +1,11 @@
-import React from 'react';
-import ReactDom from 'react-dom';
+'use strict';
 
-export default class Menu extends React.Component {
+import React from 'react';
+
+class Menu extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {data: props.data}
+		this.state = {};
 	}
 
 	getChildrenMenu(data) {
@@ -18,13 +19,31 @@ export default class Menu extends React.Component {
 				</li>);
 			};
 
-			return <li key={d.url}>{d.title}</li>
+			var link = d.active ? 
+				(<a href={d.href} className="active">{d.title}</a>) :
+				(<a href={d.href}>{d.title}</a>)
+
+			return <li key={k}>{link}</li>;
 		});
 
 		return (<ul>{lis}</ul>);
 	}
 
 	render() {
-		return this.getChildrenMenu(this.state.data);
+		return (
+			<div className="nav">
+				{this.getChildrenMenu(this.props.data)}
+			</div>
+		);
 	}
 }
+
+Menu.propTypes = {
+	data: React.PropTypes.array
+};
+
+Menu.defaultProps = {
+	data: []
+};
+
+export default Menu;

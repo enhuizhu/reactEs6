@@ -1,0 +1,19 @@
+{
+  "name": "take-away-app",
+  "description": "take away frontend for restraurant",
+  "main": "public/budle.js",
+  "authors": [
+    "enhui zhu"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "take",
+    "away",
+    "order",
+    "online"
+  ],
+  "homepage": "http://www.olmarket.co.uk",
+  "dependencies": {
+    "bootstrap-sass": "^3.3.7"
+  }
+}
