@@ -10,42 +10,42 @@ class PageHeader extends React.Component {
 			menus: [
 				{
 					title: "HOME",
-					href: "#home",
+					href: "/home",
 					active: true
 				},
 				{
 					title: "STARTER",
-					href: "#starter",
+					href: "/starter",
 					active: false
 				},
 				{
 					title: "NODDLES",
-					href: "#noodle",
+					href: "/noodle",
 					active: false
 				},
 				{
 					title: "RICE",
-					href: "#rice",
+					href: "/rice",
 					active: false
 				},
 				{
 					title: "VEGETABLE",
-					href: "#vegetable",
+					href: "/vegetable",
 					active: false
 				},
 				{
 					title: "PORK",
-					href: "#port",
+					href: "/port",
 					active: false
 				},
 				{
 					title: "BEEF",
-					href: "#beef",
+					href: "/beef",
 					active: false
 				},
 				{
 					title: "DESERT",
-					href: "#starter",
+					href: "/starter",
 					active: false
 				}
 			]
@@ -55,7 +55,11 @@ class PageHeader extends React.Component {
 	render() {
 		return (
 			<header>
-				<h4>Wok Express</h4>
+				<h4>
+					Wok Express   
+					<span className="phone-number pull-right"><a href="tel:+447588732089"> 07588 732089</a></span>
+				</h4>
+				<div className="clearfix"></div>
 				<div className="search">
 					<form className="form-inline">
 						<div className="input-group">

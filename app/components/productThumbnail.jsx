@@ -2,28 +2,28 @@
 
 import React from 'react';
 
-class productThumbnail extends React.Component {
+class ProductThumbnail extends React.Component {
 	constructor(props) {
 		super(props);
 	}
 
 	render() {
 		return (
-			<div className="product-thumbnail">
-				<div className="thumbnail">
-					<img src={this.props.product.img} className="product-img"/>
+			<div className="product-thumbnail center-block">
+				<div>
+					<img src={this.props.product.img} className="product-img img-thumbnail"/>
 				</div>
 				<div className="product-description">
 					{this.props.product.description}
 				</div>
 				<div className="product-action">
-					<span className="price"></span>
+					<span className="price text-primary">{this.props.product.price}</span>
 					<span className="actions">
-						<span className="likes">
-							<span className="glyphicon glyphicon-heart"></span>
-						</span>
-						<span className="basket glyphicon glyphicon-shopping-cart">
-						</span>
+						<button className="btn btn-primary">
+							<span className="basket glyphicon glyphicon-shopping-cart"></span>
+							Buy
+						</button>
+						
 					</span>
 					<span className="clearfix"></span>
 				</div>
@@ -32,12 +32,12 @@ class productThumbnail extends React.Component {
 	}
 }
 
-productThumbnail.propTypes = {
+ProductThumbnail.propTypes = {
 
 };
 
-productThumbnail.defautProps = {
+ProductThumbnail.defautProps = {
 
 };
 
-export default productThumbnail;
+export default ProductThumbnail;

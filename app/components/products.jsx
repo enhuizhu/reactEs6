@@ -4,7 +4,7 @@ import React from 'react';
 import productActions from '../actions/productAction';
 import productsStore from '../stores/productsStore';
 
-class Product extends React.Component {
+class Products extends React.Component {
 	constructor(props) {
 		super(props);
 	}
@@ -26,14 +26,14 @@ class Product extends React.Component {
 	}
 }
 
-Product.propTypes = {
+Products.propTypes = {
 	config: React.PropTypes.object
 };
 
-Product.defaultProps = {
+Products.defaultProps = {
 	config: {
 		products: []
 	}
 };
 
-export default Product;
+export default Products;

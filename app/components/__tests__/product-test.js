@@ -1,8 +1,8 @@
 'use strict';
 
-jest.dontMock("../product.jsx");
+jest.dontMock("../products.jsx");
 
-import Products from "../product.jsx";
+import Products from "../products.jsx";
 import React from "react/addons";
 import productsStore from "../../stores/productsStore.js";
 

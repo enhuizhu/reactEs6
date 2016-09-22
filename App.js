@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-import Products from "./app/components/Product.jsx";
 import Home from "./app/pages/home.jsx";
-import productsStore from "./app/stores/productsStore.js";
-import productActions from "./app/actions/productAction.js";
+import Products from "./app/components/products.jsx";
+import Product from "./app/components/product.jsx";
+import NoMatch from "./app/components/NoMatch.jsx";
+import { Router, Route, Link, browserHistory, hashHistory, IndexRoute} from 'react-router'
 
 /**
 * register store change events
@@ -20,7 +21,16 @@ import productActions from "./app/actions/productAction.js";
 
 // });
 
-ReactDom.render(<Home/>, document.getElementById('app'));
+ReactDom.render((
+  <Router history={hashHistory}>
+    <Route path="/" component={Home}>
+      <IndexRoute component={Products}/>
+      <Route path="/products/:category" component={Products}/>
+      <Route path="/product/:productId" component={Product}/>
+      <Route path="*" component={NoMatch}/>
+    </Route>
+  </Router>
+), document.getElementById('app'));
 
 
 

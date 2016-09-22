@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import { Link } from 'react-router';
 
 class Menu extends React.Component {
 	constructor(props) {
@@ -20,8 +21,8 @@ class Menu extends React.Component {
 			};
 
 			var link = d.active ? 
-				(<a href={d.href} className="active">{d.title}</a>) :
-				(<a href={d.href}>{d.title}</a>)
+				(<Link to={d.href} className="active">{d.title}</Link>) :
+				(<Link to={d.href}>{d.title}</Link>)
 
 			return <li key={k}>{link}</li>;
 		});
