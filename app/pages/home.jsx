@@ -8,12 +8,16 @@ class Home extends React.Component {
 		
 		this.state = {
 			product: {
+				id:1,
 				img: "http://www.chinesevillage.co.uk/wp-content/uploads/2015/04/Chinese-Food-Wallpapers10.jpg",
 				description: "stir fried noodle",
-				price: "£3.00"
-
+				price: "3.00"
 			}
 		}
+	}
+
+	addProduct(item) {
+		console.info("the added item is:", item);
 	}
 
 	render() {
@@ -21,18 +25,35 @@ class Home extends React.Component {
 		
 		for(let i = 0; i < 16; i++) {
 			items.push(<div className="col-xs-6 col-sm-3 col-md-2" key={i}>
-					<ProductThumbnail product={this.state.product}></ProductThumbnail>
+					<ProductThumbnail product={this.state.product} callback={()=> {this.addProduct(this.state.product)}}></ProductThumbnail>
 			</div>);	
 		}
 
 		return (<div>
 			<PageHeader></PageHeader>
 			<section className="main-section">
-				<h4>Featured Food</h4>
+				<div>
+					<div className="col-xs-6 col-sm-3 col-md-2">
+						<div className="center-block title">Featured Food</div>
+					</div>
+					<div className="col-xs-6 col-sm-3 col-md-2">
+					</div>
+					<div className="col-xs-6 col-sm-3 col-md-2">
+					</div>
+					<div className="col-xs-6 col-sm-3 col-md-2">
+					</div>
+					<div className="col-xs-6 col-sm-3 col-md-2">
+					</div>
+					<div className="col-xs-6 col-sm-3 col-md-2">
+					</div>
+				</div>
+				<div className="clearfix"></div>
+
 				<div className="content">
-					<div className="row">
+					<div>
 						{items}
 					</div>
+					<div className="clearfix"></div>
 				</div>
 			</section>
 
@@ -41,6 +62,12 @@ class Home extends React.Component {
 			        <p className="text-muted">Online marketing solution</p>
 			    </div>
 			</footer>
+
+			<div className="fix-footer">
+				<div className="bg-primary center-block">
+					Total £30.00 (4)
+				</div>
+			</div>
 		</div>);
 	}
 }

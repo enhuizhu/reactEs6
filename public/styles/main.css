@@ -1,10 +1,50 @@
+/**
+* all the animations goes here
+**/
+@-webkit-keyframes fadeout {
+  from {
+    bottom: 46px;
+    opacity: 1; }
+  to {
+    bottom: 120px;
+    opacity: 0; } }
+@-moz-keyframes fadeout {
+  from {
+    bottom: 46px;
+    opacity: 1; }
+  to {
+    bottom: 120px;
+    opacity: 0; } }
+@-ms-keyframes fadeout {
+  from {
+    bottom: 46px;
+    opacity: 1; }
+  to {
+    bottom: 120px;
+    opacity: 0; } }
+@-o-keyframes fadeout {
+  from {
+    bottom: 46px;
+    opacity: 1; }
+  to {
+    bottom: 120px;
+    opacity: 0; } }
+@keyframes fadeout {
+  from {
+    bottom: 46px;
+    opacity: 1; }
+  to {
+    bottom: 120px;
+    opacity: 0; } }
 /* main sass file */
 body {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   color: #5b5e61; }
 
-section.main-section h4 {
-  padding-left: 2px; }
+section.main-section .title {
+  width: 135px;
+  margin-bottom: 15px;
+  margin-top: 15px; }
 
 header {
   background-color: #f8f8f8;
@@ -48,18 +88,18 @@ header {
 * css for productThumail
 **/
 .product-thumbnail {
-  width: 140px;
-  margin-bottom: 10px; }
+  width: 135px;
+  margin-bottom: 20px; }
   .product-thumbnail .product-img {
-    width: 140px;
-    height: 140px; }
+    width: 135px;
+    height: 135px; }
   .product-thumbnail .product-description {
     text-align: center;
     padding-top: 2px;
     padding-bottom: 4px;
     white-space: nowrap;
     text-overflow: ellipsis;
-    width: 140px;
+    width: 135px;
     overflow: hidden; }
   .product-thumbnail .product-action {
     font-size: 15px; }
@@ -71,13 +111,41 @@ header {
       float: right; }
       .product-thumbnail .product-action .actions .basket {
         margin-right: 5px; }
+  .product-thumbnail .plus-sign {
+    position: absolute;
+    right: 30px;
+    bottom: 46px;
+    font-size: 20px;
+    font-weight: bold;
+    opacity: 0; }
+  .product-thumbnail .plus-fade-out {
+    -webkit-animation: 1s fadeout ease-in;
+    -moz-animation: 1s fadeout ease-in;
+    -ms-animation: 1s fadeout ease-in;
+    -o-animation: 1s fadeout ease-in;
+    animation: 1s fadeout ease-in; }
 
 .footer {
   margin-top: 10px;
+  margin-bottom: 82px;
   width: 100%;
   height: 60px;
   background-color: #f8f8f8; }
   .footer .text-muted {
-    margin: 20px 0 20px 0; }
+    margin: 20px 0 20px 0;
+    text-align: center; }
+
+.fix-footer {
+  position: fixed;
+  background-color: white;
+  bottom: 0px;
+  width: 100%;
+  padding: 20px;
+  border-top: solid 1px #dddddd;
+  border-bottom: solid 1px #dddddd;
+  box-sizing: border-box; }
+  .fix-footer .bg-primary {
+    padding: 10px;
+    text-align: center; }
 
 /*# sourceMappingURL=main.css.map */

@@ -1,7 +1,7 @@
 'use strict';
 
 let dispatcher = require("../dispatcher/dispatcher");
-let productConstrants = require("../constants/productConstants");
+let productConstants = require("../constants/productConstants");
 let _products = [];
 let assign = require("object-assign");
 let EventEmiter = require("events").EventEmitter;
@@ -54,20 +54,20 @@ let productsStore = assign({}, EventEmiter.prototype, {
 	},
 
 	addProduct: function(product) {
-		_products.push(product);
+		_products = _products.concat([product]);
 	},
 
 	dispatchIndex: dispatcher.register((payLoad) => {
 		switch(payLoad.action) {
-			case productConstrants.ADD_PRODUCT:
+			case productConstants.ADD_PRODUCT:
 				productsStore.addProduct(payLoad.data);
 				productsStore.emitChange();
 				break;
-			case productConstrants.DELETE_PRODUCT:
+			case productConstants.DELETE_PRODUCT:
 				productsStore.deleteProductById(payLoad.data.id);
 				productsStore.emitChange();
 				break;
-			case productConstrants.SET_PRODUCT:
+			case productConstants.SET_PRODUCT:
 				productsStore.setProducts(payLoad.data);
 				productsStore.emitChange();
 				break;

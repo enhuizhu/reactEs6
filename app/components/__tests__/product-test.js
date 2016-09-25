@@ -1,6 +1,6 @@
 'use strict';
 
-jest.dontMock("../products.jsx");
+// jest.dontMock("../products.jsx");
 
 import Products from "../products.jsx";
 import React from "react/addons";

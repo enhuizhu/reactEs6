@@ -1,6 +1,6 @@
 'use strict';
 
-jest.dontMock("../menu.jsx");
+// jest.dontMock("../menu.jsx");
 
 import Menu from "../menu.jsx";
 import React from "react/addons";

@@ -1,0 +1,14 @@
+/**
+* all the animations goes here
+**/
+@include keyframes(fadeout) {
+	from {
+		bottom: 46px;
+		opacity: 1;
+	}
+
+	to {
+		bottom: 120px;
+		opacity: 0;
+	}
+}
