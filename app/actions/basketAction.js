@@ -11,5 +11,14 @@ module.exports = {
 		}
 
 		dispatcher.dispatch(payLoad);
+	},
+
+	deleteItem: function(data) {
+		let payLoad = {
+			action: basketConstants.DELETE_ITEM,
+			data: data.id
+		}
+
+		dispatcher.dispatch(payLoad);
 	}
 }

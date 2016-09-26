@@ -78,12 +78,19 @@ let basketStore = assign({}, EventEmiter.prototype, {
 		return _items;
 	},
 
+	setItems: function(items) {
+		_items = [].concat(items);
+	},
+
 	dispatcherIndex: dispatcher.register((payLoad) => {
 		switch(payLoad.action) {
 			case basketConstants.ADD_TO_BASKET:
 				basketStore.addToBasket(payLoad.data);
 				basketStore.emitChange();
 				break;
+			case basketConstants.DELETE_ITEM:
+				basketStore.removeItem(payLoad.data);
+				basketStore.emitChange();
 			default:
 				break;
 		}
