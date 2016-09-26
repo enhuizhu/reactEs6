@@ -25,6 +25,8 @@ describe("basketstore", () => {
 			quantity: 1
 		}]);
 
+		expect(basketStore.getTotal()).toBe(3);
+
 		expect(basketStore.addToBasket({
 			id: 1,
 			descrition: "test",
@@ -37,6 +39,8 @@ describe("basketstore", () => {
 			price: 3,
 			quantity: 2
 		}]);
+
+		expect(basketStore.getTotal()).toBe(6);
 
 		expect(basketStore.addToBasket({
 			id:2,
@@ -58,6 +62,10 @@ describe("basketstore", () => {
 			quantity: 1
 		}
 		]);
+
+		expect(basketStore.getTotal()).toBe(10);
+
+		expect(basketStore.getTotalQuantity()).toBe(3);
 	});
 
 	it("remove item", () => {

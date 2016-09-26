@@ -19727,6 +19727,14 @@
 
 	var _productThumbnail2 = _interopRequireDefault(_productThumbnail);
 
+	var _basketStore = __webpack_require__(236);
+
+	var _basketStore2 = _interopRequireDefault(_basketStore);
+
+	var _basketAction = __webpack_require__(238);
+
+	var _basketAction2 = _interopRequireDefault(_basketAction);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -19749,15 +19757,25 @@
 					img: "http://www.chinesevillage.co.uk/wp-content/uploads/2015/04/Chinese-Food-Wallpapers10.jpg",
 					description: "stir fried noodle",
 					price: "3.00"
-				}
+				},
+
+				total: _basketStore2.default.getTotal(),
+				totalQuantity: _basketStore2.default.getTotalQuantity()
 			};
+
+			_basketStore2.default.addChagneListener(function () {
+				_this.setState({
+					total: _basketStore2.default.getTotal(),
+					totalQuantity: _basketStore2.default.getTotalQuantity()
+				});
+			});
 			return _this;
 		}
 
 		_createClass(Home, [{
 			key: 'addProduct',
 			value: function addProduct(item) {
-				console.info("the added item is:", item);
+				_basketAction2.default.addToBasket(item);
 			}
 		}, {
 			key: 'render',
@@ -19832,7 +19850,11 @@
 						_react2.default.createElement(
 							'div',
 							{ className: 'bg-primary center-block' },
-							'Total £30.00 (4)'
+							'Total £',
+							this.state.total,
+							' (',
+							this.state.totalQuantity,
+							')'
 						)
 					)
 				);
@@ -26586,6 +26608,169 @@
 	}(_react2.default.Component);
 
 	exports.default = NoMatch;
+
+/***/ },
+/* 236 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var dispatcher = __webpack_require__(229);
+	var basketConstants = __webpack_require__(237);
+	var _items = [];
+	var assign = __webpack_require__(232);
+	var EventEmiter = __webpack_require__(233).EventEmitter;
+	var CHANGE_EVENT = "change";
+
+	var basketStore = assign({}, EventEmiter.prototype, {
+		addChagneListener: function addChagneListener(callback) {
+			this.on(CHANGE_EVENT, function () {
+				callback(_items);
+			});
+		},
+
+		emitChange: function emitChange() {
+			this.emit(CHANGE_EVENT);
+		},
+
+		removeChangeListener: function removeChangeListener(callback) {
+			this.removeListener(CHANGE_EVENT, callback);
+		},
+
+		addToBasket: function addToBasket(item) {
+			/**
+	  * check if the item already in the array
+	  **/
+			var findIndex = null;
+
+			for (var i in _items) {
+				if (_items[i].id == item.id) {
+					findIndex = i;
+					break;
+				}
+			}
+
+			if (findIndex !== null) {
+				var newItem = assign({}, _items[findIndex]);
+				newItem.quantity++;
+				_items[findIndex] = newItem;
+			} else {
+				var _newItem = assign({}, item);
+				_newItem.quantity = 1;
+				_items = _items.concat([_newItem]);
+			}
+
+			return _items;
+		},
+
+		removeItem: function removeItem(id) {
+			_items = _items.concat([]);
+			/**
+	  * find the item index
+	  **/
+			for (var i in _items) {
+				if (_items[i].id == id) {
+					var item = assign({}, _items[i]);
+
+					if (item.quantity > 1) {
+						item.quantity -= 1;
+						_items[i] = item;
+					} else {
+						_items.splice(i, 1);
+					}
+
+					return _items;
+				}
+			}
+
+			return _items;
+		},
+
+		emptyBasket: function emptyBasket() {
+			_items = [];
+		},
+
+		getItems: function getItems() {
+			return _items;
+		},
+
+		getTotal: function getTotal() {
+			var sum = _items.reduce(function (prev, v) {
+				return prev + v.price * v.quantity;
+			}, 0);
+
+			return sum;
+		},
+
+		getTotalQuantity: function getTotalQuantity() {
+			var sum = _items.reduce(function (prev, v) {
+				return prev + v.quantity;
+			}, 0);
+
+			return sum;
+		},
+
+		setItems: function setItems(items) {
+			_items = [].concat(items);
+		},
+
+		dispatcherIndex: dispatcher.register(function (payLoad) {
+			switch (payLoad.action) {
+				case basketConstants.ADD_TO_BASKET:
+					basketStore.addToBasket(payLoad.data);
+					basketStore.emitChange();
+					break;
+				case basketConstants.DELETE_ITEM:
+					basketStore.removeItem(payLoad.data);
+					basketStore.emitChange();
+				default:
+					break;
+			}
+		})
+
+	});
+
+	module.exports = basketStore;
+
+/***/ },
+/* 237 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = {
+		ADD_TO_BASKET: "ADD_TO_BASKET",
+		DELETE_ITEM: "DELETE_ITEM"
+	};
+
+/***/ },
+/* 238 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var dispatcher = __webpack_require__(229);
+	var basketConstants = __webpack_require__(237);
+
+	module.exports = {
+		addToBasket: function addToBasket(data) {
+			var payLoad = {
+				action: basketConstants.ADD_TO_BASKET,
+				data: data
+			};
+
+			dispatcher.dispatch(payLoad);
+		},
+
+		deleteItem: function deleteItem(data) {
+			var payLoad = {
+				action: basketConstants.DELETE_ITEM,
+				data: data.id
+			};
+
+			dispatcher.dispatch(payLoad);
+		}
+	};
 
 /***/ }
 /******/ ]);

@@ -1,6 +1,8 @@
 import React from 'react';
 import PageHeader from '../components/pageHeader.jsx';
 import ProductThumbnail from '../components/productThumbnail.jsx';
+import basketStore from '../stores/basketStore.js';
+import baketAction from '../actions/basketAction.js';
 
 class Home extends React.Component {
 	constructor(props) {
@@ -12,12 +14,22 @@ class Home extends React.Component {
 				img: "http://www.chinesevillage.co.uk/wp-content/uploads/2015/04/Chinese-Food-Wallpapers10.jpg",
 				description: "stir fried noodle",
 				price: "3.00"
-			}
+			},
+
+			total: basketStore.getTotal(),
+			totalQuantity: basketStore.getTotalQuantity()
 		}
+
+		basketStore.addChagneListener(() => {
+			this.setState({
+				total: basketStore.getTotal(),
+				totalQuantity: basketStore.getTotalQuantity()
+			});
+		});
 	}
 
 	addProduct(item) {
-		console.info("the added item is:", item);
+		baketAction.addToBasket(item);
 	}
 
 	render() {
@@ -65,7 +77,7 @@ class Home extends React.Component {
 
 			<div className="fix-footer">
 				<div className="bg-primary center-block">
-					Total £30.00 (4)
+					Total £{this.state.total} ({this.state.totalQuantity})
 				</div>
 			</div>
 		</div>);
@@ -73,5 +85,3 @@ class Home extends React.Component {
 }
 
 export default Home;
-
-

@@ -78,6 +78,22 @@ let basketStore = assign({}, EventEmiter.prototype, {
 		return _items;
 	},
 
+	getTotal: function() {
+		let sum = _items.reduce((prev, v)=> {
+			return prev + v.price * v.quantity;
+		}, 0);
+
+		return sum;
+	},
+
+	getTotalQuantity: function() {
+		let sum = _items.reduce((prev, v) => {
+			return prev + v.quantity;
+		}, 0);
+
+		return sum;
+	},
+
 	setItems: function(items) {
 		_items = [].concat(items);
 	},
