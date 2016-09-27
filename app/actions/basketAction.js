@@ -20,5 +20,14 @@ module.exports = {
 		}
 
 		dispatcher.dispatch(payLoad);
+	},
+
+	changeDeliverMethod: function(data) {
+		let payLoad = {
+			action: basketConstants.CHANGE_DELIVERY_METHOD,
+			data: data
+		}
+
+		dispatcher.dispatch(payLoad);
 	}
 }

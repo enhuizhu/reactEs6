@@ -1,4 +1,5 @@
 'use strict';
+
 let dispatcher = require("../dispatcher/dispatcher");
 let basketConstants = require("../constants/basketConstants");
 let _items = [];
@@ -7,6 +8,10 @@ let EventEmiter = require("events").EventEmitter;
 let CHANGE_EVENT = "change";
 
 let basketStore = assign({}, EventEmiter.prototype, {
+	deliverFee: 0,
+
+	deliverMethod: 1,
+
 	addChagneListener: function(callback) {
 		this.on(CHANGE_EVENT, () => {
 			callback(_items);
@@ -94,6 +99,18 @@ let basketStore = assign({}, EventEmiter.prototype, {
 		return sum;
 	},
 
+	getDeliverFee: function() {
+		return this.deliverFee;
+	},
+
+	getDeliverMethod: function() {
+		return this.deliverMethod;
+	},
+
+	setDeliveryMethod: function(method) {
+		this.deliverMethod = method;
+	},
+
 	setItems: function(items) {
 		_items = [].concat(items);
 	},
@@ -107,6 +124,11 @@ let basketStore = assign({}, EventEmiter.prototype, {
 			case basketConstants.DELETE_ITEM:
 				basketStore.removeItem(payLoad.data);
 				basketStore.emitChange();
+				break;
+			case basketConstants.CHANGE_DELIVERY_METHOD:
+				basketStore.setDeliveryMethod(payLoad.data);
+				basketStore.emitChange();
+				break;
 			default:
 				break;
 		}

@@ -1,8 +1,6 @@
 'use strict';
 
-// jest.dontMock("../basketStore");
-
-import basketStore from "../basketStore";
+import basketStore from "../basketStore.js";
 
 describe("basketstore", () => {
 	beforeEach(() => {

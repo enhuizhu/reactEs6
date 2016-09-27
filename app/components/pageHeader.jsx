@@ -3,53 +3,80 @@
 import React from 'react';
 import Menu from './menu.jsx';
 
+let assign = require("object-assign");
+
 class PageHeader extends React.Component {
 	constructor(props) {
 		super(props);
+		
+		console.info("PageHeader props:", this.props.activeUrl);
+		
 		this.state = {
 			menus: [
 				{
 					title: "HOME",
-					href: "/home",
+					href: "/",
 					active: true
 				},
 				{
 					title: "STARTER",
-					href: "/starter",
+					href: "/products/starter",
 					active: false
 				},
 				{
 					title: "NODDLES",
-					href: "/noodle",
+					href: "/products/noodle",
 					active: false
 				},
 				{
 					title: "RICE",
-					href: "/rice",
+					href: "/products/rice",
 					active: false
 				},
 				{
 					title: "VEGETABLE",
-					href: "/vegetable",
+					href: "/products/vegetable",
 					active: false
 				},
 				{
 					title: "PORK",
-					href: "/port",
+					href: "/products/port",
 					active: false
 				},
 				{
 					title: "BEEF",
-					href: "/beef",
+					href: "/products/beef",
 					active: false
 				},
 				{
 					title: "DESERT",
-					href: "/starter",
+					href: "/products/starter",
 					active: false
 				}
 			]
 		}
+	}
+
+	componentWillReceiveProps(nextProps, nextState) {
+		console.info("--- PageHeader -- ", nextProps.activeUrl, nextState);
+	}
+
+	setActiveMenu(url) {
+		let newMenus = [].concat(this.state.menus);
+
+		newMenus.map((v) => {
+			let uris = v.href.split("/").filter((v) => {
+				return v.trim().length > 0;
+			});
+			/**
+			* it's home page
+			**/
+			if (uris.length === 0 && !url || (uris[uris.length -1] === url)) {
+				v.active = true;
+			}else{
+				v.active = false;
+			}
+		})
 	}
 
 	render() {

@@ -1,6 +1,4 @@
 'use strict';
-// jest.enableAutomock();
-// jest.dontMock("../productsStore");
 
 describe("productsStore", () => {
 	let productsStore = null;

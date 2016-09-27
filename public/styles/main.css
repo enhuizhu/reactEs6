@@ -37,6 +37,19 @@
     bottom: 120px;
     opacity: 0; } }
 /* main sass file */
+/**
+* common css
+**/
+.square-btn {
+  padding: 10px;
+  text-align: center; }
+
+.facebook-bg {
+  background-color: #3651a0; }
+
+.small-text {
+  font-size: 12px; }
+
 body {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   color: #5b5e61; }
@@ -144,8 +157,46 @@ header {
   border-top: solid 1px #dddddd;
   border-bottom: solid 1px #dddddd;
   box-sizing: border-box; }
-  .fix-footer .bg-primary {
-    padding: 10px;
-    text-align: center; }
+
+.basket .sections-container {
+  margin-top: 15px; }
+.basket .section {
+  padding: 10px;
+  border: solid 1px #dddddd; }
+  .basket .section.no-bottom-border {
+    border-bottom: none; }
+  .basket .section .item-container:not(:last-child) {
+    margin-bottom: 8px; }
+  .basket .section .item-container button {
+    padding: 5px;
+    border: solid 1px #cac6c6;
+    width: 25px;
+    height: 25px;
+    background-color: white;
+    margin-right: 7px;
+    position: relative;
+    top: -2px; }
+    .basket .section .item-container button .glyphicon {
+      position: relative;
+      font-size: 11px;
+      top: -2px; }
+  .basket .section .item-container .item-title strong {
+    font-size: 12px; }
+  .basket .section .summary-container {
+    font-weight: 200; }
+    .basket .section .summary-container.large-text {
+      margin-top: 20px;
+      font-size: 17px; }
+  .basket .section .title {
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 7px; }
+  .basket .section .col-xs-6 {
+    padding-left: 0px; }
+    .basket .section .col-xs-6 label {
+      margin-left: 5px;
+      vertical-align: middle; }
+    .basket .section .col-xs-6 .small-text {
+      margin-left: 17px; }
 
 /*# sourceMappingURL=main.css.map */

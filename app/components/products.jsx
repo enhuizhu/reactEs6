@@ -1,39 +1,106 @@
 'uset strict';
 
 import React from 'react';
-import productActions from '../actions/productAction';
-import productsStore from '../stores/productsStore';
+import basketStore from '../stores/basketStore.js';
+import baketAction from '../actions/basketAction.js';
+import ProductThumbnail from '../components/productThumbnail.jsx';
+
 
 class Products extends React.Component {
 	constructor(props) {
 		super(props);
+		
+		if(!this.props.params.category) {
+			let product = {
+				id:1,
+				img: "http://www.chinesevillage.co.uk/wp-content/uploads/2015/04/Chinese-Food-Wallpapers10.jpg",
+				description: "stir fried noodle",
+				title: "stir fried noodle",
+				price: "3.00"
+			};
+
+			let product2 = {
+				id:2,
+				img: "http://www.mommyscuisine.com/wp-content/uploads/vegfriedriceleadimage.jpg",
+				description: "stir fried rice",
+				title: "stir fried rice",
+				price: "4.00"
+			}
+
+			let items = [];
+		
+			for(let i = 0; i < 16; i++) {
+				let random = Math.round(Math.random() * 2) + 1;
+				let newproduct = random === 1 ? product : product2;
+
+				items.push(newproduct);	
+			}
+
+			console.info("items", items);
+
+			this.state= {
+				products: items,
+				title: "Featured Food"
+			};
+		}else{
+			this.state = {
+				products: [],
+				title: ""
+			};
+		}
 	}
 
 	componentDidMount() {
-		
+		console.info("params",this.props.params);
+	}
+
+	componentWillReceiveProps(nextProps, nextState) {
+		console.info("--- props -- ", nextProps.params, nextState);
+	}
+
+	addProduct(item) {
+		baketAction.addToBasket(item);
 	}
 
 	render() {
-		let items = this.props.config.products.map((v) => {
-			return (<li key={v.id}>id: {v.id}&nbsp;&nbsp;{v.title}</li>);
+		let items = this.state.products.map((v, i) => {
+			return (<div className="col-xs-6 col-sm-3 col-md-2" key={i}>
+					<ProductThumbnail product={v} callback={()=> {this.addProduct(v)}}></ProductThumbnail>
+			</div>);
 		})
 
 		return (<div>
-			<ul>
-				{items}
-			</ul>
+			<div>
+					<div className="col-xs-6 col-sm-3 col-md-2">
+						<div className="center-block title">{this.state.title}</div>
+					</div>
+					<div className="col-xs-6 col-sm-3 col-md-2">
+					</div>
+					<div className="col-xs-6 col-sm-3 col-md-2">
+					</div>
+					<div className="col-xs-6 col-sm-3 col-md-2">
+					</div>
+					<div className="col-xs-6 col-sm-3 col-md-2">
+					</div>
+					<div className="col-xs-6 col-sm-3 col-md-2">
+					</div>
+				</div>
+				<div className="clearfix"></div>
+
+				<div className="content">
+					<div>
+						{items}
+					</div>
+					<div className="clearfix"></div>
+				</div>
 		</div>);
 	}
 }
 
 Products.propTypes = {
-	config: React.PropTypes.object
 };
 
 Products.defaultProps = {
-	config: {
-		products: []
-	}
 };
 
 export default Products;
