@@ -42,7 +42,11 @@
 **/
 .square-btn {
   padding: 10px;
-  text-align: center; }
+  text-align: center;
+  border-radius: 4px;
+  color: white;
+  display: block;
+  border: none; }
 
 .facebook-bg {
   background-color: #3651a0; }
@@ -198,5 +202,30 @@ header {
       vertical-align: middle; }
     .basket .section .col-xs-6 .small-text {
       margin-left: 17px; }
+
+.login {
+  padding: 20px; }
+  .login input[type='submit'] {
+    width: 100%; }
+  .login .seperator {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: center; }
+    .login .seperator span {
+      min-width: 100px;
+      text-align: center;
+      display: inline-block;
+      position: relative;
+      z-index: 100;
+      background-color: white; }
+    .login .seperator .line {
+      content: "";
+      display: block;
+      width: 100%;
+      background-color: #dddddd;
+      height: 1px;
+      position: relative;
+      top: 11px;
+      z-index: 1; }
 
 /*# sourceMappingURL=main.css.map */

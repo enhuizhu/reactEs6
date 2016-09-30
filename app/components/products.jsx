@@ -4,7 +4,8 @@ import React from 'react';
 import basketStore from '../stores/basketStore.js';
 import baketAction from '../actions/basketAction.js';
 import ProductThumbnail from '../components/productThumbnail.jsx';
-
+import Modal from '../components/modal.jsx';
+import Basket from '../components/basket.jsx';
 
 class Products extends React.Component {
 	constructor(props) {
@@ -40,14 +41,25 @@ class Products extends React.Component {
 
 			this.state= {
 				products: items,
-				title: "Featured Food"
+				title: "Featured Food",
+				total: basketStore.getTotal(),
+				totalQuantity: basketStore.getTotalQuantity()
 			};
 		}else{
 			this.state = {
 				products: [],
-				title: ""
+				title: "",
+				total: basketStore.getTotal(),
+				totalQuantity: basketStore.getTotalQuantity()
 			};
 		}
+
+		basketStore.addChagneListener(() => {
+			this.setState({
+				total: basketStore.getTotal(),
+				totalQuantity: basketStore.getTotalQuantity()
+			});
+		});
 	}
 
 	componentDidMount() {
@@ -60,6 +72,10 @@ class Products extends React.Component {
 
 	addProduct(item) {
 		baketAction.addToBasket(item);
+	}
+
+	displayBasket() {
+		jQuery('#basket').modal('show');
 	}
 
 	render() {
@@ -93,6 +109,16 @@ class Products extends React.Component {
 					</div>
 					<div className="clearfix"></div>
 				</div>
+
+				<div className="fix-footer">
+					<div className="bg-primary center-block square-btn" onClick={this.displayBasket.bind(this)}>
+						Total £{this.state.total} ({this.state.totalQuantity})
+					</div>
+				</div>
+
+				<Modal modalId="basket" title="Basket">
+				   <Basket></Basket>
+				</Modal>
 		</div>);
 	}
 }

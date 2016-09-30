@@ -17,6 +17,10 @@ $container-width: 135px;
 .square-btn {
 	padding: 10px;
 	text-align: center;
+	border-radius: 4px;
+	color: white;
+	display: block;
+	border: none;
 }
 
 .facebook-bg {
@@ -253,6 +257,44 @@ header {
 			.small-text {
 				margin-left: 17px;
 			}
+		}
+	}
+}
+
+.login {
+	padding: 20px;
+
+	.facebook {
+		
+	}
+
+	input[type='submit'] {
+		width: 100%;
+	}
+
+	.seperator {
+		margin-top: 10px;
+		margin-bottom: 10px;
+		text-align: center;
+		
+		span {
+			min-width: 100px;
+			text-align: center;
+			display: inline-block;
+			position: relative;
+			z-index: 100;
+			background-color: white;
+		}
+
+		.line {
+			content: "";
+			display: block;
+			width: 100%;
+			background-color: $line-color;
+			height: 1px;
+			position: relative;
+			top: 11px;
+			z-index: 1;
 		}
 	}
 }
