@@ -4,17 +4,24 @@ import React from 'react';
 import Menu from './menu.jsx';
 import menuStore from '../stores/menuStore.js';
 import menuAction from '../actions/menuAction.js';
+import apiService from '../services/apiService.js';
 
 let assign = require("object-assign");
 
 class PageHeader extends React.Component {
 	constructor(props) {
 		super(props);
-		console.info("PageHeader props:", this.props.activeUrl);
+		
 		this.state = {
 			menus: menuStore.getMenus()
 		}
 
+		apiService.getCategories().then((catgories) => {
+			menuStore.setMenus(catgories);
+			menuAction.setActiveUrl(this.props.activeUrl);
+		}).catch((err) => {
+			console.error(err);
+		});
 
 		menuStore.addChagneListener((menus) => {
 			this.setState({menus: menus});
