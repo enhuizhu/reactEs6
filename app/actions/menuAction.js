@@ -1,7 +1,8 @@
 'use strict';
 
-let dispatcher = require('../dispatcher/dispatcher');
-let menuConstants = require('../constants/menuConstants');
+import apiService from '../services/apiService.js';
+import dispatcher from '../dispatcher/dispatcher';
+import menuConstants from '../constants/menuConstants';
 
 module.exports = {
 	setActiveUrl: function(currentUrl) {
@@ -12,5 +13,19 @@ module.exports = {
 
 		dispatcher.dispatch(payLoad);
 	},
+
+	setMenus: function(activeUrl) {
+		apiService.getCategories().then((catgories) => {
+			let payLoad = {
+				action: menuConstants.SET_MENUS,
+				data: catgories
+			}
+
+			dispatcher.dispatch(payLoad);
+			this.setActiveUrl(activeUrl);
+		}).catch((err) => {
+			console.error(err);
+		});
+	}
 }
 

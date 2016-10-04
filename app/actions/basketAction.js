@@ -1,7 +1,7 @@
 'use strict';
 
-let dispatcher = require('../dispatcher/dispatcher');
-let basketConstants = require('../constants/basketConstants');
+import dispatcher from '../dispatcher/dispatcher';
+import basketConstants from '../constants/basketConstants';
 
 module.exports = {
 	addToBasket: function(data) {

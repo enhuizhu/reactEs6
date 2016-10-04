@@ -1,7 +1,9 @@
 'use strict';
 
-let dispatcher = require('../dispatcher/dispatcher');
-let productConstants = require('../constants/productConstants');
+import apiPath from '../configs/apiConfig';
+import dispatcher from '../dispatcher/dispatcher';
+import productConstants from '../constants/productConstants';
+import apiService from '../services/apiService';
 
 module.exports = {
 	addProduct: function(data) {
@@ -22,22 +24,19 @@ module.exports = {
 		dispatcher.dispatch(payLoad);
 	},
 
-	setProducts: function() {
-		return new Promise((resolve, reject) => {
-			fetch('./API/products.json').then((res) => {
-				return res.json();
-			}).then((json) => {
-				let payLoad = {
-					action: productConstants.SET_PRODUCT,
-					data: json.data
-				}
-
-				dispatcher.dispatch(payLoad);
-				
-				resolve(json.data);
-			}).catch((e) => {
-				reject(e);
+	setProducts: function(category) {
+		apiService.getProducts(category).then((response) => {
+			console.info("action setProducts:", response);
+			let products = response.products.map( v => {
+				return Object.assign({}, v, {img: apiPath + "uploads/" + v.pics}) 	
 			});
-		});
+
+			let payLoad = {
+				action: productConstants.SET_PRODUCT,
+				data: products
+			}
+
+			dispatcher.dispatch(payLoad);
+		})		
 	}
 };

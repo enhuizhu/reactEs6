@@ -1,8 +1,11 @@
 'uset strict';
 
 import React from 'react';
-import basketStore from '../stores/basketStore.js';
-import baketAction from '../actions/basketAction.js';
+import basketStore from '../stores/basketStore';
+import productsStore from '../stores/productsStore';
+import menuStore from '../stores/menuStore'
+import baketAction from '../actions/basketAction';
+import productAction from '../actions/productAction';
 import ProductThumbnail from '../components/productThumbnail.jsx';
 import Modal from '../components/modal.jsx';
 import Basket from '../components/basket.jsx';
@@ -11,48 +14,24 @@ class Products extends React.Component {
 	constructor(props) {
 		super(props);
 		
-		if(!this.props.params.category) {
-			let product = {
-				id:1,
-				img: "http://www.chinesevillage.co.uk/wp-content/uploads/2015/04/Chinese-Food-Wallpapers10.jpg",
-				description: "stir fried noodle",
-				title: "stir fried noodle",
-				price: "3.00"
-			};
+		this.state= {
+			products: [],
+			title: this.props.params.category ? this.props.params.category : "Featured Food",
+			total: basketStore.getTotal(),
+			totalQuantity: basketStore.getTotalQuantity()
+		};
 
-			let product2 = {
-				id:2,
-				img: "http://www.mommyscuisine.com/wp-content/uploads/vegfriedriceleadimage.jpg",
-				description: "stir fried rice",
-				title: "stir fried rice",
-				price: "4.00"
-			}
 
-			let items = [];
-		
-			for(let i = 0; i < 16; i++) {
-				let random = Math.round(Math.random() * 2) + 1;
-				let newproduct = random === 1 ? product : product2;
+		menuStore.addMenuInitListener((menus) => {
+			productAction.setProducts(this.props.params.category);	
+		});
 
-				items.push(newproduct);	
-			}
-
-			console.info("items", items);
-
-			this.state= {
-				products: items,
-				title: "Featured Food",
-				total: basketStore.getTotal(),
-				totalQuantity: basketStore.getTotalQuantity()
-			};
-		}else{
-			this.state = {
-				products: [],
-				title: "",
-				total: basketStore.getTotal(),
-				totalQuantity: basketStore.getTotalQuantity()
-			};
-		}
+		productsStore.addChangeListener(() => {
+			this.setState({
+				title: this.props.params.category ? this.props.params.category.toUpperCase() : "Featured Food",
+				products: productsStore.getProducts()
+			});
+		});
 
 		basketStore.addChagneListener(() => {
 			this.setState({
@@ -66,8 +45,14 @@ class Products extends React.Component {
 		console.info("params",this.props.params);
 	}
 
+	componentWillUnmount() {
+		productsStore.removeChangeListener();
+		basketStore.removeChangeListener();
+	}
+
 	componentWillReceiveProps(nextProps, nextState) {
 		console.info("--- props -- ", nextProps.params, nextState);
+		productAction.setProducts(nextProps.params.category);
 	}
 
 	addProduct(item) {

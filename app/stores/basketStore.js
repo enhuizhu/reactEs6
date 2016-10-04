@@ -127,7 +127,7 @@ let basketStore = assign({}, EventEmiter.prototype, {
 				break;
 			case basketConstants.CHANGE_DELIVERY_METHOD:
 				basketStore.setDeliveryMethod(payLoad.data);
-				basketStore.emitChange();
+				// basketStore.emitChange();
 				break;
 			default:
 				break;

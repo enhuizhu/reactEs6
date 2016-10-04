@@ -5,7 +5,8 @@ let assign = require('object-assign');
 let EventEmitter = require('events').EventEmitter;
 let menuConstants = require('../constants/menuConstants');
 let _menus = [];
-let CHAGNE_EVENT = "change";
+const CHAGNE_EVENT = "change";
+const MENU_INIT = "menu init";
 
 let menuStore = assign({}, EventEmitter.prototype, {
 
@@ -15,8 +16,18 @@ let menuStore = assign({}, EventEmitter.prototype, {
 		});
 	},
 
+	addMenuInitListener: function(callback) {
+		this.on(MENU_INIT, () => {
+			callback(_menus);
+		});
+	},
+
 	emitChange: function() {
 		this.emit(CHAGNE_EVENT);
+	},
+
+	emitSetMenu: function() {
+		this.emit(MENU_INIT);
 	},
 
 	removeChangeListener: function(callback) {
@@ -29,6 +40,18 @@ let menuStore = assign({}, EventEmitter.prototype, {
 
 	setMenus: function(newMenus) {
 		_menus = [].concat(newMenus);
+	},
+
+	getMenuByName: function(name) {
+		let filteredMenus = _menus.filter((v) => {
+			return v.title == name;
+		});
+
+		if (filteredMenus.length) {
+			return filteredMenus.pop();
+		}
+
+		return false;
 	},
 
 	setActiveMenu: function(url) {
@@ -51,6 +74,11 @@ let menuStore = assign({}, EventEmitter.prototype, {
 				menuStore.setActiveMenu(payLoad.data);
 				menuStore.emitChange();
 				break;
+
+			case menuConstants.SET_MENUS:
+				menuStore.setMenus(payLoad.data);
+				menuStore.emitSetMenu();
+			    break;
 			default:
 				break;
 		}

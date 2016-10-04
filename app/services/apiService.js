@@ -1,7 +1,8 @@
 'use strict';
 'use esversion:6';
 
-import apiPath from '../configs/apiConfig.js';
+import apiPath from '../configs/apiConfig';
+import menuStore from '../stores/menuStore';
 
 module.exports = {
 	getApiPath: function(path) {
@@ -10,48 +11,58 @@ module.exports = {
 
 	getCategories: function() {
 		return new Promise((resolve, reject) => {
-			jQuery.ajax({
-				method: "GET",
-				url: this.getApiPath("categories"),
-				success: function(response) {
-					let categories = [{
-						title: "HOME",
-						href: "/",
-						active: "false"
-					}];
+			fetch(this.getApiPath("categories")).then((res) => {
+				return res.json();
+			}).then((response) => {
+				let categories = [{
+					title: "HOME",
+					href: "/",
+					active: "false"
+				}];
 
-					jQuery.each(response, (k, v) => {
-						let item = {
-							title: v.name.toUpperCase(),
-							href: "/products/" + v.name,
-							active: false
-						}
+				jQuery.each(response, (k, v) => {
+					let item = {
+						id: v.id,
+						title: v.name.toUpperCase(),
+						href: "/products/" + v.name,
+						active: false
+					}
 
-						categories.push(item);
-					});
+					categories.push(item);
+				});
 
-					resolve(categories);
-				},
-
-				error: function(err) {
-					reject(err);
-				}
-			});
+				resolve(categories);
+			}).catch((e) => {
+				reject(e);
+			});;
 		}); 
 	},
 
-	getProducts: function() {
+	getProducts: function(category) {
 		return new Promise((resolve, reject) => {
-			jQuery.ajax({
-				method: "GET",
-				url: this.getApiPath("products"),
-				success: function(response) {
-					console.info("");
-				},
+			let path = this.getApiPath("products");	
 
-				error: function(err) {
+			console.info("-- value of category is ---", category);
+			if (category) {
 
+				console.info("--- menus ---", menuStore.getMenus());
+
+				let menu = menuStore.getMenuByName(category.toUpperCase());
+
+				console.info("value of menu:", menu);
+
+				if (menu) {
+					path += "/" + menu.id;
 				}
+			}
+
+			fetch(path).then((res) => {
+				return res.json();
+			}).then((response) => {
+				console.info("products response", response);
+				resolve(response);
+			}).catch((e) => {
+				reject(e);
 			});
 		});
 	}

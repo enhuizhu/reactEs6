@@ -26,7 +26,7 @@ class ProductThumbnail extends React.Component {
 					<img src={this.props.product.img} className="product-img img-thumbnail"/>
 				</div>
 				<div className="product-description">
-					{this.props.product.title}
+					{this.props.product.name}
 				</div>
 				<div className="product-action">
 					<span className="price text-primary">&pound;{this.props.product.price}</span>

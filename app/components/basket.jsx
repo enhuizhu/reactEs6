@@ -19,7 +19,6 @@ class Basket extends React.Component {
 			this.setState({
 				items: basketStore.getItems(),
 				total: basketStore.getTotal(),
-				deliverMethod: basketStore.getDeliverMethod()
 			});
 		});
 	}
@@ -28,24 +27,31 @@ class Basket extends React.Component {
 
 	}
 
-	removeItem(item) {
-       basketAction.deleteItem(item);
+	componentWillUnmount() {
+		basketStore.removeChangeListener();
 	}
 
-	deliverMethodChange(methodCode) {
-		basketAction.changeDeliverMethod(methodCode);
+	removeItem(item) {
+        basketAction.deleteItem(item);
+	}
+
+	deliverMethodChange(e) {
+ 	    this.setState({
+      		deliverMethod: e.target.value
+    	});
 	}
 
 	render() {
 		let lists = this.state.items.map((item, key) => {
 			return (<div className="item-container" key={key}>
 				<button onClick={() => {this.removeItem(item)}} className="pull-left"> <span className="glyphicon glyphicon-minus"></span> </button>
-				<span className="item-title pull-left"><strong>{item.quantity > 0 ? item.quantity + " X " : ""}</strong>{item.title}</span>
+				<span className="item-title pull-left"><strong>{item.quantity > 0 ? item.quantity + " X " : ""}</strong>{item.name}</span>
 				<span className="item-price pull-right">&pound;{item.price * item.quantity}</span>
 				<div className="clearfix"></div>
 			</div>)
-		})
+		});
 
+		const {deliverMethod} = this.state; 
 
 		return (
 			<div className="basket">
@@ -61,14 +67,14 @@ class Basket extends React.Component {
 
 						<div>
 							<span className="col-xs-6">
-								<input type="radio" name="method" value="1" checked={this.state.deliverMethod == 1} onChange={()=>this.deliverMethodChange(1)}/> 
+								<input type="radio" value={1} checked={deliverMethod == 1} onChange={this.deliverMethodChange.bind(this)}/> 
 								<label>Delivery</label>
 								<br/>
 								<span className="small-text">30-45 Mins</span>
 							</span>
 							
 							<span className="col-xs-6">
-								<input type="radio" name="method" value="2" checked={this.state.deliverMethod == 2} onChange={()=>this.deliverMethodChange(2)}/> 
+								<input type="radio" value={2} checked={deliverMethod == 2} onChange={this.deliverMethodChange.bind(this)}/> 
 								<label>Collection</label>
 								<br/>
 								<span className="small-text">20 Mins</span>

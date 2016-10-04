@@ -19941,12 +19941,7 @@
 				menus: _menuStore2.default.getMenus()
 			};
 
-			_apiService2.default.getCategories().then(function (catgories) {
-				_menuStore2.default.setMenus(catgories);
-				_menuAction2.default.setActiveUrl(_this.props.activeUrl);
-			}).catch(function (err) {
-				console.error(err);
-			});
+			_menuAction2.default.setMenus(_this.props.activeUrl);
 
 			_menuStore2.default.addChagneListener(function (menus) {
 				_this.setState({ menus: menus });
@@ -19960,6 +19955,11 @@
 				if (nextProps.activeUrl != this.props.activeUrl) {
 					_menuAction2.default.setActiveUrl(nextProps.activeUrl);
 				}
+			}
+		}, {
+			key: 'componentWillUnmount',
+			value: function componentWillUnmount() {
+				_menuStore2.default.removeChangeListener();
 			}
 		}, {
 			key: 'render',
@@ -25778,6 +25778,7 @@
 	var menuConstants = __webpack_require__(229);
 	var _menus = [];
 	var CHAGNE_EVENT = "change";
+	var MENU_INIT = "menu init";
 
 	var menuStore = assign({}, EventEmitter.prototype, {
 
@@ -25787,8 +25788,18 @@
 			});
 		},
 
+		addMenuInitListener: function addMenuInitListener(callback) {
+			this.on(MENU_INIT, function () {
+				callback(_menus);
+			});
+		},
+
 		emitChange: function emitChange() {
 			this.emit(CHAGNE_EVENT);
+		},
+
+		emitSetMenu: function emitSetMenu() {
+			this.emit(MENU_INIT);
 		},
 
 		removeChangeListener: function removeChangeListener(callback) {
@@ -25801,6 +25812,18 @@
 
 		setMenus: function setMenus(newMenus) {
 			_menus = [].concat(newMenus);
+		},
+
+		getMenuByName: function getMenuByName(name) {
+			var filteredMenus = _menus.filter(function (v) {
+				return v.title == name;
+			});
+
+			if (filteredMenus.length) {
+				return filteredMenus.pop();
+			}
+
+			return false;
 		},
 
 		setActiveMenu: function setActiveMenu(url) {
@@ -25822,6 +25845,11 @@
 				case menuConstants.SET_ACTIVE_URL:
 					menuStore.setActiveMenu(payLoad.data);
 					menuStore.emitChange();
+					break;
+
+				case menuConstants.SET_MENUS:
+					menuStore.setMenus(payLoad.data);
+					menuStore.emitSetMenu();
 					break;
 				default:
 					break;
@@ -26256,7 +26284,8 @@
 	'use strict';
 
 	module.exports = {
-		SET_ACTIVE_URL: 'SET_ACTIVE_URL'
+		SET_ACTIVE_URL: 'SET_ACTIVE_URL',
+		SET_MENUS: 'SET_MENUS'
 	};
 
 /***/ },
@@ -26265,17 +26294,44 @@
 
 	'use strict';
 
-	var dispatcher = __webpack_require__(226);
-	var menuConstants = __webpack_require__(229);
+	var _apiService = __webpack_require__(245);
+
+	var _apiService2 = _interopRequireDefault(_apiService);
+
+	var _dispatcher = __webpack_require__(226);
+
+	var _dispatcher2 = _interopRequireDefault(_dispatcher);
+
+	var _menuConstants = __webpack_require__(229);
+
+	var _menuConstants2 = _interopRequireDefault(_menuConstants);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	module.exports = {
 		setActiveUrl: function setActiveUrl(currentUrl) {
 			var payLoad = {
-				action: menuConstants.SET_ACTIVE_URL,
+				action: _menuConstants2.default.SET_ACTIVE_URL,
 				data: currentUrl
 			};
 
-			dispatcher.dispatch(payLoad);
+			_dispatcher2.default.dispatch(payLoad);
+		},
+
+		setMenus: function setMenus(activeUrl) {
+			var _this = this;
+
+			_apiService2.default.getCategories().then(function (catgories) {
+				var payLoad = {
+					action: _menuConstants2.default.SET_MENUS,
+					data: catgories
+				};
+
+				_dispatcher2.default.dispatch(payLoad);
+				_this.setActiveUrl(activeUrl);
+			}).catch(function (err) {
+				console.error(err);
+			});
 		}
 	};
 
@@ -26343,7 +26399,7 @@
 					_react2.default.createElement(
 						'div',
 						{ className: 'product-description' },
-						this.props.product.title
+						this.props.product.name
 					),
 					_react2.default.createElement(
 						'div',
@@ -26532,8 +26588,7 @@
 			_basketStore2.default.addChagneListener(function () {
 				_this.setState({
 					items: _basketStore2.default.getItems(),
-					total: _basketStore2.default.getTotal(),
-					deliverMethod: _basketStore2.default.getDeliverMethod()
+					total: _basketStore2.default.getTotal()
 				});
 			});
 			return _this;
@@ -26543,14 +26598,21 @@
 			key: 'componentDidMount',
 			value: function componentDidMount() {}
 		}, {
+			key: 'componentWillUnmount',
+			value: function componentWillUnmount() {
+				_basketStore2.default.removeChangeListener();
+			}
+		}, {
 			key: 'removeItem',
 			value: function removeItem(item) {
 				_basketAction2.default.deleteItem(item);
 			}
 		}, {
 			key: 'deliverMethodChange',
-			value: function deliverMethodChange(methodCode) {
-				_basketAction2.default.changeDeliverMethod(methodCode);
+			value: function deliverMethodChange(e) {
+				this.setState({
+					deliverMethod: e.target.value
+				});
 			}
 		}, {
 			key: 'render',
@@ -26578,7 +26640,7 @@
 								null,
 								item.quantity > 0 ? item.quantity + " X " : ""
 							),
-							item.title
+							item.name
 						),
 						_react2.default.createElement(
 							'span',
@@ -26589,6 +26651,9 @@
 						_react2.default.createElement('div', { className: 'clearfix' })
 					);
 				});
+
+				var deliverMethod = this.state.deliverMethod;
+
 
 				return _react2.default.createElement(
 					'div',
@@ -26615,9 +26680,7 @@
 								_react2.default.createElement(
 									'span',
 									{ className: 'col-xs-6' },
-									_react2.default.createElement('input', { type: 'radio', name: 'method', value: '1', checked: this.state.deliverMethod == 1, onChange: function onChange() {
-											return _this2.deliverMethodChange(1);
-										} }),
+									_react2.default.createElement('input', { type: 'radio', value: 1, checked: deliverMethod == 1, onChange: this.deliverMethodChange.bind(this) }),
 									_react2.default.createElement(
 										'label',
 										null,
@@ -26633,9 +26696,7 @@
 								_react2.default.createElement(
 									'span',
 									{ className: 'col-xs-6' },
-									_react2.default.createElement('input', { type: 'radio', name: 'method', value: '2', checked: this.state.deliverMethod == 2, onChange: function onChange() {
-											return _this2.deliverMethodChange(2);
-										} }),
+									_react2.default.createElement('input', { type: 'radio', value: 2, checked: deliverMethod == 2, onChange: this.deliverMethodChange.bind(this) }),
 									_react2.default.createElement(
 										'label',
 										null,
@@ -26728,35 +26789,42 @@
 
 	'use strict';
 
-	var dispatcher = __webpack_require__(226);
-	var basketConstants = __webpack_require__(236);
+	var _dispatcher = __webpack_require__(226);
+
+	var _dispatcher2 = _interopRequireDefault(_dispatcher);
+
+	var _basketConstants = __webpack_require__(236);
+
+	var _basketConstants2 = _interopRequireDefault(_basketConstants);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	module.exports = {
 		addToBasket: function addToBasket(data) {
 			var payLoad = {
-				action: basketConstants.ADD_TO_BASKET,
+				action: _basketConstants2.default.ADD_TO_BASKET,
 				data: data
 			};
 
-			dispatcher.dispatch(payLoad);
+			_dispatcher2.default.dispatch(payLoad);
 		},
 
 		deleteItem: function deleteItem(data) {
 			var payLoad = {
-				action: basketConstants.DELETE_ITEM,
+				action: _basketConstants2.default.DELETE_ITEM,
 				data: data.id
 			};
 
-			dispatcher.dispatch(payLoad);
+			_dispatcher2.default.dispatch(payLoad);
 		},
 
 		changeDeliverMethod: function changeDeliverMethod(data) {
 			var payLoad = {
-				action: basketConstants.CHANGE_DELIVERY_METHOD,
+				action: _basketConstants2.default.CHANGE_DELIVERY_METHOD,
 				data: data
 			};
 
-			dispatcher.dispatch(payLoad);
+			_dispatcher2.default.dispatch(payLoad);
 		}
 	};
 
@@ -26905,7 +26973,7 @@
 					break;
 				case basketConstants.CHANGE_DELIVERY_METHOD:
 					basketStore.setDeliveryMethod(payLoad.data);
-					basketStore.emitChange();
+					// basketStore.emitChange();
 					break;
 				default:
 					break;
@@ -26937,9 +27005,21 @@
 
 	var _basketStore2 = _interopRequireDefault(_basketStore);
 
+	var _productsStore = __webpack_require__(242);
+
+	var _productsStore2 = _interopRequireDefault(_productsStore);
+
+	var _menuStore = __webpack_require__(225);
+
+	var _menuStore2 = _interopRequireDefault(_menuStore);
+
 	var _basketAction = __webpack_require__(235);
 
 	var _basketAction2 = _interopRequireDefault(_basketAction);
+
+	var _productAction = __webpack_require__(240);
+
+	var _productAction2 = _interopRequireDefault(_productAction);
 
 	var _productThumbnail = __webpack_require__(231);
 
@@ -26969,48 +27049,23 @@
 
 			var _this = _possibleConstructorReturn(this, (Products.__proto__ || Object.getPrototypeOf(Products)).call(this, props));
 
-			if (!_this.props.params.category) {
-				var product = {
-					id: 1,
-					img: "http://www.chinesevillage.co.uk/wp-content/uploads/2015/04/Chinese-Food-Wallpapers10.jpg",
-					description: "stir fried noodle",
-					title: "stir fried noodle",
-					price: "3.00"
-				};
+			_this.state = {
+				products: [],
+				title: _this.props.params.category ? _this.props.params.category : "Featured Food",
+				total: _basketStore2.default.getTotal(),
+				totalQuantity: _basketStore2.default.getTotalQuantity()
+			};
 
-				var product2 = {
-					id: 2,
-					img: "http://www.mommyscuisine.com/wp-content/uploads/vegfriedriceleadimage.jpg",
-					description: "stir fried rice",
-					title: "stir fried rice",
-					price: "4.00"
-				};
+			_menuStore2.default.addMenuInitListener(function (menus) {
+				_productAction2.default.setProducts(_this.props.params.category);
+			});
 
-				var items = [];
-
-				for (var i = 0; i < 16; i++) {
-					var random = Math.round(Math.random() * 2) + 1;
-					var newproduct = random === 1 ? product : product2;
-
-					items.push(newproduct);
-				}
-
-				console.info("items", items);
-
-				_this.state = {
-					products: items,
-					title: "Featured Food",
-					total: _basketStore2.default.getTotal(),
-					totalQuantity: _basketStore2.default.getTotalQuantity()
-				};
-			} else {
-				_this.state = {
-					products: [],
-					title: "",
-					total: _basketStore2.default.getTotal(),
-					totalQuantity: _basketStore2.default.getTotalQuantity()
-				};
-			}
+			_productsStore2.default.addChangeListener(function () {
+				_this.setState({
+					title: _this.props.params.category ? _this.props.params.category.toUpperCase() : "Featured Food",
+					products: _productsStore2.default.getProducts()
+				});
+			});
 
 			_basketStore2.default.addChagneListener(function () {
 				_this.setState({
@@ -27027,9 +27082,16 @@
 				console.info("params", this.props.params);
 			}
 		}, {
+			key: 'componentWillUnmount',
+			value: function componentWillUnmount() {
+				_productsStore2.default.removeChangeListener();
+				_basketStore2.default.removeChangeListener();
+			}
+		}, {
 			key: 'componentWillReceiveProps',
 			value: function componentWillReceiveProps(nextProps, nextState) {
 				console.info("--- props -- ", nextProps.params, nextState);
+				_productAction2.default.setProducts(nextProps.params.category);
 			}
 		}, {
 			key: 'addProduct',
@@ -27211,44 +27273,56 @@
 
 	'use strict';
 
-	var dispatcher = __webpack_require__(226);
-	var productConstants = __webpack_require__(241);
+	var _apiConfig = __webpack_require__(246);
+
+	var _apiConfig2 = _interopRequireDefault(_apiConfig);
+
+	var _dispatcher = __webpack_require__(226);
+
+	var _dispatcher2 = _interopRequireDefault(_dispatcher);
+
+	var _productConstants = __webpack_require__(241);
+
+	var _productConstants2 = _interopRequireDefault(_productConstants);
+
+	var _apiService = __webpack_require__(245);
+
+	var _apiService2 = _interopRequireDefault(_apiService);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	module.exports = {
 		addProduct: function addProduct(data) {
 			var payLoad = {
-				action: productConstants.ADD_PRODUCT,
+				action: _productConstants2.default.ADD_PRODUCT,
 				data: data
 			};
 
-			dispatcher.dispatch(payLoad);
+			_dispatcher2.default.dispatch(payLoad);
 		},
 
 		deleteProduct: function deleteProduct(data) {
 			var payLoad = {
-				action: productConstants.DELETE_PRODUCT,
+				action: _productConstants2.default.DELETE_PRODUCT,
 				data: data
 			};
 
-			dispatcher.dispatch(payLoad);
+			_dispatcher2.default.dispatch(payLoad);
 		},
 
-		setProducts: function setProducts() {
-			return new Promise(function (resolve, reject) {
-				fetch('./API/products.json').then(function (res) {
-					return res.json();
-				}).then(function (json) {
-					var payLoad = {
-						action: productConstants.SET_PRODUCT,
-						data: json.data
-					};
-
-					dispatcher.dispatch(payLoad);
-
-					resolve(json.data);
-				}).catch(function (e) {
-					reject(e);
+		setProducts: function setProducts(category) {
+			_apiService2.default.getProducts(category).then(function (response) {
+				console.info("action setProducts:", response);
+				var products = response.products.map(function (v) {
+					return Object.assign({}, v, { img: _apiConfig2.default + "uploads/" + v.pics });
 				});
+
+				var payLoad = {
+					action: _productConstants2.default.SET_PRODUCT,
+					data: products
+				};
+
+				_dispatcher2.default.dispatch(payLoad);
 			});
 		}
 	};
@@ -27322,6 +27396,10 @@
 
 		setProducts: function setProducts(products) {
 			_products = products;
+		},
+
+		getProducts: function getProducts() {
+			return _products;
 		},
 
 		addProduct: function addProduct(product) {
@@ -27500,6 +27578,10 @@
 
 	var _apiConfig2 = _interopRequireDefault(_apiConfig);
 
+	var _menuStore = __webpack_require__(225);
+
+	var _menuStore2 = _interopRequireDefault(_menuStore);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	module.exports = {
@@ -27511,48 +27593,60 @@
 			var _this = this;
 
 			return new Promise(function (resolve, reject) {
-				jQuery.ajax({
-					method: "GET",
-					url: _this.getApiPath("categories"),
-					success: function success(response) {
-						var categories = [{
-							title: "HOME",
-							href: "/",
-							active: "false"
-						}];
+				fetch(_this.getApiPath("categories")).then(function (res) {
+					return res.json();
+				}).then(function (response) {
+					var categories = [{
+						title: "HOME",
+						href: "/",
+						active: "false"
+					}];
 
-						jQuery.each(response, function (k, v) {
-							var item = {
-								title: v.name.toUpperCase(),
-								href: "/products/" + v.name,
-								active: false
-							};
+					jQuery.each(response, function (k, v) {
+						var item = {
+							id: v.id,
+							title: v.name.toUpperCase(),
+							href: "/products/" + v.name,
+							active: false
+						};
 
-							categories.push(item);
-						});
+						categories.push(item);
+					});
 
-						resolve(categories);
-					},
-
-					error: function error(err) {
-						reject(err);
-					}
-				});
+					resolve(categories);
+				}).catch(function (e) {
+					reject(e);
+				});;
 			});
 		},
 
-		getProducts: function getProducts() {
+		getProducts: function getProducts(category) {
 			var _this2 = this;
 
 			return new Promise(function (resolve, reject) {
-				jQuery.ajax({
-					method: "GET",
-					url: _this2.getApiPath("products"),
-					success: function success(response) {
-						console.info("");
-					},
+				var path = _this2.getApiPath("products");
 
-					error: function error(err) {}
+				console.info("-- value of category is ---", category);
+				if (category) {
+
+					console.info("--- menus ---", _menuStore2.default.getMenus());
+
+					var menu = _menuStore2.default.getMenuByName(category.toUpperCase());
+
+					console.info("value of menu:", menu);
+
+					if (menu) {
+						path += "/" + menu.id;
+					}
+				}
+
+				fetch(path).then(function (res) {
+					return res.json();
+				}).then(function (response) {
+					console.info("products response", response);
+					resolve(response);
+				}).catch(function (e) {
+					reject(e);
 				});
 			});
 		}

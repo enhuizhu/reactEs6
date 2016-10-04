@@ -53,6 +53,10 @@ let productsStore = assign({}, EventEmiter.prototype, {
 		_products = products;
 	},
 
+	getProducts: function() {
+		return _products;
+	},
+
 	addProduct: function(product) {
 		_products = _products.concat([product]);
 	},

@@ -16,12 +16,7 @@ class PageHeader extends React.Component {
 			menus: menuStore.getMenus()
 		}
 
-		apiService.getCategories().then((catgories) => {
-			menuStore.setMenus(catgories);
-			menuAction.setActiveUrl(this.props.activeUrl);
-		}).catch((err) => {
-			console.error(err);
-		});
+		menuAction.setMenus(this.props.activeUrl);
 
 		menuStore.addChagneListener((menus) => {
 			this.setState({menus: menus});
@@ -32,6 +27,10 @@ class PageHeader extends React.Component {
 		if (nextProps.activeUrl != this.props.activeUrl) {
 			menuAction.setActiveUrl(nextProps.activeUrl);
 		}
+	}
+
+	componentWillUnmount() {
+		menuStore.removeChangeListener();
 	}
 
 	render() {
