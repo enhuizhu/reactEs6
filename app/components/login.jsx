@@ -1,6 +1,5 @@
-'use strict';
-
 import React from 'react';
+import FacebookBtn from './facebookBtn.jsx';
 
 class Login extends React.Component {
 	constructor(props) {
@@ -9,10 +8,8 @@ class Login extends React.Component {
 
 	render() {
 		return (
-			<div className="login">
-				<div className="facebook facebook-bg center-block square-btn">
-					Login With Facebook	
-				</div>
+			<div className="eshop-form">
+				<FacebookBtn></FacebookBtn>
 				<div className="seperator">
 					<div className="line"></div>
 					<span>or</span>
@@ -33,6 +30,15 @@ class Login extends React.Component {
 			</div>
 		);
 	}
+}
+
+
+Login.propTypes = {
+
+}
+
+Login.defaultProps = {
+	
 }
 
 export default Login;

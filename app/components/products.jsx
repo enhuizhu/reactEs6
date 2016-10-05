@@ -19,35 +19,37 @@ class Products extends React.Component {
 			title: this.props.params.category ? this.props.params.category : "Featured Food",
 			total: basketStore.getTotal(),
 			totalQuantity: basketStore.getTotalQuantity()
-		};
+		};		
+	}
 
+	onMenuInit(menus) {
+		productAction.setProducts(this.props.params.category);
+	}
 
-		menuStore.addMenuInitListener((menus) => {
-			productAction.setProducts(this.props.params.category);	
+	onProductsChange() {
+		this.setState({
+			title: this.props.params.category ? this.props.params.category.toUpperCase() : "Featured Food",
+			products: productsStore.getProducts()
 		});
+	}
 
-		productsStore.addChangeListener(() => {
-			this.setState({
-				title: this.props.params.category ? this.props.params.category.toUpperCase() : "Featured Food",
-				products: productsStore.getProducts()
-			});
-		});
-
-		basketStore.addChagneListener(() => {
-			this.setState({
-				total: basketStore.getTotal(),
-				totalQuantity: basketStore.getTotalQuantity()
-			});
+	onBasketChange() {
+		this.setState({
+			total: basketStore.getTotal(),
+			totalQuantity: basketStore.getTotalQuantity()
 		});
 	}
 
 	componentDidMount() {
-		console.info("params",this.props.params);
+		menuStore.addMenuInitListener(this.onMenuInit.bind(this));
+		productsStore.addChangeListener(this.onProductsChange.bind(this));
+		basketStore.addChagneListener(this.onBasketChange.bind(this));
+		productAction.setProducts(this.props.params.category);
 	}
 
 	componentWillUnmount() {
-		productsStore.removeChangeListener();
-		basketStore.removeChangeListener();
+		productsStore.removeChangeListener(this.onProductsChange);
+		basketStore.removeChangeListener(this.onBasketChange);
 	}
 
 	componentWillReceiveProps(nextProps, nextState) {

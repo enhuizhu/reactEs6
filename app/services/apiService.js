@@ -1,5 +1,4 @@
 'use strict';
-'use esversion:6';
 
 import apiPath from '../configs/apiConfig';
 import menuStore from '../stores/menuStore';
@@ -65,6 +64,10 @@ module.exports = {
 				reject(e);
 			});
 		});
+	},
+
+	regiserNewUser: function(userInfo) {
+		
 	}
 }
 

@@ -203,22 +203,22 @@ header {
     .basket .section .col-xs-6 .small-text {
       margin-left: 17px; }
 
-.login {
+.eshop-form {
   padding: 20px; }
-  .login input[type='submit'] {
+  .eshop-form input[type='submit'] {
     width: 100%; }
-  .login .seperator {
+  .eshop-form .seperator {
     margin-top: 10px;
     margin-bottom: 10px;
     text-align: center; }
-    .login .seperator span {
+    .eshop-form .seperator span {
       min-width: 100px;
       text-align: center;
       display: inline-block;
       position: relative;
       z-index: 100;
       background-color: white; }
-    .login .seperator .line {
+    .eshop-form .seperator .line {
       content: "";
       display: block;
       width: 100%;

@@ -74,6 +74,10 @@
 
 	var _login2 = _interopRequireDefault(_login);
 
+	var _register = __webpack_require__(248);
+
+	var _register2 = _interopRequireDefault(_register);
+
 	var _reactRouter = __webpack_require__(162);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -88,6 +92,7 @@
 	    _react2.default.createElement(_reactRouter.Route, { path: '/products/:category', component: _products2.default }),
 	    _react2.default.createElement(_reactRouter.Route, { path: '/product/:productId', component: _product2.default }),
 	    _react2.default.createElement(_reactRouter.Route, { path: '/login', component: _login2.default }),
+	    _react2.default.createElement(_reactRouter.Route, { path: '/register', component: _register2.default }),
 	    _react2.default.createElement(_reactRouter.Route, { path: '*', component: _NoMatch2.default })
 	  )
 	), document.getElementById('app'));
@@ -19940,12 +19945,6 @@
 			_this.state = {
 				menus: _menuStore2.default.getMenus()
 			};
-
-			_menuAction2.default.setMenus(_this.props.activeUrl);
-
-			_menuStore2.default.addChagneListener(function (menus) {
-				_this.setState({ menus: menus });
-			});
 			return _this;
 		}
 
@@ -19957,9 +19956,20 @@
 				}
 			}
 		}, {
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				_menuAction2.default.setMenus(this.props.activeUrl);
+				_menuStore2.default.addChagneListener(this.onMenuChange.bind(this));
+			}
+		}, {
 			key: 'componentWillUnmount',
 			value: function componentWillUnmount() {
-				_menuStore2.default.removeChangeListener();
+				_menuStore2.default.removeChangeListener(this.onMenuChange);
+			}
+		}, {
+			key: 'onMenuChange',
+			value: function onMenuChange(menus) {
+				this.setState({ menus: menus });
 			}
 		}, {
 			key: 'render',
@@ -26584,28 +26594,31 @@
 				deliverFee: _basketStore2.default.getDeliverFee(),
 				deliverMethod: _basketStore2.default.getDeliverMethod()
 			};
-
-			_basketStore2.default.addChagneListener(function () {
-				_this.setState({
-					items: _basketStore2.default.getItems(),
-					total: _basketStore2.default.getTotal()
-				});
-			});
 			return _this;
 		}
 
 		_createClass(Basket, [{
 			key: 'componentDidMount',
-			value: function componentDidMount() {}
+			value: function componentDidMount() {
+				_basketStore2.default.addChagneListener(this.onBasketChange.bind(this));
+			}
 		}, {
 			key: 'componentWillUnmount',
 			value: function componentWillUnmount() {
-				_basketStore2.default.removeChangeListener();
+				_basketStore2.default.removeChangeListener(this.onBasketChange);
 			}
 		}, {
 			key: 'removeItem',
 			value: function removeItem(item) {
 				_basketAction2.default.deleteItem(item);
+			}
+		}, {
+			key: 'onBasketChange',
+			value: function onBasketChange() {
+				this.setState({
+					items: _basketStore2.default.getItems(),
+					total: _basketStore2.default.getTotal()
+				});
 			}
 		}, {
 			key: 'deliverMethodChange',
@@ -27055,37 +27068,43 @@
 				total: _basketStore2.default.getTotal(),
 				totalQuantity: _basketStore2.default.getTotalQuantity()
 			};
-
-			_menuStore2.default.addMenuInitListener(function (menus) {
-				_productAction2.default.setProducts(_this.props.params.category);
-			});
-
-			_productsStore2.default.addChangeListener(function () {
-				_this.setState({
-					title: _this.props.params.category ? _this.props.params.category.toUpperCase() : "Featured Food",
-					products: _productsStore2.default.getProducts()
-				});
-			});
-
-			_basketStore2.default.addChagneListener(function () {
-				_this.setState({
-					total: _basketStore2.default.getTotal(),
-					totalQuantity: _basketStore2.default.getTotalQuantity()
-				});
-			});
 			return _this;
 		}
 
 		_createClass(Products, [{
+			key: 'onMenuInit',
+			value: function onMenuInit(menus) {
+				_productAction2.default.setProducts(this.props.params.category);
+			}
+		}, {
+			key: 'onProductsChange',
+			value: function onProductsChange() {
+				this.setState({
+					title: this.props.params.category ? this.props.params.category.toUpperCase() : "Featured Food",
+					products: _productsStore2.default.getProducts()
+				});
+			}
+		}, {
+			key: 'onBasketChange',
+			value: function onBasketChange() {
+				this.setState({
+					total: _basketStore2.default.getTotal(),
+					totalQuantity: _basketStore2.default.getTotalQuantity()
+				});
+			}
+		}, {
 			key: 'componentDidMount',
 			value: function componentDidMount() {
-				console.info("params", this.props.params);
+				_menuStore2.default.addMenuInitListener(this.onMenuInit.bind(this));
+				_productsStore2.default.addChangeListener(this.onProductsChange.bind(this));
+				_basketStore2.default.addChagneListener(this.onBasketChange.bind(this));
+				_productAction2.default.setProducts(this.props.params.category);
 			}
 		}, {
 			key: 'componentWillUnmount',
 			value: function componentWillUnmount() {
-				_productsStore2.default.removeChangeListener();
-				_basketStore2.default.removeChangeListener();
+				_productsStore2.default.removeChangeListener(this.onProductsChange);
+				_basketStore2.default.removeChangeListener(this.onBasketChange);
 			}
 		}, {
 			key: 'componentWillReceiveProps',
@@ -27497,6 +27516,10 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _facebookBtn = __webpack_require__(247);
+
+	var _facebookBtn2 = _interopRequireDefault(_facebookBtn);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -27519,12 +27542,8 @@
 			value: function render() {
 				return _react2.default.createElement(
 					'div',
-					{ className: 'login' },
-					_react2.default.createElement(
-						'div',
-						{ className: 'facebook facebook-bg center-block square-btn' },
-						'Login With Facebook'
-					),
+					{ className: 'eshop-form' },
+					_react2.default.createElement(_facebookBtn2.default, null),
 					_react2.default.createElement(
 						'div',
 						{ className: 'seperator' },
@@ -27565,6 +27584,10 @@
 		return Login;
 	}(_react2.default.Component);
 
+	Login.propTypes = {};
+
+	Login.defaultProps = {};
+
 	exports.default = Login;
 
 /***/ },
@@ -27572,7 +27595,6 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	'use esversion:6';
 
 	var _apiConfig = __webpack_require__(246);
 
@@ -27649,7 +27671,9 @@
 					reject(e);
 				});
 			});
-		}
+		},
+
+		regiserNewUser: function regiserNewUser(userInfo) {}
 	};
 
 /***/ },
@@ -27664,6 +27688,158 @@
 	var apiPath = "http://eshop.dev/cms/";
 
 	exports.default = apiPath;
+
+/***/ },
+/* 247 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var FacebookBtn = function (_React$Component) {
+		_inherits(FacebookBtn, _React$Component);
+
+		function FacebookBtn(props) {
+			_classCallCheck(this, FacebookBtn);
+
+			return _possibleConstructorReturn(this, (FacebookBtn.__proto__ || Object.getPrototypeOf(FacebookBtn)).call(this, props));
+		}
+
+		_createClass(FacebookBtn, [{
+			key: "render",
+			value: function render() {
+				return _react2.default.createElement(
+					"div",
+					{ className: "facebook facebook-bg center-block square-btn" },
+					"Login With Facebook"
+				);
+			}
+		}]);
+
+		return FacebookBtn;
+	}(_react2.default.Component);
+
+	FacebookBtn.propTypes = {};
+
+	FacebookBtn.defaultProps = {};
+
+	exports.default = FacebookBtn;
+
+/***/ },
+/* 248 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _facebookBtn = __webpack_require__(247);
+
+	var _facebookBtn2 = _interopRequireDefault(_facebookBtn);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Register = function (_React$Component) {
+		_inherits(Register, _React$Component);
+
+		function Register(props) {
+			_classCallCheck(this, Register);
+
+			return _possibleConstructorReturn(this, (Register.__proto__ || Object.getPrototypeOf(Register)).call(this, props));
+		}
+
+		_createClass(Register, [{
+			key: 'onSubmit',
+			value: function onSubmit(e) {
+				console.info("Register");
+				e.preventDefault();
+
+				console.info("username:", this.refs.username.value);
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				return _react2.default.createElement(
+					'div',
+					{ className: 'eshop-form' },
+					_react2.default.createElement(_facebookBtn2.default, null),
+					_react2.default.createElement(
+						'div',
+						{ className: 'seperator' },
+						_react2.default.createElement('div', { className: 'line' }),
+						_react2.default.createElement(
+							'span',
+							null,
+							'or'
+						)
+					),
+					_react2.default.createElement(
+						'div',
+						null,
+						_react2.default.createElement(
+							'form',
+							{ onSubmit: this.onSubmit.bind(this) },
+							_react2.default.createElement(
+								'div',
+								{ className: 'form-group' },
+								_react2.default.createElement('input', { type: 'text', className: 'form-control', name: 'username', placeholder: 'Name', pattern: '^[a-z0-9_-]{3,15}$', required: true, ref: 'username' })
+							),
+							_react2.default.createElement(
+								'div',
+								{ className: 'form-group' },
+								_react2.default.createElement('input', { type: 'email', className: 'form-control', name: 'email', placeholder: 'Email', required: true, ref: 'email' })
+							),
+							_react2.default.createElement(
+								'div',
+								{ className: 'form-group' },
+								_react2.default.createElement('input', { type: 'password', className: 'form-control', name: 'password', placeholder: 'Password', required: true, ref: 'password' })
+							),
+							_react2.default.createElement(
+								'div',
+								{ className: 'form-group' },
+								_react2.default.createElement('input', { type: 'submit', value: 'Sign up', className: 'bg-primary center-block square-btn' })
+							)
+						)
+					)
+				);
+			}
+		}]);
+
+		return Register;
+	}(_react2.default.Component);
+
+	exports.default = Register;
 
 /***/ }
 /******/ ]);

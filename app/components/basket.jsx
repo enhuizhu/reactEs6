@@ -14,25 +14,25 @@ class Basket extends React.Component {
 			deliverFee: basketStore.getDeliverFee(),
 			deliverMethod: basketStore.getDeliverMethod()
 		}
-
-		basketStore.addChagneListener(() => {
-			this.setState({
-				items: basketStore.getItems(),
-				total: basketStore.getTotal(),
-			});
-		});
 	}
 
 	componentDidMount() {
-
+		basketStore.addChagneListener(this.onBasketChange.bind(this));
 	}
 
 	componentWillUnmount() {
-		basketStore.removeChangeListener();
+		basketStore.removeChangeListener(this.onBasketChange);
 	}
 
 	removeItem(item) {
         basketAction.deleteItem(item);
+	}
+
+	onBasketChange() {
+		this.setState({
+			items: basketStore.getItems(),
+			total: basketStore.getTotal(),
+		});
 	}
 
 	deliverMethodChange(e) {
