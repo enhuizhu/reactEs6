@@ -2,9 +2,10 @@
 
 import React from 'react';
 import Menu from './menu.jsx';
-import menuStore from '../stores/menuStore.js';
-import menuAction from '../actions/menuAction.js';
-import apiService from '../services/apiService.js';
+import menuStore from '../stores/menuStore';
+import menuAction from '../actions/menuAction';
+import apiService from '../services/apiService';
+import {Link} from 'react-router';
 
 let assign = require("object-assign");
 
@@ -41,7 +42,11 @@ class PageHeader extends React.Component {
 			<header>
 				<h4>
 					Wok Express   
-					<span className="phone-number pull-right"><a href="tel:+447588732089"> 07588 732089</a></span>
+					
+					<span className="pull-right">
+						<Link to="/login">Login</Link>&nbsp;&nbsp;
+						<Link to="/register">Sign up</Link>
+					</span>
 				</h4>
 				<div className="clearfix"></div>
 				<div className="search">

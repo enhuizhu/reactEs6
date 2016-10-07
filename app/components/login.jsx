@@ -17,10 +17,10 @@ class Login extends React.Component {
 				<div>
 					<form>
 						<div className="form-group">
-							<input type="text" className="form-control" name="username"/>
+							<input type="text" className="form-control" name="username" placeholder="" required/>
 						</div>
 						<div className="form-group">
-							<input type="password" className="form-control" name="password"/>
+							<input type="password" className="form-control" name="password" required/>
 						</div>
 						<div className="form-group">
 							<input type="submit" value="Login" className="bg-primary center-block square-btn"/>

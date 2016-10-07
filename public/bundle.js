@@ -19924,6 +19924,8 @@
 
 	var _apiService2 = _interopRequireDefault(_apiService);
 
+	var _reactRouter = __webpack_require__(162);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -19983,11 +19985,17 @@
 						'Wok Express',
 						_react2.default.createElement(
 							'span',
-							{ className: 'phone-number pull-right' },
+							{ className: 'pull-right' },
 							_react2.default.createElement(
-								'a',
-								{ href: 'tel:+447588732089' },
-								' 07588 732089'
+								_reactRouter.Link,
+								{ to: '/login' },
+								'Login'
+							),
+							'  ',
+							_react2.default.createElement(
+								_reactRouter.Link,
+								{ to: '/register' },
+								'Sign up'
 							)
 						)
 					),
@@ -27563,12 +27571,12 @@
 							_react2.default.createElement(
 								'div',
 								{ className: 'form-group' },
-								_react2.default.createElement('input', { type: 'text', className: 'form-control', name: 'username' })
+								_react2.default.createElement('input', { type: 'text', className: 'form-control', name: 'username', placeholder: '', required: true })
 							),
 							_react2.default.createElement(
 								'div',
 								{ className: 'form-group' },
-								_react2.default.createElement('input', { type: 'password', className: 'form-control', name: 'password' })
+								_react2.default.createElement('input', { type: 'password', className: 'form-control', name: 'password', required: true })
 							),
 							_react2.default.createElement(
 								'div',
@@ -27648,14 +27656,8 @@
 			return new Promise(function (resolve, reject) {
 				var path = _this2.getApiPath("products");
 
-				console.info("-- value of category is ---", category);
 				if (category) {
-
-					console.info("--- menus ---", _menuStore2.default.getMenus());
-
 					var menu = _menuStore2.default.getMenuByName(category.toUpperCase());
-
-					console.info("value of menu:", menu);
 
 					if (menu) {
 						path += "/" + menu.id;
@@ -27665,7 +27667,6 @@
 				fetch(path).then(function (res) {
 					return res.json();
 				}).then(function (response) {
-					console.info("products response", response);
 					resolve(response);
 				}).catch(function (e) {
 					reject(e);

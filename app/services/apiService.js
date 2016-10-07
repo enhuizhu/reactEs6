@@ -41,15 +41,9 @@ module.exports = {
 		return new Promise((resolve, reject) => {
 			let path = this.getApiPath("products");	
 
-			console.info("-- value of category is ---", category);
 			if (category) {
-
-				console.info("--- menus ---", menuStore.getMenus());
-
 				let menu = menuStore.getMenuByName(category.toUpperCase());
-
-				console.info("value of menu:", menu);
-
+				
 				if (menu) {
 					path += "/" + menu.id;
 				}
@@ -58,7 +52,6 @@ module.exports = {
 			fetch(path).then((res) => {
 				return res.json();
 			}).then((response) => {
-				console.info("products response", response);
 				resolve(response);
 			}).catch((e) => {
 				reject(e);
@@ -67,7 +60,7 @@ module.exports = {
 	},
 
 	regiserNewUser: function(userInfo) {
-		
+
 	}
 }
 
