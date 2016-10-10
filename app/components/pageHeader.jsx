@@ -6,6 +6,7 @@ import menuStore from '../stores/menuStore';
 import menuAction from '../actions/menuAction';
 import apiService from '../services/apiService';
 import {Link} from 'react-router';
+import userStore from '../stores/userStore';
 
 let assign = require("object-assign");
 
@@ -14,7 +15,8 @@ class PageHeader extends React.Component {
 		super(props);
 		
 		this.state = {
-			menus: menuStore.getMenus()
+			menus: menuStore.getMenus(),
+			isLogin: userStore.isLogin(),
 		}
 	}
 
@@ -27,17 +29,38 @@ class PageHeader extends React.Component {
 	componentDidMount() {
 		menuAction.setMenus(this.props.activeUrl);
 		menuStore.addChagneListener(this.onMenuChange.bind(this));
+		userStore.registerUserLogin(this.onUserStateChange);
+		userStore.registerUserLogout(this.onUserStateChange);
 	}
 
 	componentWillUnmount() {
 		menuStore.removeChangeListener(this.onMenuChange);
+		userStore.removeUserLoginListener(this.onUserStateChange);
+		userStore.removeUserLogoutListener(this.onUserStateChange);
 	}
 
 	onMenuChange(menus) {
 		this.setState({menus: menus});
 	}
 
+	onUserStateChange() {
+		this.setState({isLogin: userStore.isLogin()});
+	}
+
 	render() {
+		if (this.state.isLogin) {
+			let userStates = (
+				<Link to="/logout">Logout</Link>
+			);
+		}else{
+			let userStates = (						
+				<span>
+					<Link to="/login">Login</Link>&nbsp;
+					<Link to="/register">Sign up</Link>
+				</span>
+			);
+		}
+
 		return (
 			<header>
 				<h4>

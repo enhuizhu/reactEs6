@@ -60,7 +60,37 @@ module.exports = {
 	},
 
 	regiserNewUser: function(userInfo) {
+		return new Promise((resolve, reject) => {
+			let path = this.getApiPath("customer/register");
 
+			fetch(path, {method: "POST", body: JSON.stringify(userInfo)}).then((res) => {
+				return res.json();
+			}).then((response) => {
+				resolve(response);
+			}).catch((e) => {
+				reject(e);
+			});
+		});
+	},
+
+	loginUser: function(username, password) {
+		return new Promise((resolve, reject) => {
+			let path = this.getApiPath("customer/login");
+			let loginInfo = {
+				username: username,
+				password: password
+			}
+			fetch(path, {
+				method: "POST",
+				body: JSON.stringify(loginInfo)
+			}).then((res) => {
+				return res.json();
+			}).then((response) => {
+				resolve(response);
+			}).catch((e) => {
+				reject(e);
+			});
+		});
 	}
 }
 

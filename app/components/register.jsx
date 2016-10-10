@@ -1,19 +1,86 @@
 import React from 'react';
 import FacebookBtn from './facebookBtn.jsx';
+import apiService from '../services/apiService';
+import userAction from '../actions/userAction';
+import userStore from '../stores/userStore';
+import {transitionTo} from 'react-router';
+import _ from "underscore";
 
 class Register extends React.Component {
 	constructor(props){
 		super(props);
+
+		this.state = {
+			errors: []
+		};
+	}
+
+	componentDidMount() {
+		userStore.registerUserLogin(this.onUserLogin);
+
+		/**
+		* should check if user already login
+		**/
+		if (userStore.isLogin()) {
+			transitionTo("/");
+		};
+	}
+
+	componentWillUnmount() {
+		userStore.removeUserLoginListener(this.onUserLogin);
+	}
+
+	onUserLogin() {
+		/**
+		* user already login should redirect to homepage
+		**/
+		transitionTo("/");
 	}
 
 	onSubmit(e) {
-		console.info("Register");
 		e.preventDefault();
 
-		console.info("username:", this.refs.username.value);
+		let postData = {
+			username: this.refs.username.value,
+			email: this.refs.email.value,
+			password: this.refs.password.value
+		}
+
+		apiService.regiserNewUser(postData).then((response) => {
+			if (response.success) {
+				/**
+				* automatic login
+				**/
+				userAction.userLogin(postData);
+			}else{
+				/**
+				* display the error
+				**/
+				let messages = [];
+
+				if (response.messages) {
+					_.each(response.messages, (v, k) => {
+						messages.push(v);
+					})
+				}else{
+					messages = [response.message];
+				}
+
+				this.setState({errors: messages});
+			}
+		}).catch((e) => {
+			console.error(e);
+		});		
 	}
 
 	render() {
+		let errors = this.state.errors.map((e) => {
+			return (<div className="alert alert-danger alert-dismissible" role="alert">
+					  <button type="button" className="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						{e}
+					</div>);
+		});
+
 		return (
 			<div className="eshop-form">
 				<FacebookBtn></FacebookBtn>
@@ -22,6 +89,7 @@ class Register extends React.Component {
 					<span>or</span>
 				</div>
 				<div>
+					{errors}
 					<form onSubmit={this.onSubmit.bind(this)}>
 						<div className="form-group">
 							<input type="text" className="form-control" name="username" placeholder="Name" pattern="^[a-z0-9_-]{3,15}$" required ref="username"/>
