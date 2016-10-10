@@ -1,6 +1,6 @@
 'use strict';
 
-import apiPath from '../configs/apiConfig';
+import {apiPath} from '../configs/apiConfig';
 import menuStore from '../stores/menuStore';
 
 module.exports = {

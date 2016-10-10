@@ -1,9 +1,17 @@
 import React from 'react';
 import FacebookBtn from './facebookBtn.jsx';
+import userStore from '../stores/userStore';
+import {frontendPath} from '../configs/apiConfig' ;
 
 class Login extends React.Component {
 	constructor(props) {
 		super(props);
+	}
+
+	componentDidMount() {
+		if (userStore.isLogin()) {
+			location.href = frontendPath;
+		}
 	}
 
 	render() {

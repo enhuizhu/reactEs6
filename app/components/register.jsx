@@ -3,7 +3,7 @@ import FacebookBtn from './facebookBtn.jsx';
 import apiService from '../services/apiService';
 import userAction from '../actions/userAction';
 import userStore from '../stores/userStore';
-import {transitionTo} from 'react-router';
+import { browserHistory } from 'react-router';
 import _ from "underscore";
 
 class Register extends React.Component {
@@ -16,14 +16,13 @@ class Register extends React.Component {
 	}
 
 	componentDidMount() {
-		userStore.registerUserLogin(this.onUserLogin);
-
+		userStore.registerUserLogin(this.onUserLogin.bind(this));
 		/**
 		* should check if user already login
 		**/
 		if (userStore.isLogin()) {
-			transitionTo("/");
-		};
+			this.onUserLogin();
+		}
 	}
 
 	componentWillUnmount() {
@@ -31,10 +30,11 @@ class Register extends React.Component {
 	}
 
 	onUserLogin() {
+		console.info("user login ");
 		/**
 		* user already login should redirect to homepage
 		**/
-		transitionTo("/");
+		browserHistory.push("./");
 	}
 
 	onSubmit(e) {
@@ -44,7 +44,7 @@ class Register extends React.Component {
 			username: this.refs.username.value,
 			email: this.refs.email.value,
 			password: this.refs.password.value
-		}
+		};
 
 		apiService.regiserNewUser(postData).then((response) => {
 			if (response.success) {

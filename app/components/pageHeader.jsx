@@ -17,7 +17,9 @@ class PageHeader extends React.Component {
 		this.state = {
 			menus: menuStore.getMenus(),
 			isLogin: userStore.isLogin(),
-		}
+		};
+
+		console.info("is user login:", userStore.isLogin());
 	}
 
 	componentWillReceiveProps(nextProps, nextState) {
@@ -29,8 +31,8 @@ class PageHeader extends React.Component {
 	componentDidMount() {
 		menuAction.setMenus(this.props.activeUrl);
 		menuStore.addChagneListener(this.onMenuChange.bind(this));
-		userStore.registerUserLogin(this.onUserStateChange);
-		userStore.registerUserLogout(this.onUserStateChange);
+		userStore.registerUserLogin(this.onUserStateChange.bind(this));
+		userStore.registerUserLogout(this.onUserStateChange.bind(this));
 	}
 
 	componentWillUnmount() {
@@ -48,12 +50,14 @@ class PageHeader extends React.Component {
 	}
 
 	render() {
+		let userStates = null;
+
 		if (this.state.isLogin) {
-			let userStates = (
+			userStates = (
 				<Link to="/logout">Logout</Link>
 			);
 		}else{
-			let userStates = (						
+			userStates = (						
 				<span>
 					<Link to="/login">Login</Link>&nbsp;
 					<Link to="/register">Sign up</Link>
@@ -67,8 +71,7 @@ class PageHeader extends React.Component {
 					Wok Express   
 					
 					<span className="pull-right">
-						<Link to="/login">Login</Link>&nbsp;&nbsp;
-						<Link to="/register">Sign up</Link>
+						{userStates}
 					</span>
 				</h4>
 				<div className="clearfix"></div>

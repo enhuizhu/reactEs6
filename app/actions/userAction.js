@@ -17,5 +17,5 @@ module.exports = {
 			console.error("login error:", e);
 		});
 	}
-}
+};
 

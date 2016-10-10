@@ -1,5 +1,5 @@
 'use strict';
 
-const apiPath = "http://eshop.dev/cms/";
+export const apiPath = "http://eshop.dev/cms/";
+export const frontendPath = "htpp://eshop.dev/reactEs6/public/index.html";
 
-export default apiPath;

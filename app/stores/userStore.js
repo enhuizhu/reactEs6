@@ -31,11 +31,11 @@ let userStore = assign({}, EventEmitter.prototype, {
 	},
 
 	removeUserLoginListener: function(callback) {
-		this.removeListener(constrants.LOGIN, callback);
+		this.removeListener(userConstrants.LOGIN, callback);
 	},
 
 	removeUserLogoutListener: function(callback) {
-		this.removeListener(constrants.LOGOUT, callback);
+		this.removeListener(userConstrants.LOGOUT, callback);
 	},
 
 	emitUserLogin: function() {
@@ -49,13 +49,13 @@ let userStore = assign({}, EventEmitter.prototype, {
 	dispatcherIndex: dispatcher.register((payLoad) => {
 		switch(payLoad.action) {
 			case userConstrants.SET_TOKEN:
-				this.setToken(payLoad.token);
-				this.emitUserLogin();
+				userStore.setToken(payLoad.token);
+				userStore.emitUserLogin();
 				break;
 
 			case userConstrants.LOGOUT:
-				this.logout();
-				this.emitUserLogout();
+				userStore.logout();
+				userStore.emitUserLogout();
 				break;
 			default:
 				break;
