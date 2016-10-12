@@ -1,6 +1,10 @@
 import React from 'react';
 
 export default class Modal extends React.Component {
+	componentWillUnmount() {
+		jQuery(".modal-backdrop").remove();
+	}
+
 	render() {
 		return (
 			<div className="modal fade" role="dialog" id={this.props.modalId}>

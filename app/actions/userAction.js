@@ -18,8 +18,7 @@ module.exports = {
 					reject(response);
 				}
 			}).catch((e) => {
-				console.error("login error:", e);
-				reject({success:false, message: e})
+				reject({success:false, message: e.toString()})
 			});
 		});
 	},

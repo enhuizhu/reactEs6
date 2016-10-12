@@ -1,6 +1,7 @@
 import React from 'react';
 import basketAction from '../actions/basketAction.js';
 import basketStore from '../stores/basketStore.js';
+import { Link } from 'react-router';
 
 class Basket extends React.Component {
 	constructor(props) {
@@ -53,9 +54,11 @@ class Basket extends React.Component {
 
 		return (
 			<div className="basket">
-				<div className="bg-primary center-block square-btn">
-					Go To Checkout
-				</div>
+				<Link to="/checkout">
+					<div className="bg-primary center-block square-btn">
+						Go To Checkout
+					</div>
+				</Link>
 
 				<div className="sections-container">
 					<div className="section no-bottom-border">

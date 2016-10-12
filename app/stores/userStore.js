@@ -24,7 +24,7 @@ let userStore = assign({}, EventEmitter.prototype, {
 	},
 
 	setUserInfo: function(userInfo) {
-		sessionStorage.setItem(userInfo);
+		sessionStorage.setItem("userInfo",userInfo);
 	},
 
 	getUserInfo: function() {

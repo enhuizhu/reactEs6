@@ -7,7 +7,7 @@ import NoMatch from "./app/components/NoMatch.jsx";
 import Login from "./app/components/login.jsx";
 import Register from "./app/components/register.jsx";
 import Checkout from "./app/components/checkout.jsx";
-import { Router, Route, Link, browserHistory, hashHistory, IndexRoute} from 'react-router'
+import { Router, Route, Link, browserHistory, hashHistory, IndexRoute} from 'react-router';
 
 ReactDom.render((
   <Router history={hashHistory}>

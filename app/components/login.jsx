@@ -34,6 +34,7 @@ class Login extends React.Component {
 			password = this.refs.password.value;
 
 		userAction.userLogin({username: username, password: password}).catch((response) => {
+			console.info("response:", response);
 			this.setState({errors:[response.message]});
 		});
 	}
