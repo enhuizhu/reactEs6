@@ -25,7 +25,7 @@ module.exports = {
 						title: v.name.toUpperCase(),
 						href: "/products/" + v.name,
 						active: false
-					}
+					};
 
 					categories.push(item);
 				});

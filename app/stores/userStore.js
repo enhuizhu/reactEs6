@@ -20,6 +20,15 @@ let userStore = assign({}, EventEmitter.prototype, {
 
 	logout: function() {
 		sessionStorage.removeItem("token");
+		sessionStorage.removeItem("userInfo");
+	},
+
+	setUserInfo: function(userInfo) {
+		sessionStorage.setItem(userInfo);
+	},
+
+	getUserInfo: function() {
+		return sessionStorage.getItem(userInfo);
 	},
 
 	registerUserLogin: function(callback) {
@@ -49,7 +58,8 @@ let userStore = assign({}, EventEmitter.prototype, {
 	dispatcherIndex: dispatcher.register((payLoad) => {
 		switch(payLoad.action) {
 			case userConstrants.SET_TOKEN:
-				userStore.setToken(payLoad.token);
+				userStore.setToken(payLoad.data.token);
+				userStore.setUserInfo(payLoad.data.username);
 				userStore.emitUserLogin();
 				break;
 

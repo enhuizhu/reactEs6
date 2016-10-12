@@ -6,6 +6,7 @@ import Product from "./app/components/product.jsx";
 import NoMatch from "./app/components/NoMatch.jsx";
 import Login from "./app/components/login.jsx";
 import Register from "./app/components/register.jsx";
+import Checkout from "./app/components/checkout.jsx";
 import { Router, Route, Link, browserHistory, hashHistory, IndexRoute} from 'react-router'
 
 ReactDom.render((
@@ -16,6 +17,7 @@ ReactDom.render((
       <Route path="/product/:productId" component={Product}/>
       <Route path="/login" component={Login}/>
       <Route path="/register" component={Register}/>
+      <Route path="/checkout" component={Checkout}/>
       <Route path="*" component={NoMatch}/>
     </Route>
   </Router>

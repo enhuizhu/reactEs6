@@ -1,6 +1,6 @@
 'use strict';
 
-import apiPath from '../configs/apiConfig';
+import {apiPath} from '../configs/apiConfig';
 import dispatcher from '../dispatcher/dispatcher';
 import productConstants from '../constants/productConstants';
 import apiService from '../services/apiService';

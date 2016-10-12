@@ -4,18 +4,32 @@ import apiService from '../services/apiService';
 
 module.exports = {
 	userLogin: function(userInfo) {
-		apiService.loginUser(userInfo.username, userInfo.password).then((response) => {
-			if (response.success) {
-				let payLoad = {
-					action: userConstants.SET_TOKEN,
-					data: response.token
-				};
+		return new Promise((resolve, reject) => {
+			apiService.loginUser(userInfo.username, userInfo.password).then((response) => {
+				if (response.success) {
+					let payLoad = {
+						action: userConstants.SET_TOKEN,
+						data: {token: response.token, username: response.username}
+					};
 
-				dispatcher.dispatch(payLoad);
-			}
-		}).catch((e) => {
-			console.error("login error:", e);
+					dispatcher.dispatch(payLoad);
+					resolve(response);
+				}else{
+					reject(response);
+				}
+			}).catch((e) => {
+				console.error("login error:", e);
+				reject({success:false, message: e})
+			});
 		});
+	},
+
+	userLogout: function() {
+		let payLoad = {
+			action: userConstants.LOGOUT
+		};
+
+		dispatcher.dispatch(payLoad);
 	}
 };
 

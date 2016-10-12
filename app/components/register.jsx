@@ -30,11 +30,10 @@ class Register extends React.Component {
 	}
 
 	onUserLogin() {
-		console.info("user login ");
 		/**
 		* user already login should redirect to homepage
 		**/
-		browserHistory.push("./");
+		this.context.router.push('/');
 	}
 
 	onSubmit(e) {
@@ -73,10 +72,16 @@ class Register extends React.Component {
 		});		
 	}
 
+	hideAlert(index) {
+		let messages = [].concat(this.state.errors);
+		messages.splice(index, 1);
+		this.setState({errors: messages});
+	}
+
 	render() {
-		let errors = this.state.errors.map((e) => {
-			return (<div className="alert alert-danger alert-dismissible" role="alert">
-					  <button type="button" className="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		let errors = this.state.errors.map((e, index) => {
+			return (<div className="alert alert-danger alert-dismissible" role="alert" ref={"alert" + index} key={index}>
+					  <button type="button" className="close" onClick={() => {this.hideAlert(index)}} aria-label="Close"><span aria-hidden="true">&times;</span></button>
 						{e}
 					</div>);
 		});
@@ -92,7 +97,7 @@ class Register extends React.Component {
 					{errors}
 					<form onSubmit={this.onSubmit.bind(this)}>
 						<div className="form-group">
-							<input type="text" className="form-control" name="username" placeholder="Name" pattern="^[a-z0-9_-]{3,15}$" required ref="username"/>
+							<input type="text" className="form-control" name="username" placeholder="User name" pattern="^[a-z0-9_-]{3,15}$" required ref="username"/>
 						</div>
 					
 						<div className="form-group">
@@ -112,6 +117,10 @@ class Register extends React.Component {
 		);
 	}	
 }
+
+Register.contextTypes = {
+	router: React.PropTypes.object.isRequired
+};
 
 export default Register;
 

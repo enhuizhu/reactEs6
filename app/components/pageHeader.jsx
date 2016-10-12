@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import Menu from './menu.jsx';
 import menuStore from '../stores/menuStore';
@@ -7,8 +5,7 @@ import menuAction from '../actions/menuAction';
 import apiService from '../services/apiService';
 import {Link} from 'react-router';
 import userStore from '../stores/userStore';
-
-let assign = require("object-assign");
+import userAction from '../actions/userAction';
 
 class PageHeader extends React.Component {
 	constructor(props) {
@@ -49,12 +46,16 @@ class PageHeader extends React.Component {
 		this.setState({isLogin: userStore.isLogin()});
 	}
 
+	handleLogout() {
+		userAction.userLogout();
+	}
+
 	render() {
 		let userStates = null;
 
 		if (this.state.isLogin) {
 			userStates = (
-				<Link to="/logout">Logout</Link>
+				<a href="javascript:void(0)" onClick={this.handleLogout.bind(this)}>Logout</a>
 			);
 		}else{
 			userStates = (						

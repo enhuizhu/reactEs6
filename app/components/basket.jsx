@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import basketAction from '../actions/basketAction.js';
 import basketStore from '../stores/basketStore.js';
@@ -13,7 +11,7 @@ class Basket extends React.Component {
 			total: 0,
 			deliverFee: basketStore.getDeliverFee(),
 			deliverMethod: basketStore.getDeliverMethod()
-		}
+		};
 	}
 
 	componentDidMount() {
@@ -127,12 +125,12 @@ class Basket extends React.Component {
 }
 
 Basket.propTypes = {
-
+	
 };
 
 Basket.defaultProps = {
 
-}
+};
 
 export default Basket;
 

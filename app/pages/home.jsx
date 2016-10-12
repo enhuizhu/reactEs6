@@ -5,17 +5,24 @@ import Modal from '../components/modal.jsx';
 import Basket from '../components/basket.jsx';
 import basketStore from '../stores/basketStore.js';
 import baketAction from '../actions/basketAction.js';
+import urlService from '../services/urlService';
+
 
 class Home extends React.Component {
 	constructor(props) {
 		super(props);
 	}
+	
+	componentWillReceiveProps(nextProps) {
+		let route = this.props.location.pathname;
 
+		if (route === '/login' || route === '/register') {
+			route = '/';
+		}
 
-	displayBasket() {
-		jQuery('#basket').modal('show');
+		urlService.updatePreUrl(route);
 	}
-
+	
 	render() {
 		return (<div>
 			<PageHeader activeUrl={this.props.location.pathname}></PageHeader>
@@ -28,10 +35,6 @@ class Home extends React.Component {
 			        <p className="text-muted">Online marketing solution</p>
 			    </div>
 			</footer>
-
-			<Modal modalId="basket" title="Basket">
-			   <Basket></Basket>
-			</Modal>
 		</div>);
 	}
 }
