@@ -54,6 +54,10 @@
 .small-text {
   font-size: 12px; }
 
+.nav-link {
+  padding: 10px;
+  display: inline-block; }
+
 body {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   color: #5b5e61; }

@@ -2,6 +2,7 @@
 
 import {apiPath} from '../configs/apiConfig';
 import menuStore from '../stores/menuStore';
+import 'whatwg-fetch';
 
 module.exports = {
 	getApiPath: function(path) {

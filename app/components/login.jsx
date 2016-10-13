@@ -27,6 +27,10 @@ class Login extends React.Component {
 		this.context.router.push(urlService.getPreUrl());
 	}
 
+	componentWillUnmount() {
+		userStore.removeUserLoginListener(this.onUserLogin);
+	}
+
 	handleSubmit(e) {
 		e.preventDefault();
 

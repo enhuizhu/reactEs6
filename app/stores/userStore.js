@@ -28,7 +28,7 @@ let userStore = assign({}, EventEmitter.prototype, {
 	},
 
 	getUserInfo: function() {
-		return sessionStorage.getItem(userInfo);
+		return sessionStorage.getItem("userInfo");
 	},
 
 	registerUserLogin: function(callback) {
@@ -58,6 +58,7 @@ let userStore = assign({}, EventEmitter.prototype, {
 	dispatcherIndex: dispatcher.register((payLoad) => {
 		switch(payLoad.action) {
 			case userConstrants.SET_TOKEN:
+				console.info("value of payLoad data:", payLoad.data);
 				userStore.setToken(payLoad.data.token);
 				userStore.setUserInfo(payLoad.data.username);
 				userStore.emitUserLogin();
