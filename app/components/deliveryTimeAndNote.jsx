@@ -47,12 +47,12 @@ class DeliveryTimeAndNote extends React.Component {
 									<label>Confirm your delivery time</label>
 								</div>
 								<div className="form-group">
-									<select className="form-control" ref="timeList" defaultValue={this.props.postData.deliveryTime}>
+									<select className="form-control" ref="timeList" defaultValue={this.props.timeAndNote.deliveryTime}>
 										{optionsList}
 									</select>
 								</div>
 								<div className="form-group">
-									<textarea className="form-control" rows="3" ref="note" placeholder="put any notes about the food here" defaultValue={this.props.postData.note}></textarea>
+									<textarea className="form-control" rows="3" ref="note" placeholder="put any notes about the food here" defaultValue={this.props.timeAndNote.note}></textarea>
 								</div>
 								<div className="form-group">
 									<div className="bg-primary center-block square-btn" onClick={this.handleContinue.bind(this)}>
@@ -69,12 +69,12 @@ class DeliveryTimeAndNote extends React.Component {
 
 DeliveryTimeAndNote.propTypes = {
 	callback: React.PropTypes.func,
-	postData: React.PropTypes.object
+	timeAndNote: React.PropTypes.object
 };
 
 DeliveryTimeAndNote.defaultProps = {
 	callback: function(){},
-	postData: {}
+	timeAndNote: {}
 };
 
 export default DeliveryTimeAndNote;

@@ -26,14 +26,14 @@ let deliveryStore = assign({}, EventEmiter.prototype, {
 	genearteFullAddress: function() {
 		let keys = Object.keys(this.address),
 			fullAddress = "";
-
+		console.info("keys")
 		keys.map((v) => {
-			if (v ! == 'tel' && !_.isEmpty(v)) {
-				fullAddress += this.address[v] + ",";
+			if (this.address[v] && v !== 'tel' && !_.isEmpty(this.address[v])) {
+				fullAddress += this.address[v] + ", ";
 			}
 		});
 
-		fullAddress = fullAddress.substr(0, fullAddress.length - 1);
+		fullAddress = fullAddress.substr(0, fullAddress.length - 2);
 
 		return fullAddress;
 	}

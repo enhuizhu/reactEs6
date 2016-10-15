@@ -3,8 +3,10 @@ import assign from "object-assign";
 import DeliveryTimeAndNote from '../components/deliveryTimeAndNote.jsx';
 import DeliveryAddress from '../components/deliveryAddress.jsx';
 import DeliveryConfirm from '../components/deliveryConfirm.jsx';
+import TimeCounter from '../components/timeCounter.jsx';
 import userStore from '../stores/userStore';
 import deliveryStore from '../stores/deliveryStore';
+import basketStore from '../stores/basketStore';
 import urlService from '../services/urlService';
 import stateEngin from '../libs/stateEngin';
 
@@ -37,9 +39,9 @@ class Checkout extends React.Component {
 	getComponentBaseOnState() {
 		switch(this.stateEngin.getCurrentState()) {
 			case 'time':
-				return <DeliveryTimeAndNote callback={this.handleDeliverTimeAndNoteCallback.bind(this)} postData={deliveryStore.getTime()}></DeliveryTimeAndNote>
+				return <DeliveryTimeAndNote callback={this.handleDeliverTimeAndNoteCallback.bind(this)} timeAndNote={deliveryStore.getTime()}></DeliveryTimeAndNote>
 			case 'address':
-				return <DeliveryAddress callback={this.handleDeliverAddress.bind(this)} postData={deliveryStore.getAddress()}></DeliveryAddress>;
+				return <DeliveryAddress callback={this.handleDeliverAddress.bind(this)} address={deliveryStore.getAddress()}></DeliveryAddress>;
 			default:
 				return <DeliveryConfirm></DeliveryConfirm>;
 		}
@@ -47,7 +49,7 @@ class Checkout extends React.Component {
 
 	handleDeliverAddress(data) {
 		deliveryStore.setAddress(data);
-		
+		console.info("getAddress:", deliveryStore.getAddress());
 		this.setState({
 			currentStep: this.stateEngin.nextState()
 		});
@@ -68,6 +70,13 @@ class Checkout extends React.Component {
 	}
 
 	render() {
+		/**
+		* should check if basket is empty
+		**/
+		if (basketStore.isEmpty()) {
+			return <div><br/><br/><TimeCounter callback={() => {this.context.router.push("/")}}></TimeCounter></div>;
+		}
+
 		let goBack = this.stateEngin.getCurrentState() === "time" ? '' : <a href="javascript:void(0)" onClick={this.goBack.bind(this)} className="nav-link">Go Back</a>;
 		let currentComponent = this.getComponentBaseOnState();
 		

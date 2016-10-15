@@ -25,6 +25,10 @@ let basketStore = assign({}, EventEmiter.prototype, {
 	removeChangeListener: function(callback) {
 		this.removeListener(CHANGE_EVENT, callback);
 	},
+
+	isEmpty: function() {
+		return _items.length <= 0;
+	},
 	
 	addToBasket: function(item) {
 		/**

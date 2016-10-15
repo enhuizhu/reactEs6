@@ -45,7 +45,7 @@ class Recipt extends React.Component {
 
 		return (
 			<div>
-				<div className="section no-bottom-border">
+				<div className="section">
 					{lists}
 				</div>
 
@@ -87,11 +87,10 @@ class Recipt extends React.Component {
 }
 
 Recipt.propTypes = {
-
 };
 
 Recipt.defaultProps = {
-
 };
+
 
 export default Recipt;

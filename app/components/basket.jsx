@@ -64,15 +64,9 @@ class Basket extends React.Component {
 }
 
 Basket.propTypes = {
-	
 };
 
 Basket.defaultProps = {
-
 };
 
 export default Basket;
-
-
-
-

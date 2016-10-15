@@ -7,6 +7,9 @@ class DeliveryConfirm extends React.Component {
 		super(props);
 	}
 
+	handlePlaceOrder() {
+		this.props.callback();
+	}
 	
 	render() {
 		let address = deliveryStore.getAddress();
@@ -14,19 +17,21 @@ class DeliveryConfirm extends React.Component {
 		return (
 			<div className="basket">
 				<div className="sections-container">
-					<h4>Confirm your order detail</h4>
-					<div className="section no-bottom-border">
-						<div className="title">
-							Address
-						</div>
+					<h4 className="text-center	">Confirm your order detail</h4>
+					<div className="section">
 						<div>
-							Telephone : {address.tel} </br>
-							Address: {deliveryStore.genearteFullAddress}
+							<b>Telephone</b> : {address.tel} <br/>
 						</div>
 					</div>
-					<Recipt></Recipt>
-					<div>
-						<div className="bg-primary center-block square-btn">
+					
+					<Recipt title="recipt"></Recipt>
+
+					<div className="section">
+						<b>Address</b>: {deliveryStore.genearteFullAddress()}
+					</div>
+
+					<div className="section">
+						<div className="bg-primary center-block square-btn" onClick={this.handlePlaceOrder.bind(this)}>
 							Place Order
 						</div>
 					</div>
@@ -37,11 +42,11 @@ class DeliveryConfirm extends React.Component {
 }
 
 DeliveryConfirm.propTypes = {
-
+	callback: ReactPropTypes.func
 };
 
 DeliveryConfirm.defaultProps = {
-
+	callback: function(){}
 };
 
 export default DeliveryConfirm;
