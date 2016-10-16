@@ -80,7 +80,8 @@ module.exports = {
 			let loginInfo = {
 				username: username,
 				password: password
-			}
+			};
+			
 			fetch(path, {
 				method: "POST",
 				body: JSON.stringify(loginInfo)
@@ -91,6 +92,12 @@ module.exports = {
 			}).catch((e) => {
 				reject(e);
 			});
+		});
+	},
+
+	placeOrder: function(orderData) {
+		return new Promise((resolve, reject) => {
+
 		});
 	}
 }

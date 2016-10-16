@@ -36,6 +36,21 @@ class Checkout extends React.Component {
 		userStore.removeUserLogoutListener(this.onUserLogout);
 	}
 
+	handlePlaceOrder() {
+		let items = basketStore.getItems(),
+			address = deliveryStore.getAddress(),
+			time = deliveryStore.getTime();
+
+		let postData = {
+			items: items,
+			address: address,
+			time: time
+		};
+
+
+		console.info("place order!", JSON.stringify(postData));
+	}
+
 	getComponentBaseOnState() {
 		switch(this.stateEngin.getCurrentState()) {
 			case 'time':
@@ -43,7 +58,7 @@ class Checkout extends React.Component {
 			case 'address':
 				return <DeliveryAddress callback={this.handleDeliverAddress.bind(this)} address={deliveryStore.getAddress()}></DeliveryAddress>;
 			default:
-				return <DeliveryConfirm></DeliveryConfirm>;
+				return <DeliveryConfirm callback={this.handlePlaceOrder.bind(this)}></DeliveryConfirm>;
 		}
 	}
 

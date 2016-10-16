@@ -42,7 +42,7 @@ class DeliveryConfirm extends React.Component {
 }
 
 DeliveryConfirm.propTypes = {
-	callback: ReactPropTypes.func
+	callback: React.PropTypes.func
 };
 
 DeliveryConfirm.defaultProps = {

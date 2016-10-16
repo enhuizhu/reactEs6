@@ -26406,6 +26406,7 @@
 					username: username,
 					password: password
 				};
+
 				fetch(path, {
 					method: "POST",
 					body: JSON.stringify(loginInfo)
@@ -26417,6 +26418,10 @@
 					reject(e);
 				});
 			});
+		},
+
+		placeOrder: function placeOrder(orderData) {
+			return new Promise(function (resolve, reject) {});
 		}
 	};
 
@@ -30100,7 +30105,7 @@
 
 	var _deliveryConfirm2 = _interopRequireDefault(_deliveryConfirm);
 
-	var _timeCounter = __webpack_require__(263);
+	var _timeCounter = __webpack_require__(262);
 
 	var _timeCounter2 = _interopRequireDefault(_timeCounter);
 
@@ -30120,7 +30125,7 @@
 
 	var _urlService2 = _interopRequireDefault(_urlService);
 
-	var _stateEngin = __webpack_require__(262);
+	var _stateEngin = __webpack_require__(263);
 
 	var _stateEngin2 = _interopRequireDefault(_stateEngin);
 
@@ -30168,6 +30173,21 @@
 				_userStore2.default.removeUserLogoutListener(this.onUserLogout);
 			}
 		}, {
+			key: 'handlePlaceOrder',
+			value: function handlePlaceOrder() {
+				var items = _basketStore2.default.getItems(),
+				    address = _deliveryStore2.default.getAddress(),
+				    time = _deliveryStore2.default.getTime();
+
+				var postData = {
+					items: items,
+					address: address,
+					time: time
+				};
+
+				console.info("place order!", JSON.stringify(postData));
+			}
+		}, {
 			key: 'getComponentBaseOnState',
 			value: function getComponentBaseOnState() {
 				switch (this.stateEngin.getCurrentState()) {
@@ -30176,7 +30196,7 @@
 					case 'address':
 						return _react2.default.createElement(_deliveryAddress2.default, { callback: this.handleDeliverAddress.bind(this), address: _deliveryStore2.default.getAddress() });
 					default:
-						return _react2.default.createElement(_deliveryConfirm2.default, null);
+						return _react2.default.createElement(_deliveryConfirm2.default, { callback: this.handlePlaceOrder.bind(this) });
 				}
 			}
 		}, {
@@ -30681,6 +30701,11 @@
 		}
 
 		_createClass(DeliveryConfirm, [{
+			key: 'handlePlaceOrder',
+			value: function handlePlaceOrder() {
+				this.props.callback();
+			}
+		}, {
 			key: 'render',
 			value: function render() {
 				var address = _deliveryStore2.default.getAddress();
@@ -30730,7 +30755,7 @@
 							{ className: 'section' },
 							_react2.default.createElement(
 								'div',
-								{ className: 'bg-primary center-block square-btn' },
+								{ className: 'bg-primary center-block square-btn', onClick: this.handlePlaceOrder.bind(this) },
 								'Place Order'
 							)
 						)
@@ -30742,9 +30767,13 @@
 		return DeliveryConfirm;
 	}(_react2.default.Component);
 
-	DeliveryConfirm.propTypes = {};
+	DeliveryConfirm.propTypes = {
+		callback: _react2.default.PropTypes.func
+	};
 
-	DeliveryConfirm.defaultProps = {};
+	DeliveryConfirm.defaultProps = {
+		callback: function callback() {}
+	};
 
 	exports.default = DeliveryConfirm;
 
@@ -30808,6 +30837,94 @@
 
 /***/ },
 /* 262 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var TimeCounter = function (_React$Component) {
+		_inherits(TimeCounter, _React$Component);
+
+		function TimeCounter(props) {
+			_classCallCheck(this, TimeCounter);
+
+			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(TimeCounter).call(this, props));
+
+			_this.currentWait = _this.props.wait;
+
+			_this.state = {
+				wait: _this.currentWait
+			};
+
+			_this.setTimer();
+			return _this;
+		}
+
+		_createClass(TimeCounter, [{
+			key: 'setTimer',
+			value: function setTimer() {
+				var _this2 = this;
+
+				if (this.currentWait <= 0) {
+					this.props.callback();
+					return false;
+				}
+
+				setTimeout(function () {
+					_this2.currentWait -= 1;
+					_this2.setState({ wait: _this2.currentWait });
+					_this2.setTimer();
+				}, 1000);
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var dynamicMessage = this.props.message.replace('%s', this.state.wait);
+
+				return _react2.default.createElement(
+					'div',
+					{ className: 'alert alert-warning' },
+					dynamicMessage
+				);
+			}
+		}]);
+
+		return TimeCounter;
+	}(_react2.default.Component);
+
+	TimeCounter.propTypes = {
+		message: _react2.default.PropTypes.string,
+		wait: _react2.default.PropTypes.number,
+		callback: _react2.default.PropTypes.func
+	};
+
+	TimeCounter.defaultProps = {
+		message: 'your basket is empty, will go back to home page in %s seconds.',
+		wait: 3,
+		callback: function callback() {}
+	};
+
+	exports.default = TimeCounter;
+
+/***/ },
+/* 263 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -30899,94 +31016,6 @@
 	}();
 
 	exports.default = statesEngin;
-
-/***/ },
-/* 263 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var TimeCounter = function (_React$Component) {
-		_inherits(TimeCounter, _React$Component);
-
-		function TimeCounter(props) {
-			_classCallCheck(this, TimeCounter);
-
-			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(TimeCounter).call(this, props));
-
-			_this.currentWait = _this.props.wait;
-
-			_this.state = {
-				wait: _this.currentWait
-			};
-
-			_this.setTimer();
-			return _this;
-		}
-
-		_createClass(TimeCounter, [{
-			key: 'setTimer',
-			value: function setTimer() {
-				var _this2 = this;
-
-				if (this.currentWait <= 0) {
-					this.props.callback();
-					return false;
-				}
-
-				setTimeout(function () {
-					_this2.currentWait -= 1;
-					_this2.setState({ wait: _this2.currentWait });
-					_this2.setTimer();
-				}, 1000);
-			}
-		}, {
-			key: 'render',
-			value: function render() {
-				var dynamicMessage = this.props.message.replace('%s', this.state.wait);
-
-				return _react2.default.createElement(
-					'div',
-					{ className: 'alert alert-warning' },
-					dynamicMessage
-				);
-			}
-		}]);
-
-		return TimeCounter;
-	}(_react2.default.Component);
-
-	TimeCounter.propTypes = {
-		message: _react2.default.PropTypes.string,
-		wait: _react2.default.PropTypes.number,
-		callback: _react2.default.PropTypes.func
-	};
-
-	TimeCounter.defaultProps = {
-		message: 'your basket is empty, will go back to home page in %s seconds.',
-		wait: 3,
-		callback: function callback() {}
-	};
-
-	exports.default = TimeCounter;
 
 /***/ }
 /******/ ]);
