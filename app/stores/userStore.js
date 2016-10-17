@@ -10,8 +10,8 @@ let userStore = assign({}, EventEmitter.prototype, {
 		sessionStorage.setItem("token", token);
 	},
 
-	getToken: function(token) {
-		sessionStorage.getItem("token", token);
+	getToken: function() {
+		sessionStorage.getItem("token");
 	},
 
 	isLogin: function() {

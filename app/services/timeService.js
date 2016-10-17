@@ -92,5 +92,30 @@ module.exports = {
 		}
 
 		return nextMinute;
+	},
+
+	isValidDateFormat: function(dateStr) {
+		/**
+		* should check if dateStr is on right fromat
+		**/
+		let reg = /^\d{4}\-\d{2}\-\d{2}\s\d{2}:\d{2}:\d{2}$/;
+		return reg.test(dateStr);
+	},
+	
+	getTimeStampFromDateStr: function(dateStr) {
+		if (!this.isValidDateFormat(dateStr)) {
+			throw 'it is not valid dateStr format!';
+		}
+
+		/**
+		* get year, month, day, hour, minutes, seconds from the dateStr
+		**/
+		let dateTimeArr = dateStr.split(" "),
+			dateArr = dateTimeArr[0].split("-"),
+			timeArr = dateTimeArr[1].split(":");
+
+		let dateObj = new Date(parseInt(dateArr[0]), parseInt(dateArr[1]) - 1, parseInt(dateArr[2]), parseInt(timeArr[0]), parseInt(timeArr[1]), parseInt(timeArr[2]));
+
+		return +dateObj/1000;
 	}
 };

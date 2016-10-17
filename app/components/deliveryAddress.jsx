@@ -16,7 +16,7 @@ class DeliveryAddress extends React.Component {
 			tel: this.refs.tel.value,
 			address1: this.refs.address1.value,
 			address2: this.refs.address2.value,
-			city: this.refs.city,
+			city: this.refs.city.value,
 			postCode: this.refs.postCode.value
 		};
 
@@ -36,7 +36,7 @@ class DeliveryAddress extends React.Component {
 									<label>{userStore.getUserInfo()}, Confrim your detail.</label>
 								</div>
 								<div className="form-group">
-									<input type="tel" ref="tel" className="form-control" placeholder="your phone number" value={this.props.address.tel} required/>
+									<input type="tel" ref="tel" className="form-control" placeholder="your phone number" defaultValue={this.props.address.tel} required/>
 								</div>
 								<div className="form-group">
 									<input type="text" ref="address1" className="form-control" placeholder="address1" defaultValue={this.props.address.address1} required/>
@@ -45,7 +45,7 @@ class DeliveryAddress extends React.Component {
 									<input type="text" ref="address2" className="form-control" placeholder="address2" defaultValue={this.props.address.address2}/>
 								</div>
 								<div className="form-group">
-									<input type="city" ref="address2" className="form-control" placeholder="city" defaultValue={this.props.address.city}/>
+									<input type="city" ref="city" className="form-control" placeholder="city" defaultValue={this.props.address.city}/>
 								</div>
 								<div className="form-group">
 									<input type="city" ref="postCode" className="form-control" placeholder="post code" defaultValue={this.props.address.postCode} required/>

@@ -1,21 +1,26 @@
 import React from 'react';
-import assign from "object-assign";
 import DeliveryTimeAndNote from '../components/deliveryTimeAndNote.jsx';
 import DeliveryAddress from '../components/deliveryAddress.jsx';
 import DeliveryConfirm from '../components/deliveryConfirm.jsx';
 import TimeCounter from '../components/timeCounter.jsx';
+import Error from '../components/error.jsx';
+import Success from '../components/success.jsx';
 import userStore from '../stores/userStore';
 import deliveryStore from '../stores/deliveryStore';
 import basketStore from '../stores/basketStore';
 import urlService from '../services/urlService';
+import apiService from '../services/apiService';
 import stateEngin from '../libs/stateEngin';
+import _ from 'underscore';
 
 class Checkout extends React.Component {
 	constructor(props) {
 		super(props);
 		this.stateEngin = new stateEngin(['time', 'address', 'confirm']);
 		this.state = {
-			currentStep: this.stateEngin.getCurrentState()
+			currentStep: this.stateEngin.getCurrentState(),
+			error: '',
+			success: '',
 		};
 	}
 
@@ -47,6 +52,18 @@ class Checkout extends React.Component {
 			time: time
 		};
 
+		apiService.placeOrder(postData)
+		.then((res) => {
+			console.info('success', res);
+			if (!res.success) {
+				this.setState({'error': res.message});
+			}else{
+				this.setState({'success': res.message});
+			}
+		})
+		.catch((error) => {
+			console.info('error', error)
+		});
 
 		console.info("place order!", JSON.stringify(postData));
 	}
@@ -94,9 +111,13 @@ class Checkout extends React.Component {
 
 		let goBack = this.stateEngin.getCurrentState() === "time" ? '' : <a href="javascript:void(0)" onClick={this.goBack.bind(this)} className="nav-link">Go Back</a>;
 		let currentComponent = this.getComponentBaseOnState();
+		let error = _.isEmpty(this.state.error) ? '' : <Error closeCallback={()=>{this.setState({error:''})}} msg={this.state.error}></Error>;
+		let success = _.isEmpty(this.state.success) ? '' : <Success closeCallback={()=>{this.setState({success:''})}} msg={this.state.success}></Success>;
 		
 		return (<div>
 			{goBack}
+			{error}
+			{success}
 			{currentComponent}
 		</div>);
 	}

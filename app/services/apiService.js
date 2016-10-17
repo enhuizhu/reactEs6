@@ -2,11 +2,18 @@
 
 import {apiPath} from '../configs/apiConfig';
 import menuStore from '../stores/menuStore';
+import userStore from '../stores/userStore';
 import 'whatwg-fetch';
 
 module.exports = {
-	getApiPath: function(path) {
-		return apiPath + path;
+	getApiPath: function(path, withToken=false) {
+		let basePath = apiPath + path;
+
+		if (withToken) {
+			basePath += '?token=' + userStore.getToken();
+		}
+
+		return basePath;
 	},
 
 	getCategories: function() {
@@ -61,30 +68,29 @@ module.exports = {
 	},
 
 	regiserNewUser: function(userInfo) {
-		return new Promise((resolve, reject) => {
-			let path = this.getApiPath("customer/register");
-
-			fetch(path, {method: "POST", body: JSON.stringify(userInfo)}).then((res) => {
-				return res.json();
-			}).then((response) => {
-				resolve(response);
-			}).catch((e) => {
-				reject(e);
-			});
-		});
+		return this.post('customer/register', userInfo, false);
 	},
 
 	loginUser: function(username, password) {
-		return new Promise((resolve, reject) => {
-			let path = this.getApiPath("customer/login");
-			let loginInfo = {
+		let loginInfo = {
 				username: username,
 				password: password
 			};
-			
-			fetch(path, {
+
+		return this.post('customer/login', loginInfo, false);
+	},
+
+	placeOrder: function(orderData) {
+		return this.post("customer/placeOrder", orderData, true);
+	},
+
+	post: function(path, postData, withToken) {
+		return new Promise((resolve, reject) => {
+			let newPath = this.getApiPath(path, withToken);
+
+			fetch(newPath, {
 				method: "POST",
-				body: JSON.stringify(loginInfo)
+				body: JSON.stringify(postData)
 			}).then((res) => {
 				return res.json();
 			}).then((response) => {
@@ -94,11 +100,5 @@ module.exports = {
 			});
 		});
 	},
-
-	placeOrder: function(orderData) {
-		return new Promise((resolve, reject) => {
-
-		});
-	}
 }
 

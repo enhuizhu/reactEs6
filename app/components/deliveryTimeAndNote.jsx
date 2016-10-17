@@ -23,9 +23,11 @@ class DeliveryTimeAndNote extends React.Component {
 
 	handleContinue() {
 		let data = {
-			deliveryTime: this.refs.timeList.value,
+			deliveryTime: timeService.getTimeStampFromDateStr(this.refs.timeList.value),
 			note: this.refs.note.value
 		};
+
+		console.info('value of time data is:', data);
 
 		this.props.callback(data);
 	}
