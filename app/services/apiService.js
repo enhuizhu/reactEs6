@@ -3,6 +3,7 @@
 import {apiPath} from '../configs/apiConfig';
 import menuStore from '../stores/menuStore';
 import userStore from '../stores/userStore';
+import loaderAction from '../actions/loaderAction';
 import 'whatwg-fetch';
 
 module.exports = {
@@ -18,9 +19,7 @@ module.exports = {
 
 	getCategories: function() {
 		return new Promise((resolve, reject) => {
-			fetch(this.getApiPath("categories")).then((res) => {
-				return res.json();
-			}).then((response) => {
+			this.get('categories').then((response) => {
 				let categories = [{
 					title: "HOME",
 					href: "/",
@@ -41,30 +40,22 @@ module.exports = {
 				resolve(categories);
 			}).catch((e) => {
 				reject(e);
-			});;
+			});
 		}); 
 	},
 
 	getProducts: function(category) {
-		return new Promise((resolve, reject) => {
-			let path = this.getApiPath("products");	
+		let path = 'products';	
 
-			if (category) {
-				let menu = menuStore.getMenuByName(category.toUpperCase());
-				
-				if (menu) {
-					path += "/" + menu.id;
-				}
+		if (category) {
+			let menu = menuStore.getMenuByName(category.toUpperCase());
+			
+			if (menu) {
+				path += "/" + menu.id;
 			}
+		}
 
-			fetch(path).then((res) => {
-				return res.json();
-			}).then((response) => {
-				resolve(response);
-			}).catch((e) => {
-				reject(e);
-			});
-		});
+		return this.get(path);
 	},
 
 	regiserNewUser: function(userInfo) {
@@ -84,21 +75,36 @@ module.exports = {
 		return this.post("customer/placeOrder", orderData, true);
 	},
 
-	post: function(path, postData, withToken) {
-		return new Promise((resolve, reject) => {
-			let newPath = this.getApiPath(path, withToken);
+	get: function(path, withToken = false) {
+		let newPath = this.getApiPath(path, withToken);
+		return this.fetch(newPath, 'GET');
+	},
 
-			fetch(newPath, {
-				method: "POST",
-				body: JSON.stringify(postData)
-			}).then((res) => {
+	post: function(path, postData, withToken = false) {
+		let newPath = this.getApiPath(path, withToken);
+		return this.fetch(newPath, 'POST', postData);
+	},
+
+	fetch: function(path, method, postData = {}) {
+		let basicObj = {method: method};
+
+		if (method === 'POST') {
+			basicObj.body = JSON.stringify(postData);
+		}
+
+		return new Promise((resolve, reject) => {
+			loaderAction.setLoader();
+
+			fetch(path, basicObj).then((res) => {
 				return res.json();
 			}).then((response) => {
 				resolve(response);
+				loaderAction.resetLoader();
 			}).catch((e) => {
 				reject(e);
+				loaderAction.resetLoader();
 			});
 		});
-	},
+	}
 }
 

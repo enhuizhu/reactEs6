@@ -3,6 +3,7 @@ import PageHeader from '../components/pageHeader.jsx';
 import ProductThumbnail from '../components/productThumbnail.jsx';
 import Modal from '../components/modal.jsx';
 import Basket from '../components/basket.jsx';
+import Loader from '../components/loader.jsx';
 import basketStore from '../stores/basketStore.js';
 import baketAction from '../actions/basketAction.js';
 import urlService from '../services/urlService';
@@ -35,6 +36,7 @@ class Home extends React.Component {
 			        <p className="text-muted">Online marketing solution</p>
 			    </div>
 			</footer>
+			<Loader></Loader>
 		</div>);
 	}
 }

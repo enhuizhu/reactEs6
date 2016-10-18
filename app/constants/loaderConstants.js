@@ -1,0 +1,4 @@
+module.exports = {
+	SET_LOADER: 'SET_LOADER',
+	RESET_LOADER: 'RESET_LOADER'
+}

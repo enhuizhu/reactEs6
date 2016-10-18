@@ -1,3 +1,4 @@
+@import "functions.scss";
 @import "mixin.scss";
 @import "animations.scss";
 
@@ -307,6 +308,37 @@ header {
 			position: relative;
 			top: 11px;
 			z-index: 1;
+		}
+	}
+}
+
+.loader {
+	$squareWidth: 120px;
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 1000;
+	background:rgba(99, 99, 99, 0.7);
+
+	.square {
+		width: $squareWidth;
+		height: $squareWidth;
+		border-radius: 8px;
+		color: white;
+		position: absolute;
+		left: calc(50% - #{$squareWidth/2});
+		top: calc(50% - #{$squareWidth/2});
+		
+		@include linear-gradient(to bottom, rgb(86, 86, 86) 0%, rgb(0, 0, 0) 100%);
+
+		&:before {
+			content: "loading ...";
+		    position: relative;
+		    top: 47px;
+		    left: 24px;
+		    font-size: 18px;
 		}
 	}
 }

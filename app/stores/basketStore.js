@@ -87,6 +87,15 @@ let basketStore = assign({}, EventEmiter.prototype, {
 		return _items;
 	},
 
+	getMiniItems: function() {
+		return _items.map((v) => {
+			return {
+				id: v.id,
+				quantity: v.quantity
+			}
+		});
+	},
+
 	getTotal: function() {
 		let sum = _items.reduce((prev, v)=> {
 			return prev + v.price * v.quantity;

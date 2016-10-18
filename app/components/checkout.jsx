@@ -42,7 +42,7 @@ class Checkout extends React.Component {
 	}
 
 	handlePlaceOrder() {
-		let items = basketStore.getItems(),
+		let items = basketStore.getMiniItems(),
 			address = deliveryStore.getAddress(),
 			time = deliveryStore.getTime();
 
