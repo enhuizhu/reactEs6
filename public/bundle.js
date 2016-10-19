@@ -31156,11 +31156,7 @@
 		function DeliveryAddress(props) {
 			_classCallCheck(this, DeliveryAddress);
 
-			var _this = _possibleConstructorReturn(this, (DeliveryAddress.__proto__ || Object.getPrototypeOf(DeliveryAddress)).call(this, props));
-
-			console.info("value of address is:", _this.props.address);
-
-			return _this;
+			return _possibleConstructorReturn(this, (DeliveryAddress.__proto__ || Object.getPrototypeOf(DeliveryAddress)).call(this, props));
 		}
 
 		_createClass(DeliveryAddress, [{
@@ -31173,7 +31169,7 @@
 					address1: this.refs.address1.value,
 					address2: this.refs.address2.value,
 					city: this.refs.city.value,
-					postCode: this.refs.postCode.value
+					postcode: this.refs.postCode.value
 				};
 
 				this.props.callback(postData);

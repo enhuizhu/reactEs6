@@ -4,9 +4,6 @@ import userStore from '../stores/userStore';
 class DeliveryAddress extends React.Component {
 	constructor(props) {
 		super(props);
-
-		console.info("value of address is:", this.props.address);
-
 	}
 
 	handleSubmit(e) {
@@ -17,7 +14,7 @@ class DeliveryAddress extends React.Component {
 			address1: this.refs.address1.value,
 			address2: this.refs.address2.value,
 			city: this.refs.city.value,
-			postCode: this.refs.postCode.value
+			postcode: this.refs.postCode.value
 		};
 
 		this.props.callback(postData);
