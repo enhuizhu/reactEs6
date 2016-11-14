@@ -214,7 +214,7 @@ header {
 
 .eshop-form {
   padding: 20px; }
-  .eshop-form input[type='submit'] {
+  .eshop-form input[type='submit'], .eshop-form input[type='button'], .eshop-form button {
     width: 100%; }
   .eshop-form .seperator {
     margin-top: 10px;

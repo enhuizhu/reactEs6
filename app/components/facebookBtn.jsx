@@ -1,4 +1,5 @@
 import React from 'react';
+import FacebookLogin from 'react-facebook-login';
 
 class FacebookBtn extends React.Component {
 	constructor(props) {
@@ -7,20 +8,26 @@ class FacebookBtn extends React.Component {
 
 	render() {
 		return (
-			<div className="facebook facebook-bg center-block square-btn">
-				Login With Facebook	
-			</div>
+			<div>
+			 <FacebookLogin
+			    appId="1719536611697560"
+			    autoLoad={true}
+			    fields="name,email,picture"
+			    callback={this.props.callback} 
+			    cssClass="facebook facebook-bg center-block square-btn"
+			    />
+    		</div>
 		);
 	}
 }
 
 
 FacebookBtn.propTypes = {
-
+	callback: React.PropTypes.func
 };
 
 FacebookBtn.defaultProps = {
-
+	callback: ()=>{}
 };
 
 export default FacebookBtn;

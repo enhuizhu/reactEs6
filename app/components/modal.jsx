@@ -2,7 +2,7 @@ import React from 'react';
 
 export default class Modal extends React.Component {
 	componentWillUnmount() {
-		jQuery(".modal-backdrop").remove();
+		jQuery('#' + this.props.modalId).modal('hide');
 	}
 
 	render() {

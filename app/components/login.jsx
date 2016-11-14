@@ -49,6 +49,10 @@ class Login extends React.Component {
 		this.setState({errors: messages});
 	}
 
+	facebookCallback(param) {
+		console.info('param is:', param);
+	}
+
 	render() {
 		let errors = this.state.errors.map((e, index) => {
 			return (<div className="alert alert-danger alert-dismissible" role="alert" ref={"alert" + index} key={index}>
@@ -59,7 +63,7 @@ class Login extends React.Component {
 
 		return (
 			<div className="eshop-form">
-				<FacebookBtn></FacebookBtn>
+				<FacebookBtn callback={this.facebookCallback.bind(this)}></FacebookBtn>
 				<div className="seperator">
 					<div className="line"></div>
 					<span>or</span>
