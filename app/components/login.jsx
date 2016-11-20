@@ -51,6 +51,16 @@ class Login extends React.Component {
 
 	facebookCallback(param) {
 		console.info('param is:', param);
+		let postData = {
+			username : param.name,
+			email : param.email,
+			type: 'facebook'
+		}
+
+		userAction.userLogin(postData).catch((response) => {
+			console.info("response:", response);
+			this.setState({errors:[response.message]});
+		});
 	}
 
 	render() {
@@ -72,10 +82,10 @@ class Login extends React.Component {
 					{errors}
 					<form onSubmit={this.handleSubmit.bind(this)}>
 						<div className="form-group">
-							<input type="text" className="form-control" name="username" placeholder="" ref="username" required/>
+							<input type="text" className="form-control" name="username" placeholder="" ref="username" placeholder="username or email" required/>
 						</div>
 						<div className="form-group">
-							<input type="password" className="form-control" name="password" ref="password" required/>
+							<input type="password" className="form-control" name="password" ref="password" placeholder="password" required/>
 						</div>
 						<div className="form-group">
 							<input type="submit" value="Login" className="bg-primary center-block square-btn"/>

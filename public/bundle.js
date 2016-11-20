@@ -26394,11 +26394,11 @@
 			return this.post('customer/register', userInfo, false);
 		},
 
-		loginUser: function loginUser(username, password) {
-			var loginInfo = {
-				username: username,
-				password: password
-			};
+		loginUser: function loginUser(loginInfo) {
+			// let loginInfo = {
+			// 		username: username,
+			// 		password: password
+			// 	};
 
 			return this.post('customer/login', loginInfo, false);
 		},
@@ -28401,7 +28401,7 @@
 	module.exports = {
 		userLogin: function userLogin(userInfo) {
 			return new Promise(function (resolve, reject) {
-				_apiService2.default.loginUser(userInfo.username, userInfo.password).then(function (response) {
+				_apiService2.default.loginUser(userInfo).then(function (response) {
 					if (response.success) {
 						var payLoad = {
 							action: _userConstants2.default.SET_TOKEN,
@@ -29907,6 +29907,8 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -29973,12 +29975,25 @@
 		}, {
 			key: 'facebookCallback',
 			value: function facebookCallback(param) {
+				var _this3 = this;
+
 				console.info('param is:', param);
+				var postData = {
+					username: param.name,
+					email: param.email,
+					type: 'facebook'
+				};
+
+				_userAction2.default.userLogin(postData).catch(function (response) {
+					console.info("response:", response);
+					_this3.setState({ errors: [response.message] });
+				});
 			}
 		}, {
 			key: 'render',
 			value: function render() {
-				var _this3 = this;
+				var _this4 = this,
+				    _React$createElement;
 
 				var errors = this.state.errors.map(function (e, index) {
 					return _react2.default.createElement(
@@ -29987,7 +30002,7 @@
 						_react2.default.createElement(
 							'button',
 							{ type: 'button', className: 'close', onClick: function onClick() {
-									_this3.hideAlert(index);
+									_this4.hideAlert(index);
 								}, 'aria-label': 'Close' },
 							_react2.default.createElement(
 								'span',
@@ -30023,12 +30038,12 @@
 							_react2.default.createElement(
 								'div',
 								{ className: 'form-group' },
-								_react2.default.createElement('input', { type: 'text', className: 'form-control', name: 'username', placeholder: '', ref: 'username', required: true })
+								_react2.default.createElement('input', (_React$createElement = { type: 'text', className: 'form-control', name: 'username', placeholder: '', ref: 'username' }, _defineProperty(_React$createElement, 'placeholder', 'username or email'), _defineProperty(_React$createElement, 'required', true), _React$createElement))
 							),
 							_react2.default.createElement(
 								'div',
 								{ className: 'form-group' },
-								_react2.default.createElement('input', { type: 'password', className: 'form-control', name: 'password', ref: 'password', required: true })
+								_react2.default.createElement('input', { type: 'password', className: 'form-control', name: 'password', ref: 'password', placeholder: 'password', required: true })
 							),
 							_react2.default.createElement(
 								'div',
@@ -30375,10 +30390,6 @@
 
 	var _error2 = _interopRequireDefault(_error);
 
-	var _success = __webpack_require__(269);
-
-	var _success2 = _interopRequireDefault(_success);
-
 	var _userStore = __webpack_require__(233);
 
 	var _userStore2 = _interopRequireDefault(_userStore);
@@ -30472,6 +30483,10 @@
 					if (!res.success) {
 						_this2.setState({ 'error': res.message });
 					} else {
+						/**
+	     * should empty the basket at this point
+	     **/
+						_basketStore2.default.emptyBasket();
 						_this2.setState({ 'success': res.message });
 					}
 				}).catch(function (error) {
@@ -30489,7 +30504,7 @@
 					case 'address':
 						return _react2.default.createElement(_deliveryAddress2.default, { callback: this.handleDeliverAddress.bind(this), address: _deliveryStore2.default.getAddress() });
 					default:
-						return _react2.default.createElement(_deliveryConfirm2.default, { callback: this.handlePlaceOrder.bind(this) });
+						return this.state.success ? _react2.default.createElement('div', null) : _react2.default.createElement(_deliveryConfirm2.default, { callback: this.handlePlaceOrder.bind(this) });
 				}
 			}
 		}, {
@@ -30522,6 +30537,19 @@
 			value: function render() {
 				var _this3 = this;
 
+				if (this.state.success) {
+					var message = 'you order has been placed successfully, will bring you to the home page in %s seconds.';
+					return _react2.default.createElement(
+						'div',
+						null,
+						_react2.default.createElement('br', null),
+						_react2.default.createElement('br', null),
+						_react2.default.createElement(_timeCounter2.default, { callback: function callback() {
+								_this3.context.router.push("/");
+							}, message: message, type: 'success' })
+					);
+				}
+
 				/**
 	   * should check if basket is empty
 	   **/
@@ -30546,16 +30574,12 @@
 				var error = _underscore2.default.isEmpty(this.state.error) ? '' : _react2.default.createElement(_error2.default, { closeCallback: function closeCallback() {
 						_this3.setState({ error: '' });
 					}, msg: this.state.error });
-				var success = _underscore2.default.isEmpty(this.state.success) ? '' : _react2.default.createElement(_success2.default, { closeCallback: function closeCallback() {
-						_this3.setState({ success: '' });
-					}, msg: this.state.success });
 
 				return _react2.default.createElement(
 					'div',
 					null,
 					goBack,
 					error,
-					success,
 					currentComponent
 				);
 			}
@@ -30632,7 +30656,7 @@
 			key: 'handleContinue',
 			value: function handleContinue() {
 				var data = {
-					deliveryTime: _timeService2.default.getTimeStampFromDateStr(this.refs.timeList.value),
+					deliveryTime: this.refs.timeList.value == 0 ? 0 : _timeService2.default.getTimeStampFromDateStr(this.refs.timeList.value),
 					note: this.refs.note.value
 				};
 
@@ -31218,13 +31242,26 @@
 				}, 1000);
 			}
 		}, {
+			key: 'getClassNameBaseOnType',
+			value: function getClassNameBaseOnType(type) {
+				switch (type) {
+					case 'warning':
+						return 'alert-warning';
+					case 'success':
+						return 'alert-success';
+					default:
+						return '';
+				}
+			}
+		}, {
 			key: 'render',
 			value: function render() {
 				var dynamicMessage = this.props.message.replace('%s', this.state.wait);
+				var alertClass = this.getClassNameBaseOnType(this.props.type);
 
 				return _react2.default.createElement(
 					'div',
-					{ className: 'alert alert-warning' },
+					{ className: 'alert ' + alertClass },
 					dynamicMessage
 				);
 			}
@@ -31236,12 +31273,14 @@
 	TimeCounter.propTypes = {
 		message: _react2.default.PropTypes.string,
 		wait: _react2.default.PropTypes.number,
+		type: _react2.default.PropTypes.string,
 		callback: _react2.default.PropTypes.func
 	};
 
 	TimeCounter.defaultProps = {
 		message: 'your basket is empty, will go back to home page in %s seconds.',
 		wait: 3,
+		type: 'warning',
 		callback: function callback() {}
 	};
 
@@ -31316,74 +31355,7 @@
 	exports.default = Error;
 
 /***/ },
-/* 269 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var Success = function (_React$Component) {
-		_inherits(Success, _React$Component);
-
-		function Success(props) {
-			_classCallCheck(this, Success);
-
-			return _possibleConstructorReturn(this, Object.getPrototypeOf(Success).call(this, props));
-		}
-
-		_createClass(Success, [{
-			key: "render",
-			value: function render() {
-				return _react2.default.createElement(
-					"div",
-					{ className: "alert alert-success alert-dismissible", role: "alert" },
-					_react2.default.createElement(
-						"button",
-						{ type: "button", className: "close", onClick: this.props.closeCallback, "aria-label": "Close" },
-						_react2.default.createElement(
-							"span",
-							{ "aria-hidden": "true" },
-							"×"
-						)
-					),
-					this.props.msg
-				);
-			}
-		}]);
-
-		return Success;
-	}(_react2.default.Component);
-
-	Success.propTypes = {
-		closeCallback: _react2.default.PropTypes.func,
-		msg: _react2.default.PropTypes.string
-	};
-
-	Success.defaultProps = {
-		closeCallback: function closeCallback() {},
-		msg: ''
-	};
-
-	exports.default = Success;
-
-/***/ },
+/* 269 */,
 /* 270 */
 /***/ function(module, exports) {
 

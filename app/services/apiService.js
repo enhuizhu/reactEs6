@@ -62,11 +62,11 @@ module.exports = {
 		return this.post('customer/register', userInfo, false);
 	},
 
-	loginUser: function(username, password) {
-		let loginInfo = {
-				username: username,
-				password: password
-			};
+	loginUser: function(loginInfo) {
+		// let loginInfo = {
+		// 		username: username,
+		// 		password: password
+		// 	};
 
 		return this.post('customer/login', loginInfo, false);
 	},

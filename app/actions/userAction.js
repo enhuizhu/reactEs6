@@ -5,7 +5,7 @@ import apiService from '../services/apiService';
 module.exports = {
 	userLogin: function(userInfo) {
 		return new Promise((resolve, reject) => {
-			apiService.loginUser(userInfo.username, userInfo.password).then((response) => {
+			apiService.loginUser(userInfo).then((response) => {
 				if (response.success) {
 					let payLoad = {
 						action: userConstants.SET_TOKEN,

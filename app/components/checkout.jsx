@@ -4,7 +4,6 @@ import DeliveryAddress from '../components/deliveryAddress.jsx';
 import DeliveryConfirm from '../components/deliveryConfirm.jsx';
 import TimeCounter from '../components/timeCounter.jsx';
 import Error from '../components/error.jsx';
-import Success from '../components/success.jsx';
 import userStore from '../stores/userStore';
 import deliveryStore from '../stores/deliveryStore';
 import basketStore from '../stores/basketStore';
@@ -58,6 +57,10 @@ class Checkout extends React.Component {
 			if (!res.success) {
 				this.setState({'error': res.message});
 			}else{
+				/**
+				* should empty the basket at this point
+				**/
+				basketStore.emptyBasket();
 				this.setState({'success': res.message});
 			}
 		})
@@ -75,7 +78,7 @@ class Checkout extends React.Component {
 			case 'address':
 				return <DeliveryAddress callback={this.handleDeliverAddress.bind(this)} address={deliveryStore.getAddress()}></DeliveryAddress>;
 			default:
-				return <DeliveryConfirm callback={this.handlePlaceOrder.bind(this)}></DeliveryConfirm>;
+				return this.state.success ? <div></div> : <DeliveryConfirm callback={this.handlePlaceOrder.bind(this)}></DeliveryConfirm>;
 		}
 	}
 
@@ -102,6 +105,11 @@ class Checkout extends React.Component {
 	}
 
 	render() {
+		if (this.state.success) {
+			let message = 'you order has been placed successfully, will bring you to the home page in %s seconds.';
+			return <div><br/><br/><TimeCounter callback={() => {this.context.router.push("/")}} message={message} type='success'></TimeCounter></div>;
+		}
+
 		/**
 		* should check if basket is empty
 		**/
@@ -112,12 +120,10 @@ class Checkout extends React.Component {
 		let goBack = this.stateEngin.getCurrentState() === "time" ? '' : <a href="javascript:void(0)" onClick={this.goBack.bind(this)} className="nav-link">Go Back</a>;
 		let currentComponent = this.getComponentBaseOnState();
 		let error = _.isEmpty(this.state.error) ? '' : <Error closeCallback={()=>{this.setState({error:''})}} msg={this.state.error}></Error>;
-		let success = _.isEmpty(this.state.success) ? '' : <Success closeCallback={()=>{this.setState({success:''})}} msg={this.state.success}></Success>;
 		
 		return (<div>
 			{goBack}
 			{error}
-			{success}
 			{currentComponent}
 		</div>);
 	}
