@@ -1,5 +1,6 @@
 import React from 'react';
 import FacebookLogin from 'react-facebook-login';
+import {appId} from '../configs/apiConfig';
 
 class FacebookBtn extends React.Component {
 	constructor(props) {
@@ -10,7 +11,7 @@ class FacebookBtn extends React.Component {
 		return (
 			<div>
 			 <FacebookLogin
-			    appId="1719536611697560"
+			    appId={appId}
 			    autoLoad={true}
 			    fields="name,email,picture"
 			    callback={this.props.callback} 
