@@ -36,6 +36,20 @@ class Register extends React.Component {
 		this.context.router.push('/');
 	}
 
+	facebookCallback(param) {
+		console.info('param is:', param);
+		let postData = {
+			username : param.name,
+			email : param.email,
+			type: 'facebook'
+		}
+
+		userAction.userLogin(postData).catch((response) => {
+			console.info("response:", response);
+			this.setState({errors:[response.message]});
+		});
+	}
+
 	onSubmit(e) {
 		e.preventDefault();
 
@@ -88,7 +102,7 @@ class Register extends React.Component {
 
 		return (
 			<div className="eshop-form">
-				<FacebookBtn></FacebookBtn>
+				<FacebookBtn callback={this.facebookCallback.bind(this)}></FacebookBtn>
 				<div className="seperator">
 					<div className="line"></div>
 					<span>or</span>
