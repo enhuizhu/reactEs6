@@ -4,8 +4,9 @@ import userStore from '../stores/userStore';
 import userAction from '../actions/userAction';
 import { browserHistory } from 'react-router';
 import urlService from '../services/urlService';
+import FacebookCallback from './facebookCallback.jsx';
 
-class Login extends React.Component {
+class Login extends FacebookCallback {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -47,20 +48,6 @@ class Login extends React.Component {
 		let messages = [].concat(this.state.errors);
 		messages.splice(index, 1);
 		this.setState({errors: messages});
-	}
-
-	facebookCallback(param) {
-		console.info('param is:', param);
-		let postData = {
-			username : param.name,
-			email : param.email,
-			type: 'facebook'
-		}
-
-		userAction.userLogin(postData).catch((response) => {
-			console.info("response:", response);
-			this.setState({errors:[response.message]});
-		});
 	}
 
 	render() {

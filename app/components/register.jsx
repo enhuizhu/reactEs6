@@ -4,9 +4,10 @@ import apiService from '../services/apiService';
 import userAction from '../actions/userAction';
 import userStore from '../stores/userStore';
 import { browserHistory } from 'react-router';
+import FacebookCallback from './facebookCallback.jsx';
 import _ from "underscore";
 
-class Register extends React.Component {
+class Register extends FacebookCallback {
 	constructor(props){
 		super(props);
 
@@ -34,20 +35,6 @@ class Register extends React.Component {
 		* user already login should redirect to homepage
 		**/
 		this.context.router.push('/');
-	}
-
-	facebookCallback(param) {
-		console.info('param is:', param);
-		let postData = {
-			username : param.name,
-			email : param.email,
-			type: 'facebook'
-		}
-
-		userAction.userLogin(postData).catch((response) => {
-			console.info("response:", response);
-			this.setState({errors:[response.message]});
-		});
 	}
 
 	onSubmit(e) {
