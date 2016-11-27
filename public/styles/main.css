@@ -114,7 +114,8 @@ header {
 **/
 .product-thumbnail {
   width: 135px;
-  margin-bottom: 20px; }
+  margin-bottom: 20px;
+  position: relative; }
   .product-thumbnail .product-img {
     width: 135px;
     height: 135px; }
