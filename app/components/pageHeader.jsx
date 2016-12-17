@@ -1,7 +1,9 @@
 import React from 'react';
 import Menu from './menu.jsx';
+import Search from './Search.jsx';
 import menuStore from '../stores/menuStore';
 import menuAction from '../actions/menuAction';
+import productAction from '../actions/productAction';
 import apiService from '../services/apiService';
 import {Link} from 'react-router';
 import userStore from '../stores/userStore';
@@ -15,8 +17,6 @@ class PageHeader extends React.Component {
 			menus: menuStore.getMenus(),
 			isLogin: userStore.isLogin(),
 		};
-
-		console.info("is user login:", userStore.isLogin());
 	}
 
 	componentWillReceiveProps(nextProps, nextState) {
@@ -50,6 +50,10 @@ class PageHeader extends React.Component {
 		userAction.userLogout();
 	}
 
+	searchCallback(keyword) {
+		productAction.searchProducts(keyword);
+	}
+
 	render() {
 		let userStates = null;
 
@@ -76,17 +80,7 @@ class PageHeader extends React.Component {
 					</span>
 				</h4>
 				<div className="clearfix"></div>
-				<div className="search">
-					<form className="form-inline">
-						<div className="input-group">
-							<input type="text" className="form-control" id="key_word"/>
-							<span className="input-group-addon">
-								Search
-							</span>
-						</div>
-					</form>
-				</div>
-
+				<Search searchCallback={this.searchCallback.bind(this)}></Search>
 				<Menu data={this.state.menus}></Menu>
 			</header>
 		);

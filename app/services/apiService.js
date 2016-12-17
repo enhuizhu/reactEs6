@@ -1,6 +1,6 @@
 'use strict';
 
-import {apiPath} from '../configs/apiConfig';
+import {apiPath, userToken} from '../configs/apiConfig';
 import menuStore from '../stores/menuStore';
 import userStore from '../stores/userStore';
 import loaderAction from '../actions/loaderAction';
@@ -58,16 +58,21 @@ module.exports = {
 		return this.get(path);
 	},
 
+	searchProducts: function(keywords) {
+		let path = 'search';
+
+		if (keywords) {
+			path += '/?keyword=' + keywords;
+		}
+
+		return this.get(path);
+	},
+
 	regiserNewUser: function(userInfo) {
 		return this.post('customer/register', userInfo, false);
 	},
 
 	loginUser: function(loginInfo) {
-		// let loginInfo = {
-		// 		username: username,
-		// 		password: password
-		// 	};
-
 		return this.post('customer/login', loginInfo, false);
 	},
 
@@ -91,6 +96,10 @@ module.exports = {
 		if (method === 'POST') {
 			basicObj.body = JSON.stringify(postData);
 		}
+
+		basicObj.headers = {
+			Token: userToken
+		};
 
 		return new Promise((resolve, reject) => {
 			loaderAction.setLoader();

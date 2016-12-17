@@ -15,8 +15,6 @@ class Login extends FacebookCallback {
 	}
 
 	componentDidMount() {
-		console.info('previouse url:', urlService.getPreUrl());
-
 		if (userStore.isLogin()) {
 			this.onUserLogin();
 		}

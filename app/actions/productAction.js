@@ -24,19 +24,30 @@ module.exports = {
 		dispatcher.dispatch(payLoad);
 	},
 
+	setProductsToStore: function(apiResponse) {
+		console.info("action setProducts:", apiResponse);
+		let products = apiResponse.products.map( v => {
+			return Object.assign({}, v, {img: apiPath + "uploads/" + v.pics}) 	
+		});
+
+		let payLoad = {
+			action: productConstants.SET_PRODUCT,
+			data: products
+		}
+
+		dispatcher.dispatch(payLoad);
+	},
+
 	setProducts: function(category) {
 		apiService.getProducts(category).then((response) => {
-			console.info("action setProducts:", response);
-			let products = response.products.map( v => {
-				return Object.assign({}, v, {img: apiPath + "uploads/" + v.pics}) 	
-			});
-
-			let payLoad = {
-				action: productConstants.SET_PRODUCT,
-				data: products
-			}
-
-			dispatcher.dispatch(payLoad);
+			this.setProductsToStore(response);
 		})		
+	},
+
+	searchProducts: function(keywords) {
+		apiService.searchProducts(keywords).then( response => {
+			console.log('response:', response);
+			this.setProductsToStore(response);
+		});	
 	}
 };

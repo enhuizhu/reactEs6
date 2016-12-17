@@ -111,9 +111,11 @@ class Products extends React.Component {
 }
 
 Products.propTypes = {
+	params: React.PropTypes.object
 };
 
 Products.defaultProps = {
+	params: {}
 };
 
 export default Products;
