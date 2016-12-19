@@ -31,4 +31,3 @@ module.exports = {
 		dispatcher.dispatch(payLoad);
 	}
 };
-

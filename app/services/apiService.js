@@ -58,6 +58,10 @@ module.exports = {
 		return this.get(path);
 	},
 
+	getShopInfo: function() {
+		return this.get('userprofile');
+	},
+
 	searchProducts: function(keywords) {
 		let path = 'search';
 
@@ -116,4 +120,3 @@ module.exports = {
 		});
 	}
 }
-
