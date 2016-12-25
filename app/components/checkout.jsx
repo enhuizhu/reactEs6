@@ -19,7 +19,7 @@ class Checkout extends React.Component {
 		this.state = {
 			currentStep: this.stateEngin.getCurrentState(),
 			error: '',
-			success: '',
+			success: ''
 		};
 	}
 
@@ -78,13 +78,12 @@ class Checkout extends React.Component {
 			case 'address':
 				return <DeliveryAddress callback={this.handleDeliverAddress.bind(this)} address={deliveryStore.getAddress()}></DeliveryAddress>;
 			default:
-				return this.state.success ? <div></div> : <DeliveryConfirm callback={this.handlePlaceOrder.bind(this)}></DeliveryConfirm>;
+				return this.state.success ? <div></div> : <DeliveryConfirm callback={this.handlePlaceOrder.bind(this)} ></DeliveryConfirm>;
 		}
 	}
 
 	handleDeliverAddress(data) {
 		deliveryStore.setAddress(data);
-		console.info("getAddress:", deliveryStore.getAddress());
 		this.setState({
 			currentStep: this.stateEngin.nextState()
 		});

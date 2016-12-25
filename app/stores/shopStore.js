@@ -62,17 +62,6 @@ let shopStore = assign({}, EventEmitter.prototype, {
 	dispatcherIndex: dispatcher.register((payLoad) => {
 		switch(payLoad.action) {
 			case shopConstants.GET_INFO:
-				if (!shopInfo) {
-					apiService.getShopInfo().then((result) => {
-						shopInfo = result;
-						shopStore.emitChange();
-					}).catch((e) => {
-						console.error('fetch shop inof error:', e);
-					});
-				}else{
-					shopStore.emitChange();
-				}
-
 				break;
 			default:
 				break;

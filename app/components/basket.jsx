@@ -9,7 +9,7 @@ class Basket extends React.Component {
 		super(props);
 
 		this.state = {
-			deliverMethod: basketStore.getDeliverMethod()
+			deliverMethod: basketStore.getDeliverMethod(),
 		};
 	}
 
@@ -56,7 +56,7 @@ class Basket extends React.Component {
 						</div>
 					</div>
 
-					<Recipt></Recipt>
+					<Recipt currency={this.props.currency}></Recipt>
 				</div>
 			</div>
 		);

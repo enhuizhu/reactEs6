@@ -1,6 +1,7 @@
 import React from 'react';
 import basketAction from '../actions/basketAction.js';
 import basketStore from '../stores/basketStore.js';
+import shopStore from '../stores/shopStore.js';
 
 class Recipt extends React.Component {
 	constructor(props) {
@@ -9,11 +10,16 @@ class Recipt extends React.Component {
 		this.state = {
 			items: basketStore.getItems(),
 			total: basketStore.getTotal(),
-			deliverFee: basketStore.getDeliverFee()
+			deliverFee: basketStore.getDeliverFee(),
+			currency: '',
 		}
 	}
 
 	componentDidMount() {
+		shopStore.getCurrency((currency) => {
+			this.setState({currency: currency});
+		});
+
 		basketStore.addChagneListener(this.onBasketChange.bind(this));
 	}
 
@@ -37,7 +43,7 @@ class Recipt extends React.Component {
 			return (<div className="item-container" key={key}>
 				<button onClick={() => {this.removeItem(item)}} className="pull-left"> <span className="glyphicon glyphicon-minus"></span> </button>
 				<span className="item-title pull-left"><strong>{item.quantity > 0 ? item.quantity + " X " : ""}</strong>{item.name}</span>
-				<span className="item-price pull-right">&pound;{item.price * item.quantity}</span>
+				<span className="item-price pull-right">{this.props.currency}{item.price * item.quantity}</span>
 				<div className="clearfix"></div>
 			</div>)
 		});
@@ -55,7 +61,7 @@ class Recipt extends React.Component {
 							Subtotal
 						</div>
 						<div className="pull-right">
-							&pound;{this.state.total}
+							{this.props.currency}{this.state.total}
 						</div>
 						<div className="clearfix"></div>
 					</div>
@@ -65,7 +71,7 @@ class Recipt extends React.Component {
 							Delivery fee
 						</div>
 						<div className="pull-right">
-							&pound;{this.state.deliverFee}
+							{this.props.currency}{this.state.deliverFee}
 						</div>
 						<div className="clearfix"></div>
 					</div>
@@ -75,7 +81,7 @@ class Recipt extends React.Component {
 							Total
 						</div>
 						<div className="pull-right">
-							&pound;{this.state.total + this.state.deliverFee}
+							{this.props.currency}{this.state.total + this.state.deliverFee}
 						</div>
 						<div className="clearfix"></div>
 					</div>

@@ -3,7 +3,8 @@
 import React from 'react';
 import basketStore from '../stores/basketStore';
 import productsStore from '../stores/productsStore';
-import menuStore from '../stores/menuStore'
+import menuStore from '../stores/menuStore';
+import shopStore from '../stores/shopStore';
 import baketAction from '../actions/basketAction';
 import productAction from '../actions/productAction';
 import ProductThumbnail from '../components/productThumbnail.jsx';
@@ -18,7 +19,8 @@ class Products extends React.Component {
 			products: [],
 			title: this.props.params.category ? this.props.params.category : "Featured Food",
 			total: basketStore.getTotal(),
-			totalQuantity: basketStore.getTotalQuantity()
+			totalQuantity: basketStore.getTotalQuantity(),
+			currency: ''
 		};		
 	}
 
@@ -41,6 +43,13 @@ class Products extends React.Component {
 	}
 
 	componentDidMount() {
+		/**
+		* get currency from shopStore
+		**/
+		shopStore.getCurrency((currency) => {
+			this.setState({currency: currency});
+		});
+
 		menuStore.addMenuInitListener(this.onMenuInit.bind(this));
 		productsStore.addChangeListener(this.onProductsChange.bind(this));
 		basketStore.addChagneListener(this.onBasketChange.bind(this));
@@ -98,12 +107,12 @@ class Products extends React.Component {
 
 				<div className="fix-footer">
 					<div className="bg-primary center-block square-btn" onClick={this.displayBasket.bind(this)}>
-						Total £{this.state.total} ({this.state.totalQuantity})
+						Total {this.state.currency}{this.state.total} ({this.state.totalQuantity})
 					</div>
 				</div>
 
 				<Modal modalId="basket" title="Basket">
-				   <Basket></Basket>
+				   <Basket currency={this.state.currency}></Basket>
 				</Modal>
 		</div>);
 	}
