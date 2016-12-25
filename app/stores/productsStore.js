@@ -13,24 +13,8 @@ let productsStore = assign({}, EventEmiter.prototype, {
 		return _products;
 	},
 
-	getSupportCurrencies: function() {
-		return {
-			'NGN': '₦',
-			'GBP': '&pound;',
-			'RMB': '¥',
-			'USD': '$'
-		}
-	},
-
 	getCurrencySymbol: function(currency) {
-		let currencyMap = this.getSupportCurrencies();
-		let symbol = currencyMap[currency];
-
-		if (!symbol) {
-			return '&pound;';
-		}
-
-		return symbol;
+		return currency.toUpperCase();
 	},
 
 	addChangeListener: function(callback) {
