@@ -2,9 +2,9 @@ import React from 'react';
 import Menu from './menu.jsx';
 import Search from './Search.jsx';
 import menuStore from '../stores/menuStore';
+import shopStore from '../stores/shopStore';
 import menuAction from '../actions/menuAction';
 import productAction from '../actions/productAction';
-import apiService from '../services/apiService';
 import {Link} from 'react-router';
 import userStore from '../stores/userStore';
 import userAction from '../actions/userAction';
@@ -16,6 +16,7 @@ class PageHeader extends React.Component {
 		this.state = {
 			menus: menuStore.getMenus(),
 			isLogin: userStore.isLogin(),
+			shopInfo: {}
 		};
 	}
 
@@ -26,6 +27,10 @@ class PageHeader extends React.Component {
 	}
 
 	componentDidMount() {
+		shopStore.getShopInfo().then((shopInfo) => {
+			this.setState({shopInfo: shopInfo});
+		});
+
 		menuAction.setMenus(this.props.activeUrl);
 		menuStore.addChagneListener(this.onMenuChange.bind(this));
 		userStore.registerUserLogin(this.onUserStateChange.bind(this));
@@ -73,8 +78,8 @@ class PageHeader extends React.Component {
 		return (
 			<header>
 				<h4>
-					Wok Express   
-					
+					{this.state.shopInfo.shopName}
+				
 					<span className="pull-right">
 						{userStates}
 					</span>

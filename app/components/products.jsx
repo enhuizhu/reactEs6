@@ -53,7 +53,6 @@ class Products extends React.Component {
 	}
 
 	componentWillReceiveProps(nextProps, nextState) {
-		console.info("--- props -- ", nextProps.params, nextState);
 		productAction.setProducts(nextProps.params.category);
 	}
 

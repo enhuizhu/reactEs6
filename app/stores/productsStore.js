@@ -2,19 +2,39 @@
 
 let dispatcher = require("../dispatcher/dispatcher");
 let productConstants = require("../constants/productConstants");
-let _products = [];
+let shopStore = require("./shopStore");
 let assign = require("object-assign");
 let EventEmiter = require("events").EventEmitter;
 let CHANGE_EVENT = "change";
+let _products = [];
 
 let productsStore = assign({}, EventEmiter.prototype, {
 	getAll: function() {
 		return _products;
 	},
 
+	getSupportCurrencies: function() {
+		return {
+			'NGN': '₦',
+			'GBP': '&pound;',
+			'RMB': '¥',
+			'USD': '$'
+		}
+	},
+
+	getCurrencySymbol: function(currency) {
+		let currencyMap = this.getSupportCurrencies();
+		let symbol = currencyMap[currency];
+
+		if (!symbol) {
+			return '&pound;';
+		}
+
+		return symbol;
+	},
+
 	addChangeListener: function(callback) {
 		this.on(CHANGE_EVENT, () => {
-			console.info("change fired");
 			callback(_products);
 		});
 	},
@@ -50,7 +70,15 @@ let productsStore = assign({}, EventEmiter.prototype, {
 	},
 
 	setProducts: function(products) {
-		_products = products;
+		shopStore.getCurrency((currency) => {
+			products.map((product) => {
+				product.currency = currency;
+			});
+			
+			_products = products;
+			productsStore.emitChange();
+		});
+
 	},
 
 	getProducts: function() {
@@ -73,7 +101,6 @@ let productsStore = assign({}, EventEmiter.prototype, {
 				break;
 			case productConstants.SET_PRODUCT:
 				productsStore.setProducts(payLoad.data);
-				productsStore.emitChange();
 				break;
 			default:
 				break;	

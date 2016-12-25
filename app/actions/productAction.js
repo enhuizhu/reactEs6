@@ -25,7 +25,6 @@ module.exports = {
 	},
 
 	setProductsToStore: function(apiResponse) {
-		console.info("action setProducts:", apiResponse);
 		let products = apiResponse.products.map( v => {
 			return Object.assign({}, v, {img: apiPath + "uploads/" + v.pics}) 	
 		});
@@ -46,7 +45,6 @@ module.exports = {
 
 	searchProducts: function(keywords) {
 		apiService.searchProducts(keywords).then( response => {
-			console.log('response:', response);
 			this.setProductsToStore(response);
 		});	
 	}

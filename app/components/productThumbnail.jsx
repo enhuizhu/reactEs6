@@ -2,6 +2,7 @@
 
 import React from 'react';
 import {PrefixedEvent} from '../helpers/eventHelper.js';
+import productsStore from '../stores/productsStore.js';
 
 class ProductThumbnail extends React.Component {
 	constructor(props) {
@@ -29,7 +30,7 @@ class ProductThumbnail extends React.Component {
 					{this.props.product.name}
 				</div>
 				<div className="product-action">
-					<span className="price text-primary">&pound;{this.props.product.price}</span>
+					<span className="price text-primary">{productsStore.getCurrencySymbol(this.props.product.currency)}{this.props.product.price}</span>
 					<span className="actions">
 						<button className="btn btn-primary" onClick={this.btnClickHandler.bind(this)}>
 							<span className="basket glyphicon glyphicon-shopping-cart"></span>
