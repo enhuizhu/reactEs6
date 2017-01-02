@@ -1,6 +1,5 @@
 'use strict';
 
-import {apiPath} from '../configs/apiConfig';
 import dispatcher from '../dispatcher/dispatcher';
 import productConstants from '../constants/productConstants';
 import apiService from '../services/apiService';
@@ -26,7 +25,7 @@ module.exports = {
 
 	setProductsToStore: function(apiResponse) {
 		let products = apiResponse.products.map( v => {
-			return Object.assign({}, v, {img: apiPath + "uploads/" + v.pics}) 	
+			return Object.assign({}, v, {img: config.apiPath + "uploads/" + v.pics}) 	
 		});
 
 		let payLoad = {

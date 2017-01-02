@@ -1,6 +1,5 @@
 'use strict';
 
-import {apiPath, userToken} from '../configs/apiConfig';
 import menuStore from '../stores/menuStore';
 import userStore from '../stores/userStore';
 import loaderAction from '../actions/loaderAction';
@@ -8,7 +7,7 @@ import 'whatwg-fetch';
 
 module.exports = {
 	getApiPath: function(path, withToken=false) {
-		let basePath = apiPath + path;
+		let basePath = config.apiPath + path;
 
 		if (withToken) {
 			basePath += '?token=' + userStore.getToken();
@@ -102,7 +101,7 @@ module.exports = {
 		}
 
 		basicObj.headers = {
-			Token: userToken
+			Token: config.userToken
 		};
 
 		return new Promise((resolve, reject) => {
