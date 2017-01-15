@@ -53,13 +53,18 @@ let productsStore = assign({}, EventEmiter.prototype, {
 		return false;
 	},
 
-	setProducts: function(products) {
+	setProducts: function(products, isAddingProducts = false) {
 		shopStore.getCurrency((currency) => {
 			products.map((product) => {
 				product.currency = currency;
 			});
 			
-			_products = products;
+			if (isAddingProducts) {
+				_products = _products.concat(products)
+			}else{
+				_products = products;
+			}
+			
 			productsStore.emitChange();
 		});
 
@@ -71,6 +76,10 @@ let productsStore = assign({}, EventEmiter.prototype, {
 
 	addProduct: function(product) {
 		_products = _products.concat([product]);
+	},
+
+	addProducts: function(products) {
+		this.setProducts(products, true);
 	},
 
 	dispatchIndex: dispatcher.register((payLoad) => {
@@ -85,6 +94,9 @@ let productsStore = assign({}, EventEmiter.prototype, {
 				break;
 			case productConstants.SET_PRODUCT:
 				productsStore.setProducts(payLoad.data);
+				break;
+			case productConstants.ADD_PRODUCTS:
+				productsStore.addProducts(payLoad.data);
 				break;
 			default:
 				break;	

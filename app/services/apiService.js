@@ -43,7 +43,7 @@ module.exports = {
 		}); 
 	},
 
-	getProducts: function(category) {
+	getProducts: function(category, pageNumber) {
 		let path = 'products';	
 
 		if (category) {
@@ -52,6 +52,10 @@ module.exports = {
 			if (menu) {
 				path += "/" + menu.id;
 			}
+		}
+
+		if (pageNumber) {
+			path = path + '?page=' + pageNumber;
 		}
 
 		return this.get(path);

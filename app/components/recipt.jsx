@@ -20,7 +20,12 @@ class Recipt extends React.Component {
 			this.setState({currency: currency});
 		});
 
+		// shopStore.registerShopInfoChange(this.onShopInfoChange.bind(this));
 		basketStore.addChagneListener(this.onBasketChange.bind(this));
+	}
+
+	onShopInfoChange(shopInfo) {
+		this.setState({currency: shopInfo.currency});
 	}
 
 	componentWillUnmount() {

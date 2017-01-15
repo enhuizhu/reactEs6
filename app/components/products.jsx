@@ -25,7 +25,7 @@ class Products extends React.Component {
 	}
 
 	onMenuInit(menus) {
-		productAction.setProducts(this.props.params.category);
+		// productAction.setProducts(this.props.params.category);
 	}
 
 	onProductsChange() {
@@ -42,6 +42,11 @@ class Products extends React.Component {
 		});
 	}
 
+	onShopInfoChange(shopInfo) {
+		console.log('products shopInfo change:', shopInfo);
+		this.setState({currency: shopInfo.currency})
+	}
+
 	componentDidMount() {
 		/**
 		* get currency from shopStore
@@ -49,7 +54,7 @@ class Products extends React.Component {
 		shopStore.getCurrency((currency) => {
 			this.setState({currency: currency});
 		});
-
+		// shopStore.registerShopInfoChange(this.onShopInfoChange.bind(this));
 		menuStore.addMenuInitListener(this.onMenuInit.bind(this));
 		productsStore.addChangeListener(this.onProductsChange.bind(this));
 		basketStore.addChagneListener(this.onBasketChange.bind(this));
@@ -59,6 +64,7 @@ class Products extends React.Component {
 	componentWillUnmount() {
 		productsStore.removeChangeListener(this.onProductsChange);
 		basketStore.removeChangeListener(this.onBasketChange);
+		shopStore.removeShopInfoListener(this.onShopInfoChange);
 	}
 
 	componentWillReceiveProps(nextProps, nextState) {
@@ -67,6 +73,11 @@ class Products extends React.Component {
 
 	addProduct(item) {
 		baketAction.addToBasket(item);
+	}
+
+	loadMoreProducts() {
+		console.log('loadMoreProducts!');
+		productAction.loadMoreProducts(this.props.params.category);
 	}
 
 	displayBasket() {
@@ -79,7 +90,11 @@ class Products extends React.Component {
 					<ProductThumbnail product={v} callback={()=> {this.addProduct(v)}}></ProductThumbnail>
 			</div>);
 		})
+		
+		let loadmoreBtn = productAction.pageInfo.currentPage >= productAction.pageInfo.totalPages ? <div></div> : <div className="btn btn-primary load-more" onClick={this.loadMoreProducts.bind(this)}>Load More</div>;
 
+		console.log('pageInfo:', productAction.pageInfo);
+		
 		return (<div>
 			<div>
 					<div className="col-xs-6 col-sm-3 col-md-2">
@@ -103,6 +118,7 @@ class Products extends React.Component {
 						{items}
 					</div>
 					<div className="clearfix"></div>
+					{loadmoreBtn}
 				</div>
 
 				<div className="fix-footer">

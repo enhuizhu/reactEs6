@@ -27,10 +27,8 @@ class PageHeader extends React.Component {
 	}
 
 	componentDidMount() {
-		shopStore.getShopInfo().then((shopInfo) => {
-			this.setState({shopInfo: shopInfo});
-		});
-
+        shopStore.getShopInfo();
+		shopStore.registerShopInfoChange(this.onShopInfoChange.bind(this));
 		menuAction.setMenus(this.props.activeUrl);
 		menuStore.addChagneListener(this.onMenuChange.bind(this));
 		userStore.registerUserLogin(this.onUserStateChange.bind(this));
@@ -41,6 +39,12 @@ class PageHeader extends React.Component {
 		menuStore.removeChangeListener(this.onMenuChange);
 		userStore.removeUserLoginListener(this.onUserStateChange);
 		userStore.removeUserLogoutListener(this.onUserStateChange);
+		shopStore.removeShopInfoListener(this.onShopInfoChange);
+	}
+
+	onShopInfoChange(shopInfo) {
+		console.log('page header shopInfo change');
+		this.setState({shopInfo: shopInfo});
 	}
 
 	onMenuChange(menus) {
@@ -75,11 +79,12 @@ class PageHeader extends React.Component {
 			);
 		}
 
+		let logoPath = '/cms/uploads/' + this.state.shopInfo.logo;
+
 		return (
 			<header>
 				<h4>
-					{this.state.shopInfo.shopName}
-				
+					<img src={logoPath}/>
 					<span className="pull-right">
 						{userStates}
 					</span>

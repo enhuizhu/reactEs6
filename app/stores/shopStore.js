@@ -15,7 +15,7 @@ let shopStore = assign({}, EventEmitter.prototype, {
 		});
 	},
 
-	removeListener: function(callback) {
+	removeShopInfoListener: function(callback) {
 		this.removeListener(CHANGE, callback);
 	},
 
@@ -36,11 +36,13 @@ let shopStore = assign({}, EventEmitter.prototype, {
 	},
 
 	getShopProperty: function(propertyName ,callback) {
-		this.getShopInfo().then((result) => {	
-			callback(result[propertyName]);
-		}).catch((e) => {
-			console.error(e);
-		});		
+		if (!shopInfo) {
+			setTimeout(() => {
+				this.getShopProperty(propertyName, callback);
+			}, 500);
+		}else{
+			callback(shopInfo[propertyName]);
+		}
 	},
 
 	getShopInfo: function() {
@@ -50,6 +52,7 @@ let shopStore = assign({}, EventEmitter.prototype, {
 			}else{
 				apiService.getShopInfo().then((result) => {
 					shopInfo = result;
+					this.emitChange();
 					resolve(shopInfo);
 				}).catch((e) => {
 					console.error('fetch shop inof error:', e);

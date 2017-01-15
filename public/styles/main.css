@@ -58,6 +58,12 @@
   padding: 10px;
   display: inline-block; }
 
+.load-more {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  width: 100px; }
+
 body {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   color: #5b5e61; }
@@ -71,6 +77,8 @@ header {
   background-color: #f8f8f8;
   padding-top: 1px;
   border-bottom: solid 1px #cac6c6; }
+  header img {
+    max-width: 50px; }
   header h4 {
     font-style: italic;
     padding-left: 5px;
