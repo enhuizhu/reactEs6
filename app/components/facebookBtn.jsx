@@ -1,5 +1,5 @@
 import React from 'react';
-import FacebookLogin from 'react-facebook-login';
+//import FacebookLogin from 'react-facebook-login';
 
 class FacebookBtn extends React.Component {
 	constructor(props) {
@@ -9,13 +9,6 @@ class FacebookBtn extends React.Component {
 	render() {
 		return (
 			<div>
-			 <FacebookLogin
-			    appId={config.appId}
-			    autoLoad={true}
-			    fields="name,email,picture"
-			    callback={this.props.callback} 
-			    cssClass="facebook facebook-bg center-block square-btn"
-			    />
     		</div>
 		);
 	}

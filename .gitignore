@@ -2,3 +2,5 @@ node_modules/
 public/bower_components/
 app/configs/
 appConfig.js
+.idea/
+app/.DS_Store
