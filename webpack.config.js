@@ -4,9 +4,23 @@ var webpack = require('webpack');
 module.exports = {
   entry: './App.js',
   output: { path: __dirname + '/public/', filename: 'bundle.js' },
-  plugins: [
-    new webpack.optimize.UglifyJsPlugin({minimize: true})
-  ],
+devServer:{
+        contentBase: 'public',
+         proxy: {
+          '/cms': {
+          target: 'https://eshop.dev/cms/',
+          secure: false,
+          hot: true,
+          inline: true,
+          watch: true,
+           pathRewrite: {
+            '^/cms': ''
+          },
+          changeOrigin: true,
+          logLevel: 'debug',
+        }
+      }
+    },
   module: {
     loaders: [
         {
@@ -20,7 +34,7 @@ module.exports = {
         {
             test: /\.scss$/,
             include: path.join(__dirname, 'public/styles'),
-            loader: 'style!css!sass'
+            loader: 'style-loader!css-loader!sass-loader'
         }
     ]
  }
