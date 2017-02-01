@@ -1,0 +1,364 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   'bootstrap',
+1 verbose cli   '--save' ]
+2 info using npm@2.12.1
+3 info using node@v4.4.5
+4 verbose install initial load of /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/package.json
+5 warn package.json reactEs6@0.0.0 No description
+6 warn package.json reactEs6@0.0.0 No repository field.
+7 warn package.json reactEs6@0.0.0 No README data
+8 verbose installManyTop reading scoped package data from /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/node_modules/babel/package.json
+9 verbose installManyTop reading scoped package data from /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/node_modules/babel-core/package.json
+10 verbose installManyTop reading scoped package data from /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/node_modules/babel-jest/package.json
+11 verbose installManyTop reading scoped package data from /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/node_modules/babel-loader/package.json
+12 verbose installManyTop reading scoped package data from /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/node_modules/babel-preset-es2015/package.json
+13 verbose installManyTop reading scoped package data from /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/node_modules/babel-preset-react/package.json
+14 verbose installManyTop reading scoped package data from /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/node_modules/babel-preset-stage-0/package.json
+15 verbose installManyTop reading scoped package data from /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/node_modules/bootstrap/package.json
+16 verbose installManyTop reading scoped package data from /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/node_modules/color-convert/package.json
+17 verbose installManyTop reading scoped package data from /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/node_modules/connect/package.json
+18 verbose installManyTop reading scoped package data from /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/node_modules/css-loader/package.json
+19 verbose installManyTop reading scoped package data from /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/node_modules/enzyme/package.json
+20 verbose installManyTop reading scoped package data from /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/node_modules/grunt/package.json
+21 verbose installManyTop reading scoped package data from /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/node_modules/grunt-contrib-watch/package.json
+22 verbose installManyTop reading scoped package data from /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/node_modules/jest-cli/package.json
+23 verbose installManyTop reading scoped package data from /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/node_modules/node-fetch/package.json
+24 verbose installManyTop reading scoped package data from /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/node_modules/node-sass/package.json
+25 verbose installManyTop reading scoped package data from /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/node_modules/object-assign/package.json
+26 verbose installManyTop reading scoped package data from /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/node_modules/react/package.json
+27 verbose installManyTop reading scoped package data from /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/node_modules/react-dom/package.json
+28 verbose installManyTop reading scoped package data from /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/node_modules/react-hot-loader/package.json
+29 verbose installManyTop reading scoped package data from /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/node_modules/react-router/package.json
+30 verbose installManyTop reading scoped package data from /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/node_modules/sass-loader/package.json
+31 verbose installManyTop reading scoped package data from /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/node_modules/serve-static/package.json
+32 verbose installManyTop reading scoped package data from /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/node_modules/sinon/package.json
+33 verbose installManyTop reading scoped package data from /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/node_modules/style-loader/package.json
+34 verbose installManyTop reading scoped package data from /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/node_modules/underscore/package.json
+35 verbose installManyTop reading scoped package data from /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/node_modules/webpack/package.json
+36 verbose installManyTop reading scoped package data from /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/node_modules/webpack-dev-server/package.json
+37 verbose installManyTop reading scoped package data from /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/node_modules/whatwg-fetch/package.json
+38 info package.json grunt@0.4.5 No license field.
+39 verbose readDependencies loading dependencies from /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/package.json
+40 verbose install bootstrap is installed as 3.3.7
+41 silly cache add args [ 'bootstrap', null ]
+42 verbose cache add spec bootstrap
+43 silly cache add parsed spec Result {
+43 silly cache add   raw: 'bootstrap',
+43 silly cache add   scope: null,
+43 silly cache add   name: 'bootstrap',
+43 silly cache add   rawSpec: '',
+43 silly cache add   spec: '*',
+43 silly cache add   type: 'range' }
+44 silly addNamed bootstrap@*
+45 verbose addNamed "*" is a valid semver range for bootstrap
+46 silly addNameRange { name: 'bootstrap', range: '*', hasData: false }
+47 silly mapToRegistry name bootstrap
+48 silly mapToRegistry using default registry
+49 silly mapToRegistry registry https://registry.npmjs.org/
+50 silly mapToRegistry uri https://registry.npmjs.org/bootstrap
+51 verbose addNameRange registry:https://registry.npmjs.org/bootstrap not in flight; fetching
+52 verbose request uri https://registry.npmjs.org/bootstrap
+53 verbose request no auth needed
+54 info attempt registry request try #1 at 7:32:25 PM
+55 verbose request id 33861bb0aa847315
+56 verbose etag W/"588a2e5f-c599"
+57 verbose lastModified Thu, 26 Jan 2017 17:14:07 GMT
+58 http request GET https://registry.npmjs.org/bootstrap
+59 http 304 https://registry.npmjs.org/bootstrap
+60 silly get cb [ 304,
+60 silly get   { date: 'Wed, 01 Feb 2017 19:32:26 GMT',
+60 silly get     via: '1.1 varnish',
+60 silly get     'cache-control': 'max-age=300',
+60 silly get     etag: 'W/"588a2e5f-c599"',
+60 silly get     age: '78',
+60 silly get     connection: 'keep-alive',
+60 silly get     'x-served-by': 'cache-lcy1125-LCY',
+60 silly get     'x-cache': 'HIT',
+60 silly get     'x-cache-hits': '1',
+60 silly get     'x-timer': 'S1485977546.125416,VS0,VE0',
+60 silly get     vary: 'Accept-Encoding' } ]
+61 verbose etag https://registry.npmjs.org/bootstrap from cache
+62 verbose get saving bootstrap to /Users/chiragdoctor/.npm/registry.npmjs.org/bootstrap/.cache.json
+63 silly addNameRange number 2 { name: 'bootstrap', range: '*', hasData: true }
+64 silly addNameRange versions [ 'bootstrap',
+64 silly addNameRange   [ '0.0.1',
+64 silly addNameRange     '0.0.2',
+64 silly addNameRange     '3.1.1',
+64 silly addNameRange     '3.2.0',
+64 silly addNameRange     '3.3.0',
+64 silly addNameRange     '3.3.1',
+64 silly addNameRange     '3.3.2',
+64 silly addNameRange     '3.3.4',
+64 silly addNameRange     '3.3.5',
+64 silly addNameRange     '3.3.6',
+64 silly addNameRange     '4.0.0-alpha.2',
+64 silly addNameRange     '3.3.7',
+64 silly addNameRange     '4.0.0-alpha.3',
+64 silly addNameRange     '4.0.0-alpha.4',
+64 silly addNameRange     '4.0.0-alpha.5',
+64 silly addNameRange     '4.0.0-alpha.6' ] ]
+65 silly addNamed bootstrap@3.3.7
+66 verbose addNamed "3.3.7" is a plain semver version for bootstrap
+67 silly cache afterAdd bootstrap@3.3.7
+68 verbose afterAdd /Users/chiragdoctor/.npm/bootstrap/3.3.7/package/package.json not in flight; writing
+69 verbose afterAdd /Users/chiragdoctor/.npm/bootstrap/3.3.7/package/package.json written
+70 silly install resolved [ { name: 'bootstrap',
+70 silly install resolved     description: 'The most popular front-end framework for developing responsive, mobile first projects on the web.',
+70 silly install resolved     version: '3.3.7',
+70 silly install resolved     keywords:
+70 silly install resolved      [ 'css',
+70 silly install resolved        'less',
+70 silly install resolved        'mobile-first',
+70 silly install resolved        'responsive',
+70 silly install resolved        'front-end',
+70 silly install resolved        'framework',
+70 silly install resolved        'web' ],
+70 silly install resolved     homepage: 'http://getbootstrap.com',
+70 silly install resolved     author: { name: 'Twitter, Inc.' },
+70 silly install resolved     scripts:
+70 silly install resolved      { 'change-version': 'node grunt/change-version.js',
+70 silly install resolved        'update-shrinkwrap': 'npm shrinkwrap --dev && shx mv ./npm-shrinkwrap.json ./grunt/npm-shrinkwrap.json',
+70 silly install resolved        test: 'grunt test' },
+70 silly install resolved     style: 'dist/css/bootstrap.css',
+70 silly install resolved     less: 'less/bootstrap.less',
+70 silly install resolved     main: './dist/js/npm',
+70 silly install resolved     repository:
+70 silly install resolved      { type: 'git',
+70 silly install resolved        url: 'git+https://github.com/twbs/bootstrap.git' },
+70 silly install resolved     bugs: { url: 'https://github.com/twbs/bootstrap/issues' },
+70 silly install resolved     license: 'MIT',
+70 silly install resolved     devDependencies:
+70 silly install resolved      { btoa: '~1.1.2',
+70 silly install resolved        glob: '~7.0.3',
+70 silly install resolved        grunt: '~1.0.1',
+70 silly install resolved        'grunt-autoprefixer': '~3.0.4',
+70 silly install resolved        'grunt-contrib-clean': '~1.0.0',
+70 silly install resolved        'grunt-contrib-compress': '~1.3.0',
+70 silly install resolved        'grunt-contrib-concat': '~1.0.0',
+70 silly install resolved        'grunt-contrib-connect': '~1.0.0',
+70 silly install resolved        'grunt-contrib-copy': '~1.0.0',
+70 silly install resolved        'grunt-contrib-csslint': '~1.0.0',
+70 silly install resolved        'grunt-contrib-cssmin': '~1.0.0',
+70 silly install resolved        'grunt-contrib-htmlmin': '~1.5.0',
+70 silly install resolved        'grunt-contrib-jshint': '~1.0.0',
+70 silly install resolved        'grunt-contrib-less': '~1.3.0',
+70 silly install resolved        'grunt-contrib-pug': '~1.0.0',
+70 silly install resolved        'grunt-contrib-qunit': '~0.7.0',
+70 silly install resolved        'grunt-contrib-uglify': '~1.0.0',
+70 silly install resolved        'grunt-contrib-watch': '~1.0.0',
+70 silly install resolved        'grunt-csscomb': '~3.1.0',
+70 silly install resolved        'grunt-exec': '~1.0.0',
+70 silly install resolved        'grunt-html': '~8.0.1',
+70 silly install resolved        'grunt-jekyll': '~0.4.4',
+70 silly install resolved        'grunt-jscs': '~3.0.1',
+70 silly install resolved        'grunt-saucelabs': '~9.0.0',
+70 silly install resolved        'load-grunt-tasks': '~3.5.0',
+70 silly install resolved        'markdown-it': '^7.0.0',
+70 silly install resolved        shelljs: '^0.7.0',
+70 silly install resolved        shx: '^0.1.2',
+70 silly install resolved        'time-grunt': '^1.3.0' },
+70 silly install resolved     engines: { node: '>=0.10.1' },
+70 silly install resolved     files:
+70 silly install resolved      [ 'dist',
+70 silly install resolved        'fonts',
+70 silly install resolved        'grunt',
+70 silly install resolved        'js/*.js',
+70 silly install resolved        'less/**/*.less',
+70 silly install resolved        'Gruntfile.js',
+70 silly install resolved        'LICENSE' ],
+70 silly install resolved     jspm: { main: 'js/bootstrap', shim: [Object], files: [Object] },
+70 silly install resolved     gitHead: '0b9c4a4007c44201dce9a6cc1a38407005c26c86',
+70 silly install resolved     _id: 'bootstrap@3.3.7',
+70 silly install resolved     _shasum: '5a389394549f23330875a3b150656574f8a9eb71',
+70 silly install resolved     _from: 'bootstrap@*',
+70 silly install resolved     _npmVersion: '2.15.8',
+70 silly install resolved     _nodeVersion: '4.4.7',
+70 silly install resolved     _npmUser: { name: 'twbs', email: 'getbootstrap@gmail.com' },
+70 silly install resolved     dist:
+70 silly install resolved      { shasum: '5a389394549f23330875a3b150656574f8a9eb71',
+70 silly install resolved        tarball: 'https://registry.npmjs.org/bootstrap/-/bootstrap-3.3.7.tgz' },
+70 silly install resolved     maintainers: [ [Object] ],
+70 silly install resolved     _npmOperationalInternal:
+70 silly install resolved      { host: 'packages-16-east.internal.npmjs.com',
+70 silly install resolved        tmp: 'tmp/bootstrap-3.3.7.tgz_1469462979154_0.42421583621762693' },
+70 silly install resolved     directories: {},
+70 silly install resolved     _resolved: 'https://registry.npmjs.org/bootstrap/-/bootstrap-3.3.7.tgz',
+70 silly install resolved     readme: 'ERROR: No README data found!' } ]
+71 info install bootstrap@3.3.7 into /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend
+72 info installOne bootstrap@3.3.7
+73 verbose installOne of bootstrap to /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend not in flight; installing
+74 verbose lock using /Users/chiragdoctor/.npm/_locks/bootstrap-dd45a0dabb71efa1.lock for /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/node_modules/bootstrap
+75 silly install write writing bootstrap 3.3.7 to /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/node_modules/bootstrap
+76 verbose unbuild node_modules/bootstrap
+77 info preuninstall bootstrap@3.3.7
+78 info uninstall bootstrap@3.3.7
+79 verbose unbuild rmStuff bootstrap@3.3.7 from /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/node_modules
+80 info postuninstall bootstrap@3.3.7
+81 silly gentlyRm /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/node_modules/bootstrap is being purged from base /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend
+82 verbose gentlyRm don't care about contents; nuking /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/node_modules/bootstrap
+83 silly vacuum-fs purging /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/node_modules/bootstrap
+84 silly vacuum-fs quitting because other entries in /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/node_modules
+85 verbose tar unpack /Users/chiragdoctor/.npm/bootstrap/3.3.7/package.tgz
+86 verbose tar unpacking to /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/node_modules/bootstrap
+87 silly gentlyRm /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/node_modules/bootstrap is being purged
+88 verbose gentlyRm don't care about contents; nuking /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/node_modules/bootstrap
+89 silly gunzTarPerm modes [ '755', '644' ]
+90 silly gunzTarPerm extractEntry package.json
+91 silly gunzTarPerm extractEntry README.md
+92 silly gunzTarPerm extractEntry LICENSE
+93 silly gunzTarPerm extractEntry Gruntfile.js
+94 silly gunzTarPerm extractEntry CHANGELOG.md
+95 silly gunzTarPerm extractEntry dist/css/bootstrap-theme.css
+96 silly gunzTarPerm extractEntry dist/css/bootstrap-theme.css.map
+97 silly gunzTarPerm extractEntry dist/css/bootstrap-theme.min.css
+98 silly gunzTarPerm extractEntry dist/css/bootstrap-theme.min.css.map
+99 silly gunzTarPerm extractEntry dist/css/bootstrap.css
+100 silly gunzTarPerm extractEntry dist/css/bootstrap.css.map
+101 silly gunzTarPerm extractEntry dist/css/bootstrap.min.css
+102 silly gunzTarPerm extractEntry dist/css/bootstrap.min.css.map
+103 silly gunzTarPerm extractEntry dist/fonts/glyphicons-halflings-regular.eot
+104 silly gunzTarPerm extractEntry dist/fonts/glyphicons-halflings-regular.svg
+105 silly gunzTarPerm extractEntry dist/fonts/glyphicons-halflings-regular.ttf
+106 silly gunzTarPerm extractEntry dist/fonts/glyphicons-halflings-regular.woff
+107 silly gunzTarPerm extractEntry dist/fonts/glyphicons-halflings-regular.woff2
+108 silly gunzTarPerm extractEntry dist/js/bootstrap.js
+109 silly gunzTarPerm extractEntry dist/js/bootstrap.min.js
+110 silly gunzTarPerm extractEntry dist/js/npm.js
+111 silly gunzTarPerm extractEntry fonts/glyphicons-halflings-regular.eot
+112 silly gunzTarPerm extractEntry fonts/glyphicons-halflings-regular.svg
+113 silly gunzTarPerm extractEntry fonts/glyphicons-halflings-regular.ttf
+114 silly gunzTarPerm extractEntry fonts/glyphicons-halflings-regular.woff
+115 silly gunzTarPerm extractEntry fonts/glyphicons-halflings-regular.woff2
+116 silly gunzTarPerm extractEntry grunt/bs-commonjs-generator.js
+117 silly gunzTarPerm extractEntry grunt/bs-glyphicons-data-generator.js
+118 silly gunzTarPerm extractEntry grunt/bs-lessdoc-parser.js
+119 silly gunzTarPerm extractEntry grunt/bs-raw-files-generator.js
+120 silly gunzTarPerm extractEntry grunt/change-version.js
+121 silly gunzTarPerm extractEntry grunt/.jshintrc
+122 silly gunzTarPerm extractEntry grunt/configBridge.json
+123 silly gunzTarPerm extractEntry grunt/npm-shrinkwrap.json
+124 silly gunzTarPerm extractEntry grunt/sauce_browsers.yml
+125 silly gunzTarPerm extractEntry js/affix.js
+126 silly gunzTarPerm extractEntry js/button.js
+127 silly gunzTarPerm extractEntry js/carousel.js
+128 silly gunzTarPerm extractEntry js/collapse.js
+129 silly gunzTarPerm extractEntry js/dropdown.js
+130 silly gunzTarPerm extractEntry js/alert.js
+131 silly gunzTarPerm extractEntry js/popover.js
+132 silly gunzTarPerm extractEntry js/scrollspy.js
+133 silly gunzTarPerm extractEntry js/tab.js
+134 silly gunzTarPerm extractEntry js/tooltip.js
+135 silly gunzTarPerm extractEntry js/transition.js
+136 silly gunzTarPerm extractEntry js/modal.js
+137 silly gunzTarPerm extractEntry less/mixins.less
+138 silly gunzTarPerm extractEntry less/alerts.less
+139 silly gunzTarPerm extractEntry less/badges.less
+140 silly gunzTarPerm extractEntry less/bootstrap.less
+141 silly gunzTarPerm extractEntry less/breadcrumbs.less
+142 silly gunzTarPerm extractEntry less/button-groups.less
+143 silly gunzTarPerm extractEntry less/buttons.less
+144 silly gunzTarPerm extractEntry less/carousel.less
+145 silly gunzTarPerm extractEntry less/close.less
+146 silly gunzTarPerm extractEntry less/code.less
+147 silly gunzTarPerm extractEntry less/component-animations.less
+148 silly gunzTarPerm extractEntry less/dropdowns.less
+149 silly gunzTarPerm extractEntry less/forms.less
+150 silly gunzTarPerm extractEntry less/glyphicons.less
+151 silly gunzTarPerm extractEntry less/grid.less
+152 silly gunzTarPerm extractEntry less/input-groups.less
+153 silly gunzTarPerm extractEntry less/jumbotron.less
+154 silly gunzTarPerm extractEntry less/labels.less
+155 silly gunzTarPerm extractEntry less/list-group.less
+156 silly gunzTarPerm extractEntry less/media.less
+157 silly gunzTarPerm extractEntry less/mixins/nav-vertical-align.less
+158 silly gunzTarPerm extractEntry less/mixins/alerts.less
+159 silly gunzTarPerm extractEntry less/mixins/border-radius.less
+160 silly gunzTarPerm extractEntry less/mixins/buttons.less
+161 silly gunzTarPerm extractEntry less/mixins/center-block.less
+162 silly gunzTarPerm extractEntry less/mixins/clearfix.less
+163 silly gunzTarPerm extractEntry less/mixins/forms.less
+164 silly gunzTarPerm extractEntry less/mixins/gradients.less
+165 silly gunzTarPerm extractEntry less/mixins/grid-framework.less
+166 silly gunzTarPerm extractEntry less/mixins/grid.less
+167 silly gunzTarPerm extractEntry less/mixins/hide-text.less
+168 silly gunzTarPerm extractEntry less/mixins/image.less
+169 silly gunzTarPerm extractEntry less/mixins/labels.less
+170 silly gunzTarPerm extractEntry less/mixins/list-group.less
+171 silly gunzTarPerm extractEntry less/mixins/nav-divider.less
+172 silly gunzTarPerm extractEntry less/mixins/background-variant.less
+173 silly gunzTarPerm extractEntry less/mixins/opacity.less
+174 silly gunzTarPerm extractEntry less/mixins/pagination.less
+175 silly gunzTarPerm extractEntry less/mixins/panels.less
+176 silly gunzTarPerm extractEntry less/mixins/progress-bar.less
+177 silly gunzTarPerm extractEntry less/mixins/reset-filter.less
+178 silly gunzTarPerm extractEntry less/mixins/reset-text.less
+179 silly gunzTarPerm extractEntry less/mixins/resize.less
+180 silly gunzTarPerm extractEntry less/mixins/responsive-visibility.less
+181 silly gunzTarPerm extractEntry less/mixins/size.less
+182 silly gunzTarPerm extractEntry less/mixins/tab-focus.less
+183 silly gunzTarPerm extractEntry less/mixins/table-row.less
+184 silly gunzTarPerm extractEntry less/mixins/text-emphasis.less
+185 silly gunzTarPerm extractEntry less/mixins/text-overflow.less
+186 silly gunzTarPerm extractEntry less/mixins/vendor-prefixes.less
+187 silly gunzTarPerm extractEntry less/modals.less
+188 silly gunzTarPerm extractEntry less/navbar.less
+189 silly gunzTarPerm extractEntry less/navs.less
+190 silly gunzTarPerm extractEntry less/normalize.less
+191 silly gunzTarPerm extractEntry less/pager.less
+192 silly gunzTarPerm extractEntry less/pagination.less
+193 silly gunzTarPerm extractEntry less/panels.less
+194 silly gunzTarPerm extractEntry less/popovers.less
+195 silly gunzTarPerm extractEntry less/print.less
+196 silly gunzTarPerm extractEntry less/progress-bars.less
+197 silly gunzTarPerm extractEntry less/responsive-embed.less
+198 silly gunzTarPerm extractEntry less/responsive-utilities.less
+199 silly gunzTarPerm extractEntry less/scaffolding.less
+200 silly gunzTarPerm extractEntry less/tables.less
+201 silly gunzTarPerm extractEntry less/theme.less
+202 silly gunzTarPerm extractEntry less/thumbnails.less
+203 silly gunzTarPerm extractEntry less/tooltip.less
+204 silly gunzTarPerm extractEntry less/type.less
+205 silly gunzTarPerm extractEntry less/utilities.less
+206 silly gunzTarPerm extractEntry less/variables.less
+207 silly gunzTarPerm extractEntry less/wells.less
+208 verbose write writing to /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/node_modules/bootstrap/package.json
+209 info preinstall bootstrap@3.3.7
+210 verbose readDependencies loading dependencies from /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/node_modules/bootstrap/package.json
+211 verbose readDependencies loading dependencies from /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/node_modules/bootstrap/package.json
+212 silly install resolved []
+213 verbose about to build /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/node_modules/bootstrap
+214 info build /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/node_modules/bootstrap
+215 info linkStuff bootstrap@3.3.7
+216 silly linkStuff bootstrap@3.3.7 has /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/node_modules as its parent node_modules
+217 verbose linkBins bootstrap@3.3.7
+218 verbose linkMans bootstrap@3.3.7
+219 verbose rebuildBundles bootstrap@3.3.7
+220 info install bootstrap@3.3.7
+221 info postinstall bootstrap@3.3.7
+222 verbose unlock done using /Users/chiragdoctor/.npm/_locks/bootstrap-dd45a0dabb71efa1.lock for /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/node_modules/bootstrap
+223 verbose validateInstall loading /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend/package.json for validation
+224 verbose stack Error: The package webpack does not satisfy its siblings' peerDependencies requirements!
+224 verbose stack     at /usr/local/lib/node_modules/npm/lib/install.js:125:32
+224 verbose stack     at /usr/local/lib/node_modules/npm/lib/install.js:267:7
+224 verbose stack     at /usr/local/lib/node_modules/npm/node_modules/read-installed/read-installed.js:142:5
+224 verbose stack     at /usr/local/lib/node_modules/npm/node_modules/read-installed/read-installed.js:263:14
+224 verbose stack     at cb (/usr/local/lib/node_modules/npm/node_modules/slide/lib/async-map.js:47:24)
+224 verbose stack     at /usr/local/lib/node_modules/npm/node_modules/read-installed/read-installed.js:263:14
+224 verbose stack     at cb (/usr/local/lib/node_modules/npm/node_modules/slide/lib/async-map.js:47:24)
+224 verbose stack     at /usr/local/lib/node_modules/npm/node_modules/read-installed/read-installed.js:263:14
+224 verbose stack     at cb (/usr/local/lib/node_modules/npm/node_modules/slide/lib/async-map.js:47:24)
+224 verbose stack     at /usr/local/lib/node_modules/npm/node_modules/read-installed/read-installed.js:263:14
+225 verbose cwd /Users/chiragdoctor/projects/restaurant/eshopVagrant/html/frontend
+226 error Darwin 15.6.0
+227 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "install" "bootstrap" "--save"
+228 error node v4.4.5
+229 error npm  v2.12.1
+230 error code EPEERINVALID
+231 error peerinvalid The package webpack does not satisfy its siblings' peerDependencies requirements!
+231 error peerinvalid Peer sass-loader@4.1.1 wants webpack@^2 || ^2.2.0-rc.0 || ^2.1.0-beta || ^1.12.6
+231 error peerinvalid Peer babel-loader@6.2.10 wants webpack@1 || 2 || ^2.1.0-beta || ^2.2.0-rc
+231 error peerinvalid Peer webpack-dev-server@2.2.1 wants webpack@^2.2.0
+232 verbose exit [ 1, true ]

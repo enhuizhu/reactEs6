@@ -1,8 +1,8 @@
-var path = require('path');
-var webpack = require('webpack');
+import path from 'path';
+import webpack from 'webpack';
 
 module.exports = {
-  entry: './App.js',
+  entry: './index.js',
   output: { path: __dirname + '/public/', filename: 'bundle.js' },
 devServer:{
         contentBase: 'public',
