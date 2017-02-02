@@ -15,14 +15,18 @@ class Search extends React.Component {
 
 	render() {
 		return <div className="search">
-			<form className="form-inline" onSubmit={this.handleSearch.bind(this)}>
-				<div className="input-group">
-					<input type="text" className="form-control" ref="key_word"/>
-					<span className="input-group-addon" onClick={this.handleSearch.bind(this)}>
+
+            <span className="divider"></span>
+
+                <form className="" onSubmit={this.handleSearch.bind(this)}>
+                    <div className="input-group">
+                        <input type="text" className="form-control" ref="key_word"/>
+                        <span className="input-group-addon" onClick={this.handleSearch.bind(this)}>
 						Search
 					</span>
-				</div>
-			</form>
+                    </div>
+                </form>
+
 		</div>;
 	}	
 }

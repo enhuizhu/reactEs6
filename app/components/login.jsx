@@ -58,16 +58,16 @@ class Login extends FacebookCallback {
 
 		return (
 			<div className="eshop-form">
-				<FacebookBtn callback={this.facebookCallback.bind(this)}></FacebookBtn>
-				<div className="seperator">
-					<div className="line"></div>
-					<span>or</span>
-				</div>
+				{/*<FacebookBtn callback={this.facebookCallback.bind(this)}></FacebookBtn>*/}
+				{/*<div className="seperator">*/}
+					{/*<div className="line"></div>*/}
+					{/*<span>or</span>*/}
+				{/*</div>*/}
 				<div>
 					{errors}
 					<form onSubmit={this.handleSubmit.bind(this)}>
 						<div className="form-group">
-							<input type="text" className="form-control" name="username" placeholder="" ref="username" placeholder="username or email" required/>
+							<input type="text" className="form-control" name="username" ref="username" placeholder="username or email" required/>
 						</div>
 						<div className="form-group">
 							<input type="password" className="form-control" name="password" ref="password" placeholder="password" required/>
@@ -87,7 +87,8 @@ Login.contextTypes = {
 };
 
 Login.propTypes = {
-
+	// username: React.PropTypes.string.isRequired
+	// username: React.PropTypes.string.isRequired
 };
 
 Login.defaultProps = {

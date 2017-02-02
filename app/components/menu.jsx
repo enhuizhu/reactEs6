@@ -32,7 +32,7 @@ class Menu extends React.Component {
 
 	render() {
 		return (
-			<div className="nav">
+			<div className="nav navbar-nav navbar-left">
 				{this.getChildrenMenu(this.props.data)}
 			</div>
 		);

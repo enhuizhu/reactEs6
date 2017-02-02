@@ -1,13 +1,15 @@
 import React from 'react';
 import Menu from './menu.jsx';
 import Search from './Search.jsx';
+import Login from './login.jsx';
 import menuStore from '../stores/menuStore';
 import shopStore from '../stores/shopStore';
 import menuAction from '../actions/menuAction';
 import productAction from '../actions/productAction';
-import {Link} from 'react-router';
+import { Link, IndexLink } from 'react-router';
 import userStore from '../stores/userStore';
 import userAction from '../actions/userAction';
+import '../../public/styles/header.scss';
 
 class PageHeader extends React.Component {
 	constructor(props) {
@@ -71,11 +73,11 @@ class PageHeader extends React.Component {
 				<a href="javascript:void(0)" onClick={this.handleLogout.bind(this)}>Logout</a>
 			);
 		}else{
-			userStates = (						
-				<span>
-					<Link to="/login">Login</Link>&nbsp;
-					<Link to="/register">Sign up</Link>
-				</span>
+			userStates = (
+				<ul>
+					<li> <Link to="/login" activeClassName="active">Login</Link></li>
+					<li><Link to="/register" activeClassName="active">Sign up</Link></li>
+				</ul>
 			);
 		}
 
@@ -83,22 +85,35 @@ class PageHeader extends React.Component {
 		
 		if (this.state.shopInfo.logo) {
 			let logoPath = '/cms/uploads/' + this.state.shopInfo.logo;
-			infoDom = <img src={logoPath}/>;
+			infoDom = <img src={logoPath} />;
 		}else{
 			infoDom = <span>{this.state.shopInfo.shopName}</span>;
 		}
 		return (
-			<header>
-				<h4>
-					{infoDom}
-					<span className="pull-right">
-						{userStates}
-					</span>
-				</h4>
-				<div className="clearfix"></div>
-				<Search searchCallback={this.searchCallback.bind(this)}></Search>
-				<Menu data={this.state.menus}></Menu>
-			</header>
+			<div className="container-fluid">
+				<nav className="navbar navbar-default navbar-inverse" role="navigation">
+					<div className="container-fluid">
+						<div className="navbar-header">
+							<a className="navbar-brand" href="/">{infoDom}</a>
+						</div>
+						<div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                                        <Menu data={this.state.menus}></Menu>
+							<div className="nav navbar-nav navbar-right">
+								<ul>
+									<li><Link to="/login" activeClassName="active"><b>Login</b> </Link></li>
+									<li>New here ? <Link to="/register" activeClassName="active"><b>Join Us</b></Link></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</nav>
+				<div className="container">
+					<div className="form-group">
+						<Search searchCallback={this.searchCallback.bind(this)}></Search>
+					</div>
+				</div>
+
+			</div>
 		);
 	}
 }

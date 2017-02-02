@@ -1,5 +1,5 @@
-import path from 'path';
-import webpack from 'webpack';
+var path = require('path');
+// import webpack from 'webpack';
 
 module.exports = {
   entry: './index.js',
