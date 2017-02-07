@@ -74,7 +74,7 @@ class PageHeader extends React.Component {
 			);
 		}else{
 			userStates = (
-				<ul>
+				<ul className="nav navbar-nav navbar-right">
 					<li> <Link to="/login" activeClassName="active">Login</Link></li>
 					<li><Link to="/register" activeClassName="active">Sign up</Link></li>
 				</ul>
@@ -90,30 +90,22 @@ class PageHeader extends React.Component {
 			infoDom = <span>{this.state.shopInfo.shopName}</span>;
 		}
 		return (
-			<div className="container-fluid">
-				<nav className="navbar navbar-default navbar-inverse" role="navigation">
-					<div className="container-fluid">
+				<nav className="navbar navbar-default navbar-fixed-top" role="navigation">
+					<div className="container">
 						<div className="navbar-header">
-							<a className="navbar-brand" href="/">{infoDom}</a>
-						</div>
-						<div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                                        <Menu data={this.state.menus}></Menu>
-							<div className="nav navbar-nav navbar-right">
-								<ul>
-									<li><Link to="/login" activeClassName="active"><b>Login</b> </Link></li>
-									<li>New here ? <Link to="/register" activeClassName="active"><b>Join Us</b></Link></li>
-								</ul>
+							<button type="button" data-target="#navbarCollapse" data-toggle="collapse" className="navbar-toggle" aria-expanded="true">
+								<span className="sr-only">Toggle navigation</span>
+								<span className="glyphicon glyphicon-user"></span>
+							</button>
+								<a className="navbar-brand" href="/">{infoDom}</a>
 							</div>
-						</div>
+
+							<div id="navbarCollapse" className="navbar-collapse collapse in" aria-expanded="true">
+									{userStates}
+							</div>
+
 					</div>
 				</nav>
-				<div className="container">
-					<div className="form-group">
-						<Search searchCallback={this.searchCallback.bind(this)}></Search>
-					</div>
-				</div>
-
-			</div>
 		);
 	}
 }
