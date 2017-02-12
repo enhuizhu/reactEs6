@@ -1,6 +1,4 @@
 import React from 'react';
-import Menu from './menu.jsx';
-import Search from './Search.jsx';
 import Login from './login.jsx';
 import menuStore from '../stores/menuStore';
 import shopStore from '../stores/shopStore';
@@ -10,6 +8,9 @@ import { Link, IndexLink } from 'react-router';
 import userStore from '../stores/userStore';
 import userAction from '../actions/userAction';
 import '../../public/styles/header.scss';
+import basketStore from '../stores/basketStore';
+import Menu from '../components/menu.jsx';
+
 
 class PageHeader extends React.Component {
 	constructor(props) {
@@ -18,11 +19,19 @@ class PageHeader extends React.Component {
 		this.state = {
 			menus: menuStore.getMenus(),
 			isLogin: userStore.isLogin(),
-			shopInfo: {}
+			shopInfo: {},
+            total: basketStore.getTotal(),
 		};
 	}
 
-	componentWillReceiveProps(nextProps, nextState) {
+    onBasketChange() {
+        this.setState({
+            total: basketStore.getTotal(),
+            totalQuantity: basketStore.getTotalQuantity()
+        });
+    }
+
+    componentWillReceiveProps(nextProps, nextState) {
 		if (nextProps.activeUrl != this.props.activeUrl) {
 			menuAction.setActiveUrl(nextProps.activeUrl);
 		}
@@ -30,19 +39,24 @@ class PageHeader extends React.Component {
 
 	componentDidMount() {
         shopStore.getShopInfo();
+        shopStore.getCurrency((currency) => {
+            this.setState({currency: currency});
+        });
 		shopStore.registerShopInfoChange(this.onShopInfoChange.bind(this));
 		menuAction.setMenus(this.props.activeUrl);
 		menuStore.addChagneListener(this.onMenuChange.bind(this));
 		userStore.registerUserLogin(this.onUserStateChange.bind(this));
 		userStore.registerUserLogout(this.onUserStateChange.bind(this));
-	}
+        basketStore.addChagneListener(this.onBasketChange.bind(this));
+    }
 
 	componentWillUnmount() {
 		menuStore.removeChangeListener(this.onMenuChange);
 		userStore.removeUserLoginListener(this.onUserStateChange);
 		userStore.removeUserLogoutListener(this.onUserStateChange);
 		shopStore.removeShopInfoListener(this.onShopInfoChange);
-	}
+        basketStore.removeChangeListener(this.onBasketChange);
+    }
 
 	onShopInfoChange(shopInfo) {
 		console.log('page header shopInfo change');
@@ -61,11 +75,12 @@ class PageHeader extends React.Component {
 		userAction.userLogout();
 	}
 
-	searchCallback(keyword) {
-		productAction.searchProducts(keyword);
-	}
+    displayBasket() {
+        jQuery('#basket').modal('show');
+    }
 
-	render() {
+
+    render() {
 		let userStates = null;
 
 		if (this.state.isLogin) {
@@ -77,6 +92,11 @@ class PageHeader extends React.Component {
 				<ul className="nav navbar-nav navbar-right">
 					<li> <Link to="/login" activeClassName="active">Login</Link></li>
 					<li><Link to="/register" activeClassName="active">Sign up</Link></li>
+                    <li>
+                        <div className="btn-success glyphicon glyphicon-shopping-cart square-btn"
+                             onClick={this.displayBasket.bind(this)}> {this.state.currency}{this.state.total}
+                        </div>
+                    </li>
 				</ul>
 			);
 		}
@@ -99,8 +119,8 @@ class PageHeader extends React.Component {
 							</button>
 								<a className="navbar-brand" href="/">{infoDom}</a>
 							</div>
-
 							<div id="navbarCollapse" className="navbar-collapse collapse in" aria-expanded="true">
+									<Menu data={this.state.menus}></Menu>
 									{userStates}
 							</div>
 

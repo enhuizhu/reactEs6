@@ -10,6 +10,7 @@ import productAction from '../actions/productAction';
 import ProductThumbnail from '../components/productThumbnail.jsx';
 import Modal from '../components/modal.jsx';
 import Basket from '../components/basket.jsx';
+import Search from './Search.jsx';
 
 class Products extends React.Component {
 	constructor(props) {
@@ -84,9 +85,14 @@ class Products extends React.Component {
 		jQuery('#basket').modal('show');
 	}
 
-	render() {
+    searchCallback(keyword) {
+        productAction.searchProducts(keyword);
+    }
+
+
+    render() {
 		let items = this.state.products.map((v, i) => {
-			return (<div className="col-xs-6 col-sm-3 col-md-2" key={i}>
+			return (<div className="col-xs-12 col-sm-6 col-md-3" key={i}>
 					<ProductThumbnail product={v} callback={()=> {this.addProduct(v)}}></ProductThumbnail>
 			</div>);
 		})
@@ -97,7 +103,11 @@ class Products extends React.Component {
 		
 		return (<div>
 			<div>
-					<div className="col-xs-6 col-sm-3 col-md-2">
+				<div className="col-xs-12 col-sm-12 col-md-12">
+					<Search searchCallback={this.searchCallback.bind(this)}></Search>
+				</div>
+
+				<div className="col-xs-12 col-sm-12 col-md-4">
 						<div className="center-block title">{this.state.title}</div>
 					</div>
 					<div className="col-xs-6 col-sm-3 col-md-2">
@@ -121,11 +131,11 @@ class Products extends React.Component {
 					{loadmoreBtn}
 				</div>
 
-				<div className="fix-footer">
-					<div className="bg-primary center-block square-btn" onClick={this.displayBasket.bind(this)}>
-						Total {this.state.currency}{this.state.total} ({this.state.totalQuantity})
-					</div>
-				</div>
+				{/*<div className="fix-footer">*/}
+					{/*<div className="bg-primary center-block square-btn" onClick={this.displayBasket.bind(this)}>*/}
+						{/*Total {this.state.currency}{this.state.total} ({this.state.totalQuantity})*/}
+					{/*</div>*/}
+				{/*</div>*/}
 
 				<Modal modalId="basket" title="Basket">
 				   <Basket currency={this.state.currency}></Basket>

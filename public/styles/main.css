@@ -46,7 +46,9 @@
   border-radius: 4px;
   color: white;
   display: block;
-  border: none; }
+  border: none;
+  width: 50px;
+}
 
 .facebook-bg {
   background-color: #3651a0; }

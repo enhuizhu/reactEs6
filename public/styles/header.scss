@@ -1,7 +1,11 @@
-body{
-  //background:url('http://www.wallpaperup.com/uploads/wallpapers/2012/10/21/20181/cad2441dd3252cf53f12154412286ba0.jpg');
-  padding:50px;
-}
+$line-color: #dddddd;
+$text-color: #5b5e61;
+$container-bg-color: #ffffff;
+$dark-line-color: #cac6c6;
+$header-bg: rgb(248, 248, 248);
+$active-color: rgb(26, 161, 184);
+$facebook-bg: #3651a0;
+$container-width: 135px;
 
 #login-dp{
   min-width: 250px;
@@ -64,6 +68,14 @@ body{
       padding-right: 0;
       padding-left: 0;
     }
+  }
+
+  .nav-background {
+   background-color: #13729e;
+  }
+
+  .capitalize {
+    text-transform: capitalize;
   }
 
   .navbar-toggle {

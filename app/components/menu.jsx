@@ -11,7 +11,9 @@ class Menu extends React.Component {
 
 	getChildrenMenu(data) {
 		var that = this;		
-		
+
+		console.log('meunu data', data);
+
 		var lis = data.map(function(d, k) {
 			if (d.children && d.children.length > 0) {
 				return (<li key={d.url}>
@@ -24,15 +26,15 @@ class Menu extends React.Component {
 				(<Link to={d.href} className="active">{d.title}</Link>) :
 				(<Link to={d.href}>{d.title}</Link>)
 
-			return <li key={k}>{link}</li>;
+			return <li key={k}> {link} </li>;
 		});
 
-		return (<ul>{lis}</ul>);
+		return (<ul className="nav navbar-nav">{lis}</ul>);
 	}
 
 	render() {
 		return (
-			<div className="nav navbar-nav navbar-left">
+			<div>
 				{this.getChildrenMenu(this.props.data)}
 			</div>
 		);
