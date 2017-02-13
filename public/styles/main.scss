@@ -91,16 +91,30 @@ header {
 
 .search {
 	padding-top: 20px;
-	.input-group-addon {
-		background-color: #286090;
-		color: white;
-		height: 100%;
-		position: relative;
-
+	.input-group {
+		display: block !important;
 	}
 
+	.input-group-addon {
+		width:25%;
+		display: inline-block;
+		background-color: #286090;
+		color: #ffffff;
+		height: 44px;
+		font-size: 16px;
+		line-height: 19px;
+		border-radius: 3px;
+		border-left: 0px;
+	}
 	.search-input {
-		border-radius: 0;
+		width: 75%;
+		height: 44px;
+		outline: none;
+		font-size: 16px;
+		border-radius: 3px;
+		line-height: 19px;
+		padding: 8px 165px 8px 30px;
+		border-right: 0px;
 	}
 
 	@media (min-width: 768px) {

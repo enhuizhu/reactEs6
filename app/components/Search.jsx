@@ -19,10 +19,10 @@ class Search extends React.Component {
             <span className="divider "></span>
 			<form className="" onSubmit={this.handleSearch.bind(this)}>
 				<div className="input-group">
-					<input type="text" className="form-control search-input" ref="key_word"/>
-					<span className="input-group-addon" onClick={this.handleSearch.bind(this)}>
+					<input type="text" className="form-control search-input" ref="key_word" placeholder="Enter Item"/>
+					<button className="btn btn-primary input-group-addon" onClick={this.handleSearch.bind(this)}>
 					Search
-				</span>
+					</button>
 				</div>
 			</form>
 
