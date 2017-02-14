@@ -92,7 +92,7 @@ class Products extends React.Component {
 
     render() {
 		let items = this.state.products.map((v, i) => {
-			return (<div className="col-xs-12 col-sm-6 col-md-3" key={i}>
+			return (<div className="col-xs-12 col-sm-6 col-md-4" key={i}>
 					<ProductThumbnail product={v} callback={()=> {this.addProduct(v)}}></ProductThumbnail>
 			</div>);
 		})

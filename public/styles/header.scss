@@ -47,14 +47,14 @@ $container-width: 135px;
   color: #fff;
   background-color:#59b5fa;
 }
-@media(max-width:768px){
-  #login-dp{
+@media(max-width:768px) {
+  #login-dp {
     background-color: inherit;
     color: #fff;
   }
-  #login-dp .bottom{
+  #login-dp .bottom {
     background-color: inherit;
-    border-top:0 none;
+    border-top: 0 none;
   }
 
   @media (min-width: 768px) {
@@ -71,7 +71,7 @@ $container-width: 135px;
   }
 
   .nav-background {
-   background-color: #13729e;
+    background-color: #13729e;
   }
 
   .capitalize {
