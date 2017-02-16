@@ -114,9 +114,9 @@ class Products extends React.Component {
 		return (<div>
 			<div>
 
-				<div className="col-xs-12 col-sm-12 col-md-12">
-					<Menu data={this.state.menus}></Menu>
-				</div>
+				{/*<div className="col-xs-12 col-sm-12 col-md-12">*/}
+					{/*<Menu data={this.state.menus}></Menu>*/}
+				{/*</div>*/}
 
 				<div className="col-xs-12 col-sm-12 col-md-12">
 					<Search searchCallback={this.searchCallback.bind(this)}></Search>

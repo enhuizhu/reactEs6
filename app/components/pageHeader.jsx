@@ -1,12 +1,14 @@
 import React from 'react';
-import menuStore from '../stores/menuStore';
+
 import shopStore from '../stores/shopStore';
-import menuAction from '../actions/menuAction';
+
 import { Link, IndexLink } from 'react-router';
 import userStore from '../stores/userStore';
 import userAction from '../actions/userAction';
 import '../../public/styles/header.scss';
-import basketStore from '../stores/basketStore';
+import Menu from '../components/menu.jsx';
+import menuStore from '../stores/menuStore';
+import menuAction from '../actions/menuAction';
 
 
 
@@ -100,6 +102,10 @@ class PageHeader extends React.Component {
 						</div>
 						<div id="navbarCollapse" className="navbar-collapse collapse" aria-expanded="true">
 								{userStates}
+						</div>
+
+						<div className="container">
+							<Menu data={this.state.menus}></Menu>
 						</div>
 
 

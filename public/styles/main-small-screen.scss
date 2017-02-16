@@ -25,6 +25,7 @@ $image-height: 150px;
 
     .nav {
       li {
+        border-bottom: 1px solid #E7E7E7;
         a.account-link {
           text-align: center;
           color: #006491;
@@ -33,9 +34,30 @@ $image-height: 150px;
           font-weight: 400;
         }
 
+        a:hover.account-link {
+          background-color: #e31837;
+        }
+
         a.account-link-underline {
           text-decoration: underline;
         }
+
+        ul {
+          li {
+            a {
+              display: block;
+              color: white;
+              text-align: center;
+              padding: 16px;
+              text-decoration: none;
+            }
+
+            a:hover {
+              background-color: #e31837;
+            }
+          }
+        }
+
       }
     }
 
@@ -99,22 +121,38 @@ $image-height: 150px;
 
   }
 
-  li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 16px;
-    text-decoration: none;
-  }
+  ul {
+    li {
+      a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 16px;
+        text-decoration: none;
+      }
 
-  li a:hover {
-    background-color: #e31837;
+      a:hover {
+        background-color: #e31837;
+      }
+    }
+
   }
+  ////li a {
+  ////  display: block;
+  ////  color: white;
+  ////  text-align: center;
+  ////  padding: 16px;
+  ////  text-decoration: none;
+  ////}
+  ////
+  ////li a:hover {
+  ////  background-color: #e31837;
+  ////}
 
 
 
   .search {
-    padding-top: 20px;
+    padding-top: 430px;
     .input-group {
       display: block !important;
     }
