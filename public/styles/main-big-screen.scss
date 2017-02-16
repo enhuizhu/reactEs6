@@ -12,64 +12,62 @@ $image-height: 120px;
 
 @media (min-width: 767px) {
 
-  .menu-categories {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #ffffff;
-    color: #333333;
-    text-align: center;
-    width:  100%;
-    display: table;
-    border-top-width: 0;
-    table-layout: fixed;
+  .sub-nav {
+    padding-top:  15px;
+    .menu-categories {
+      background-color: #ffffff;
+      color: #333333;
+      text-align: center;
+      width:  100%;
+      display: table;
+      table-layout: fixed;
+      border: 1px solid #ebebf0;
 
-    li {
-      width: 25%;
-      border-color: rgba(255,255,255,.2);
-      a {
-        color: #337ab7;;
-      }
-      a:hover {
-        background-color: #e31837;
-        color: #ffffff;
-      }
-    }
-  }
+      li {
+        float: left;
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        width: 25%;
+        height: 50px;
+        border-color: rgba(255,255,255,.2);
+        text-align: center;
 
-  .menu-section {
-    float: left;
-    width:  65%;
-    background-color: #333333;
-    text-align: center;
-    height: 52px;
-    padding-top: 15px;
-    color: #FFFFFF;
-
-    li {
-      a:hover {
-        background-color: #e31837;
-        color: #ffffff;
+        a {
+          color: #337ab7;;
+        }
+        a:hover {
+          background-color: #e31837;
+          color: #ffffff;
+        }
       }
     }
-  }
 
-  .menu-actions {
-    font-size: 16px;
-    font-weight: bold;
-  }
+    .menu-section {
+      float: left;
+      width:  65%;
+      background-color: #333333;
+      text-align: center;
+      height: 52px;
+      padding-top: 15px;
+      color: #FFFFFF;
+    }
 
-  .categories-select {
-    display: none;
-  }
+    .menu-actions {
+      font-size: 16px;
+      font-weight: bold;
+    }
 
-  .basket-section {
-    float: right;
-    width:35%;
-    background-color: #0076ab;
-    font-size: 16px;
-    font-weight: bold;
+
+    .basket-section {
+      float: right;
+      width:35%;
+      background-color: #0076ab;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
   }
 
   li a {
@@ -118,7 +116,7 @@ $image-height: 120px;
   **/
   .product-thumbnail {
     width: $container-width;
-    margin-bottom: 20px;
+    margin-bottom: 50px;
     position: relative;
 
     .product-img {

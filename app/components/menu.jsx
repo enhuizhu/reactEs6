@@ -51,20 +51,17 @@ class Menu extends React.Component {
 			return <li key={k}> {link} </li>;
 		});
 
-		return (<div>
+		return (<div className="sub-nav">
 					<div className="menu-section">
 						<div className="menu-actions"> MENU </div>
-						<select name="categories" className="categories-select">
-
-						</select>
 					</div>
 					<div className="basket-section">
 						<div className="btn-success glyphicon glyphicon-shopping-cart square-btn basket"
 							 onClick={this.displayBasket.bind(this)}> {this.state.currency}{this.state.total}
 						</div>
 					</div>
-					<div>
-						<ul className="nav navbar-nav menu-categories">{lis}</ul>
+					<div className="menu-categories">
+						<ul>{lis}</ul>
 					</div>
 				</div>);
 	}
