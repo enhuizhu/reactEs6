@@ -1,13 +1,16 @@
 import React from 'react';
-import Menu from './menu.jsx';
-import Search from './Search.jsx';
-import menuStore from '../stores/menuStore';
+
 import shopStore from '../stores/shopStore';
-import menuAction from '../actions/menuAction';
-import productAction from '../actions/productAction';
-import {Link} from 'react-router';
+
+import { Link, IndexLink } from 'react-router';
 import userStore from '../stores/userStore';
 import userAction from '../actions/userAction';
+import '../../public/styles/header.scss';
+import Menu from '../components/menu.jsx';
+import menuStore from '../stores/menuStore';
+import menuAction from '../actions/menuAction';
+
+
 
 class PageHeader extends React.Component {
 	constructor(props) {
@@ -20,7 +23,7 @@ class PageHeader extends React.Component {
 		};
 	}
 
-	componentWillReceiveProps(nextProps, nextState) {
+    componentWillReceiveProps(nextProps, nextState) {
 		if (nextProps.activeUrl != this.props.activeUrl) {
 			menuAction.setActiveUrl(nextProps.activeUrl);
 		}
@@ -28,19 +31,22 @@ class PageHeader extends React.Component {
 
 	componentDidMount() {
         shopStore.getShopInfo();
+        shopStore.getCurrency((currency) => {
+            this.setState({currency: currency});
+        });
 		shopStore.registerShopInfoChange(this.onShopInfoChange.bind(this));
 		menuAction.setMenus(this.props.activeUrl);
 		menuStore.addChagneListener(this.onMenuChange.bind(this));
 		userStore.registerUserLogin(this.onUserStateChange.bind(this));
 		userStore.registerUserLogout(this.onUserStateChange.bind(this));
-	}
+    }
 
 	componentWillUnmount() {
 		menuStore.removeChangeListener(this.onMenuChange);
 		userStore.removeUserLoginListener(this.onUserStateChange);
 		userStore.removeUserLogoutListener(this.onUserStateChange);
 		shopStore.removeShopInfoListener(this.onShopInfoChange);
-	}
+    }
 
 	onShopInfoChange(shopInfo) {
 		console.log('page header shopInfo change');
@@ -59,11 +65,7 @@ class PageHeader extends React.Component {
 		userAction.userLogout();
 	}
 
-	searchCallback(keyword) {
-		productAction.searchProducts(keyword);
-	}
-
-	render() {
+    render() {
 		let userStates = null;
 
 		if (this.state.isLogin) {
@@ -71,11 +73,11 @@ class PageHeader extends React.Component {
 				<a href="javascript:void(0)" onClick={this.handleLogout.bind(this)}>Logout</a>
 			);
 		}else{
-			userStates = (						
-				<span>
-					<Link to="/login">Login</Link>&nbsp;
-					<Link to="/register">Sign up</Link>
-				</span>
+			userStates = (
+				<ul className="nav navbar-nav navbar-right">
+					<li> <Link to="/login" activeClassName="active" className="account-link">Login</Link></li>
+					<li><Link to="/register" activeClassName="active" className="account-link">Sign up</Link></li>
+				</ul>
 			);
 		}
 
@@ -83,22 +85,32 @@ class PageHeader extends React.Component {
 		
 		if (this.state.shopInfo.logo) {
 			let logoPath = '/cms/uploads/' + this.state.shopInfo.logo;
-			infoDom = <img src={logoPath}/>;
+			infoDom = <img src={logoPath} />;
 		}else{
 			infoDom = <span>{this.state.shopInfo.shopName}</span>;
 		}
 		return (
-			<header>
-				<h4>
-					{infoDom}
-					<span className="pull-right">
-						{userStates}
-					</span>
-				</h4>
-				<div className="clearfix"></div>
-				<Search searchCallback={this.searchCallback.bind(this)}></Search>
-				<Menu data={this.state.menus}></Menu>
-			</header>
+				<nav className="navbar navbar-default navbar-fixed-top" role="navigation">
+					<div className="container">
+						<div className="navbar-header">
+							<button type="button" data-target="#navbarCollapse" data-toggle="collapse"
+									className="navbar-toggle" aria-expanded="true">
+								<span className="sr-only">Toggle navigation</span>
+								<span className="glyphicon glyphicon-user"></span>
+							</button>
+								<a className="navbar-brand" href="/">{infoDom}</a>
+						</div>
+						<div id="navbarCollapse" className="navbar-collapse collapse" aria-expanded="true">
+								{userStates}
+						</div>
+
+						<div className="container">
+							<Menu data={this.state.menus}></Menu>
+						</div>
+
+
+					</div>
+				</nav>
 		);
 	}
 }

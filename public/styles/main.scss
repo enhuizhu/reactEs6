@@ -1,6 +1,8 @@
 @import "functions.scss";
 @import "mixin.scss";
 @import "animations.scss";
+@import "main-small-screen";
+@import "main-big-screen";
 
 /* main sass file */
 $line-color: #dddddd;
@@ -10,18 +12,20 @@ $dark-line-color: #cac6c6;
 $header-bg: rgb(248, 248, 248);
 $active-color: rgb(26, 161, 184);
 $facebook-bg: #3651a0;
-$container-width: 135px;
+$container-width: 230px;
+$container-height: 230px;
 
 /**
 * common css
 **/
 .square-btn {
-	padding: 10px;
+	padding: 18px;
 	text-align: center;
-	border-radius: 4px;
 	color: white;
 	display: block;
 	border: none;
+	width:	100%;
+	position: initial;
 }
 
 .facebook-bg {
@@ -32,10 +36,10 @@ $container-width: 135px;
 	font-size: 12px;
 }
 
-.nav-link {
-	padding: 10px;
-	display: inline-block;
-}
+//.nav-link {
+//	padding: 10px;
+//	display: inline-block;
+//}
 
 .load-more{
 	margin-left: auto;
@@ -47,14 +51,18 @@ $container-width: 135px;
 body {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   color: $text-color;
+	padding:50px;
 }
 
 section {
   &.main-section {
 	.title {
 		width: $container-width;
-		margin-bottom: 15px;
-		margin-top: 15px;
+		margin-bottom: 20px;
+		margin-top: 20px;
+		text-transform: capitalize;
+		font-size: 20px;
+		font-style: italic;
 	}
   }
 }
@@ -81,277 +89,4 @@ header {
 	  font-style: normal;
 	}
   }
-
-  .search {
-  	.input-group-addon {
-  	  background-color: #286090;
-  	  color: white;
-  	}
-
-  	@media (min-width: 768px) {
-	   .form-inline {
-	   	 text-align: center;
-
-	   	 .input-group {
-	   	   .form-control {
-	   	   	 min-width: 500px;
-	   	   }
-	   	 }
-	   }
-  	}
-  }
-}
-
-
-.nav {
-	margin-top: 15px;
-	overflow: auto;
-	-webkit-overflow-scrolling: touch;
-
-	ul {
-	  list-style: none;
-	  margin-left: -35px;
-	  white-space: nowrap;
-	  margin-bottom: 5px;
-
-	  li {
-	  	display: inline-block;
-	  	margin-right: 16px;
-
-	  	a {
-	  		padding-bottom: 5px;
-	  		color: $text-color;  	  		
-	  		
-	  		&:focus, &.active, &:hover {
-	  			text-decoration: none;
-	  		}
-
-	  		&.active, &:hover {
-	  			border-bottom: solid 2px $active-color;
-	  		}
-	  	}
-	  }
-	}
-}
-
-/**
-* css for productThumail
-**/
-.product-thumbnail {
-	width: $container-width;
-	margin-bottom: 20px;
-	position: relative;
-	
-	.product-img {
-		width: $container-width;
-		height: $container-width;
-	}
-
-	.product-description {
-		text-align: center;
-		padding-top: 2px;
-		padding-bottom: 4px;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-		width: $container-width;
-		overflow: hidden;
-	}
-
-	.product-action {
-		font-size: 15px;
-
-		.price {
-			float: left;
-		    padding-top: 6px;
-    		font-size: 16px;
-		}
-
-		.actions {
-			float: right;
-
-			.basket {
-				margin-right: 5px;
-			}
-		}
-	}
-
-	.plus-sign {
-		position: absolute;
-		right: 30px;
-	    bottom: 46px;
-	    font-size: 20px;
-	    font-weight: bold;
-	    opacity: 0;
-	}
-	
-	.plus-fade-out {
-		@include animation("1s fadeout ease-in")
-	}
-}
-
-
-.footer {
-    margin-top: 10px;
-    margin-bottom: 82px;
-    width: 100%;
-    height: 60px;
-    background-color: $header-bg;
-    
-    .text-muted {
-    	margin: 20px 0 20px 0;
-    	text-align: center;
-    }
-}
-
-.fix-footer {
-	position: fixed;
-	background-color: white;
-	bottom: 0px;
-	width: 100%;
-	padding: 20px;
-	border-top: solid 1px $line-color;
-	border-bottom: solid 1px $line-color;
-	box-sizing: border-box;
-}
-
-.basket {
-	.sections-container {
-		margin-top: 15px;
-	}
-
-	[class^="col-"]{
-		padding-left: 0px;
-		
-		label {
-			margin-left: 5px;
-			vertical-align: middle;
-		}
-
-		.small-text {
-			margin-left: 17px;
-		}
-	}
-	
-	.section {
-		padding: 10px;
-		border: solid 1px $line-color;
-
-		&.no-bottom-border {
-			border-bottom: none;
-		}
-		
-		.item-container {			
-			&:not(:last-child) {
-				margin-bottom: 8px;
-			}
-
-			button {
-				padding: 5px;
-				border: solid 1px $dark-line-color;
-				width: 25px;
-				height: 25px;
-				background-color: white;
-				margin-right: 7px;
-				position: relative;
-				top: -2px;
-
-				.glyphicon {
-					position: relative;
-					font-size: 11px;
-					top: -2px;
-				}
-			}
-
-			.item-title {
-				strong {
-					font-size: 12px;
-				}
-			}
-		}
-
-		.summary-container {
-			font-weight: 200;
-
-			&.large-text {
-				margin-top: 20px;
-				font-size: 17px;
-			}
-		}
-
-		.title {
-			font-size: 15px;
-			font-weight: bold;
-			margin-bottom: 7px;
-			width: auto;
-		}
-	}
-}
-
-.eshop-form {
-	padding: 20px;
-
-	.facebook {
-		
-	}
-
-	input[type='submit'], input[type='button'], button{
-		width: 100%;
-	}
-
-	.seperator {
-		margin-top: 10px;
-		margin-bottom: 10px;
-		text-align: center;
-		
-		span {
-			min-width: 100px;
-			text-align: center;
-			display: inline-block;
-			position: relative;
-			z-index: 100;
-			background-color: white;
-		}
-
-		.line {
-			content: "";
-			display: block;
-			width: 100%;
-			background-color: $line-color;
-			height: 1px;
-			position: relative;
-			top: 11px;
-			z-index: 1;
-		}
-	}
-}
-
-.loader {
-	$squareWidth: 120px;
-	position: fixed;
-	left: 0px;
-	top: 0px;
-	width: 100%;
-	height: 100%;
-	z-index: 1000;
-	background:rgba(99, 99, 99, 0.7);
-
-	.square {
-		width: $squareWidth;
-		height: $squareWidth;
-		border-radius: 8px;
-		color: white;
-		position: absolute;
-		left: calc(50% - #{$squareWidth/2});
-		top: calc(50% - #{$squareWidth/2});
-		
-		@include linear-gradient(to bottom, rgb(86, 86, 86) 0%, rgb(0, 0, 0) 100%);
-
-		&:before {
-			content: "loading ...";
-		    position: relative;
-		    top: 47px;
-		    left: 24px;
-		    font-size: 18px;
-		}
-	}
 }

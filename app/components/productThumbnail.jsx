@@ -24,23 +24,27 @@ class ProductThumbnail extends React.Component {
 		return (
 			<div className="product-thumbnail center-block">
 				<div>
-					<img src={this.props.product.img} className="product-img img-thumbnail"/>
+					<div>
+						<img src={this.props.product.img} className="product-img"/>
+					</div>
+
+					<div className="product-description">
+						{this.props.product.description}
+					</div>
 				</div>
-				<div className="product-description">
-					{this.props.product.name}
+
+				<div className="product-name">
+					<span className="capitalize"> {this.props.product.name} ({productsStore.getCurrencySymbol(this.props.product.currency)}{this.props.product.price} ) </span>
 				</div>
 				<div className="product-action">
-					<span className="price text-primary">{productsStore.getCurrencySymbol(this.props.product.currency)}{this.props.product.price}</span>
-					<span className="actions">
-						<button className="btn btn-primary" onClick={this.btnClickHandler.bind(this)}>
-							<span className="basket glyphicon glyphicon-shopping-cart"></span>
-							Buy
+					<div className="actions">
+						<button className="btn btn-success add-to-basket" onClick={this.btnClickHandler.bind(this)}>
+							ADD TO BASKET
 						</button>
-						
-					</span>
+					</div>
 					<span className="clearfix"></span>
 				</div>
-				<div className="plus-sign text-primary" ref="plusSign">
+				<div className="plus-sign text-success" ref="plusSign">
 					+1
 				</div>
 			</div>
