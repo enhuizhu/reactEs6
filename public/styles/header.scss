@@ -64,10 +64,10 @@ $container-width: 135px;
   }
 
   @media (min-width: 768px) {
-    .navbar-collapse, .navbar-fixed-top .navbar-collapse {
-      padding-right: 0;
-      padding-left: 0;
-    }
+  //  .navbar-collapse, .navbar-fixed-top .navbar-collapse {
+  //    padding-right: 0;
+  //    padding-left: 0;
+  //  }
   }
 
   .nav-background {

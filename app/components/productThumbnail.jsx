@@ -34,12 +34,9 @@ class ProductThumbnail extends React.Component {
 				</div>
 
 				<div className="product-name">
-					<span className="capitalize"> {this.props.product.name} </span>
+					<span className="capitalize"> {this.props.product.name} ({productsStore.getCurrencySymbol(this.props.product.currency)}{this.props.product.price} ) </span>
 				</div>
 				<div className="product-action">
-					<div className="price text-primary">
-						{productsStore.getCurrencySymbol(this.props.product.currency)}{this.props.product.price}
-					</div>
 					<div className="actions">
 						<button className="btn btn-success add-to-basket" onClick={this.btnClickHandler.bind(this)}>
 							ADD TO BASKET

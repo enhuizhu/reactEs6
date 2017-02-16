@@ -11,13 +11,17 @@ $header-bg: rgb(248, 248, 248);
 $active-color: rgb(26, 161, 184);
 $facebook-bg: #3651a0;
 $container-width: 100%;
-$container-height: 230px;
+$container-height: 100%;
 $image-width: 150px;
 $image-height: 150px;
 
 
 @media (max-width: 767px) {
 
+
+    body {
+      padding:  0 !important;
+    }
 
     .nav {
       li {
@@ -37,7 +41,7 @@ $image-height: 150px;
 
 
   .sub-nav {
-    padding-top:  15px;
+    padding-top:  70px;
     .menu-categories {
       background-color: #ffffff;
       color: #333333;
@@ -47,14 +51,15 @@ $image-height: 150px;
       table-layout: fixed;
       border: 1px solid #ebebf0;
 
+      ul {
+        padding:  0;
+      }
+
       li {
-        float: left;
         list-style-type: none;
         margin: 0;
         padding: 0;
         overflow: hidden;
-        width: 25%;
-        height: 50px;
         border-color: rgba(255,255,255,.2);
         text-align: center;
 
@@ -115,7 +120,7 @@ $image-height: 150px;
     }
 
     .input-group-addon {
-      width: 25%;
+      width: 100%;
       display: inline-block;
       background-color: #286090;
       color: #ffffff;
@@ -123,17 +128,16 @@ $image-height: 150px;
       font-size: 16px;
       line-height: 19px;
       border-radius: 3px;
-      border-left: 0px;
     }
     .search-input {
-      width: 75%;
+      width: 100%;
       height: 44px;
       outline: none;
       font-size: 16px;
       border-radius: 3px;
       line-height: 19px;
-      padding: 8px 165px 8px 30px;
-      border-right: 0px;
+      padding: 8px 150px 8px 150px;
+      text-align: center;
     }
   }
 
@@ -152,8 +156,8 @@ $image-height: 150px;
     }
     
     .product-description {
-      padding: 10px 10px 10px 175px;
-      height: 140px;
+      padding: 10px 10px 10px 160px;
+      height: 130px;
     }
     
     .product-name {
@@ -187,9 +191,6 @@ $image-height: 150px;
       }
 
       .actions {
-        float: right;
-        width:  50%;
-
         .add-to-basket {
           width: 100%;
           -webkit-border-radius: 0px;
@@ -306,6 +307,7 @@ $image-height: 150px;
         font-weight: bold;
         margin-bottom: 7px;
         width: auto;
+        text-align: center;
       }
     }
   }

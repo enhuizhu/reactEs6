@@ -1,9 +1,7 @@
 import React from 'react';
-import Login from './login.jsx';
 import menuStore from '../stores/menuStore';
 import shopStore from '../stores/shopStore';
 import menuAction from '../actions/menuAction';
-import productAction from '../actions/productAction';
 import { Link, IndexLink } from 'react-router';
 import userStore from '../stores/userStore';
 import userAction from '../actions/userAction';
@@ -19,17 +17,9 @@ class PageHeader extends React.Component {
 		this.state = {
 			menus: menuStore.getMenus(),
 			isLogin: userStore.isLogin(),
-			shopInfo: {},
-            total: basketStore.getTotal(),
+			shopInfo: {}
 		};
 	}
-
-    onBasketChange() {
-        this.setState({
-            total: basketStore.getTotal(),
-            totalQuantity: basketStore.getTotalQuantity()
-        });
-    }
 
     componentWillReceiveProps(nextProps, nextState) {
 		if (nextProps.activeUrl != this.props.activeUrl) {
@@ -47,7 +37,6 @@ class PageHeader extends React.Component {
 		menuStore.addChagneListener(this.onMenuChange.bind(this));
 		userStore.registerUserLogin(this.onUserStateChange.bind(this));
 		userStore.registerUserLogout(this.onUserStateChange.bind(this));
-        basketStore.addChagneListener(this.onBasketChange.bind(this));
     }
 
 	componentWillUnmount() {
@@ -55,7 +44,6 @@ class PageHeader extends React.Component {
 		userStore.removeUserLoginListener(this.onUserStateChange);
 		userStore.removeUserLogoutListener(this.onUserStateChange);
 		shopStore.removeShopInfoListener(this.onShopInfoChange);
-        basketStore.removeChangeListener(this.onBasketChange);
     }
 
 	onShopInfoChange(shopInfo) {
@@ -75,11 +63,6 @@ class PageHeader extends React.Component {
 		userAction.userLogout();
 	}
 
-    displayBasket() {
-        jQuery('#basket').modal('show');
-    }
-
-
     render() {
 		let userStates = null;
 
@@ -90,13 +73,8 @@ class PageHeader extends React.Component {
 		}else{
 			userStates = (
 				<ul className="nav navbar-nav navbar-right">
-					<li> <Link to="/login" activeClassName="active" className="account-link account-link-underline">Login</Link></li>
+					<li> <Link to="/login" activeClassName="active" className="account-link">Login</Link></li>
 					<li><Link to="/register" activeClassName="active" className="account-link">Sign up</Link></li>
-                    {/*// <li>*/}
-                    {/*//     <div className="btn-success glyphicon glyphicon-shopping-cart square-btn"*/}
-                             {/*onClick={this.displayBasket.bind(this)}> {this.state.currency}{this.state.total}*/}
-                        {/*</div>*/}
-                    {/*</li>*/}
 				</ul>
 			);
 		}
@@ -113,15 +91,16 @@ class PageHeader extends React.Component {
 				<nav className="navbar navbar-default navbar-fixed-top" role="navigation">
 					<div className="container">
 						<div className="navbar-header">
-							<button type="button" data-target="#navbarCollapse" data-toggle="collapse" className="navbar-toggle" aria-expanded="true">
+							<button type="button" data-target="#navbarCollapse" data-toggle="collapse"
+									className="navbar-toggle" aria-expanded="true">
 								<span className="sr-only">Toggle navigation</span>
 								<span className="glyphicon glyphicon-user"></span>
 							</button>
 								<a className="navbar-brand" href="/">{infoDom}</a>
-							</div>
-							<div id="navbarCollapse" className="navbar-collapse collapse in" aria-expanded="true">
-									{userStates}
-							</div>
+						</div>
+						<div id="navbarCollapse" className="navbar-collapse collapse" aria-expanded="true">
+								{userStates}
+						</div>
 
 
 					</div>

@@ -23,6 +23,10 @@ $image-height: 120px;
       table-layout: fixed;
       border: 1px solid #ebebf0;
 
+      ul {
+        padding: 0;
+      }
+
       li {
         float: left;
         list-style-type: none;
@@ -30,7 +34,6 @@ $image-height: 120px;
         padding: 0;
         overflow: hidden;
         width: 25%;
-        height: 50px;
         border-color: rgba(255,255,255,.2);
         text-align: center;
 
@@ -83,7 +86,7 @@ $image-height: 120px;
   }
 
   .search {
-    padding-top: 20px;
+    padding: 30px 200px 30px 200px;
     .input-group {
       display: block !important;
     }
@@ -98,6 +101,8 @@ $image-height: 120px;
       line-height: 19px;
       border-radius: 3px;
       border-left: 0px;
+      position: absolute;
+      right: 70px;
     }
     .search-input {
       width: 75%;
@@ -106,8 +111,10 @@ $image-height: 120px;
       font-size: 16px;
       border-radius: 3px;
       line-height: 19px;
-      padding: 8px 165px 8px 30px;
-      border-right: 0px;
+      padding:  8px 80px 8px 25px;
+      border-right: 0;
+      position: initial;
+      text-align: center;
     }
   }
 
@@ -163,10 +170,8 @@ $image-height: 120px;
       }
 
       .actions {
-        float: right;
-        width:  71%;
         .add-to-basket {
-          padding-left:  75px;
+          width:  100%;
           -webkit-border-radius: 0px;
           -moz-border-radius: 0px;
           border-radius: 0px;
