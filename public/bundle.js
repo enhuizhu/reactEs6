@@ -25428,27 +25428,27 @@
 
 	var _products2 = _interopRequireDefault(_products);
 
-	var _product = __webpack_require__(250);
+	var _product = __webpack_require__(252);
 
 	var _product2 = _interopRequireDefault(_product);
 
-	var _NoMatch = __webpack_require__(251);
+	var _NoMatch = __webpack_require__(253);
 
 	var _NoMatch2 = _interopRequireDefault(_NoMatch);
 
-	var _login = __webpack_require__(252);
+	var _login = __webpack_require__(254);
 
 	var _login2 = _interopRequireDefault(_login);
 
-	var _register = __webpack_require__(257);
+	var _register = __webpack_require__(259);
 
 	var _register2 = _interopRequireDefault(_register);
 
-	var _checkout = __webpack_require__(258);
+	var _checkout = __webpack_require__(260);
 
 	var _checkout2 = _interopRequireDefault(_checkout);
 
-	var _home = __webpack_require__(267);
+	var _home = __webpack_require__(269);
 
 	var _home2 = _interopRequireDefault(_home);
 
@@ -25493,10 +25493,6 @@
 
 	var _productsStore2 = _interopRequireDefault(_productsStore);
 
-	var _menuStore = __webpack_require__(234);
-
-	var _menuStore2 = _interopRequireDefault(_menuStore);
-
 	var _shopStore = __webpack_require__(231);
 
 	var _shopStore2 = _interopRequireDefault(_shopStore);
@@ -25525,6 +25521,18 @@
 
 	var _Search2 = _interopRequireDefault(_Search);
 
+	var _menu = __webpack_require__(250);
+
+	var _menu2 = _interopRequireDefault(_menu);
+
+	var _menuStore = __webpack_require__(234);
+
+	var _menuStore2 = _interopRequireDefault(_menuStore);
+
+	var _menuAction = __webpack_require__(251);
+
+	var _menuAction2 = _interopRequireDefault(_menuAction);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -25542,6 +25550,7 @@
 			var _this = _possibleConstructorReturn(this, (Products.__proto__ || Object.getPrototypeOf(Products)).call(this, props));
 
 			_this.state = {
+				menus: _menuStore2.default.getMenus(),
 				products: [],
 				title: _this.props.params.category ? _this.props.params.category : "Featured Food",
 				total: _basketStore2.default.getTotal(),
@@ -25594,6 +25603,8 @@
 				_productsStore2.default.addChangeListener(this.onProductsChange.bind(this));
 				_basketStore2.default.addChagneListener(this.onBasketChange.bind(this));
 				_productAction2.default.setProducts(this.props.params.category);
+				_menuAction2.default.setMenus(this.props.activeUrl);
+				_menuStore2.default.addChagneListener(this.onMenuChange.bind(this));
 			}
 		}, {
 			key: 'componentWillUnmount',
@@ -25605,12 +25616,18 @@
 		}, {
 			key: 'componentWillReceiveProps',
 			value: function componentWillReceiveProps(nextProps, nextState) {
+				_menuAction2.default.setActiveUrl(nextProps.activeUrl);
 				_productAction2.default.setProducts(nextProps.params.category);
 			}
 		}, {
 			key: 'addProduct',
 			value: function addProduct(item) {
 				_basketAction2.default.addToBasket(item);
+			}
+		}, {
+			key: 'onMenuChange',
+			value: function onMenuChange(menus) {
+				this.setState({ menus: menus });
 			}
 		}, {
 			key: 'loadMoreProducts',
@@ -25636,7 +25653,7 @@
 				var items = this.state.products.map(function (v, i) {
 					return _react2.default.createElement(
 						'div',
-						{ className: 'col-xs-12 col-sm-6 col-md-3', key: i },
+						{ className: 'col-xs-12 col-sm-6 col-md-4', key: i },
 						_react2.default.createElement(_productThumbnail2.default, { product: v, callback: function callback() {
 								_this3.addProduct(v);
 							} })
@@ -25905,15 +25922,8 @@
 /* 227 */
 /***/ function(module, exports) {
 
-	/*
-	object-assign
-	(c) Sindre Sorhus
-	@license MIT
-	*/
-
 	'use strict';
 	/* eslint-disable no-unused-vars */
-	var getOwnPropertySymbols = Object.getOwnPropertySymbols;
 	var hasOwnProperty = Object.prototype.hasOwnProperty;
 	var propIsEnumerable = Object.prototype.propertyIsEnumerable;
 
@@ -25934,7 +25944,7 @@
 			// Detect buggy property enumeration order in older V8 versions.
 
 			// https://bugs.chromium.org/p/v8/issues/detail?id=4118
-			var test1 = new String('abc');  // eslint-disable-line no-new-wrappers
+			var test1 = new String('abc');  // eslint-disable-line
 			test1[5] = 'de';
 			if (Object.getOwnPropertyNames(test1)[0] === '5') {
 				return false;
@@ -25963,7 +25973,7 @@
 			}
 
 			return true;
-		} catch (err) {
+		} catch (e) {
 			// We don't expect any of the above to throw, but better to be safe.
 			return false;
 		}
@@ -25983,8 +25993,8 @@
 				}
 			}
 
-			if (getOwnPropertySymbols) {
-				symbols = getOwnPropertySymbols(from);
+			if (Object.getOwnPropertySymbols) {
+				symbols = Object.getOwnPropertySymbols(from);
 				for (var i = 0; i < symbols.length; i++) {
 					if (propIsEnumerable.call(from, symbols[i])) {
 						to[symbols[i]] = from[symbols[i]];
@@ -29182,17 +29192,29 @@
 					_react2.default.createElement(
 						'div',
 						null,
-						_react2.default.createElement('img', { src: this.props.product.img, className: 'product-img' })
+						_react2.default.createElement(
+							'div',
+							null,
+							_react2.default.createElement('img', { src: this.props.product.img, className: 'product-img' })
+						),
+						_react2.default.createElement(
+							'div',
+							{ className: 'product-description' },
+							this.props.product.description
+						)
 					),
 					_react2.default.createElement(
 						'div',
-						{ className: 'product-description' },
+						{ className: 'product-name' },
 						_react2.default.createElement(
 							'span',
 							{ className: 'capitalize' },
 							' ',
 							this.props.product.name,
-							' '
+							' (',
+							_productsStore2.default.getCurrencySymbol(this.props.product.currency),
+							this.props.product.price,
+							' ) '
 						)
 					),
 					_react2.default.createElement(
@@ -29200,16 +29222,10 @@
 						{ className: 'product-action' },
 						_react2.default.createElement(
 							'div',
-							{ className: 'price text-primary' },
-							_productsStore2.default.getCurrencySymbol(this.props.product.currency),
-							this.props.product.price
-						),
-						_react2.default.createElement(
-							'div',
 							{ className: 'actions' },
 							_react2.default.createElement(
 								'button',
-								{ className: 'btn btn-success basket', onClick: this.btnClickHandler.bind(this) },
+								{ className: 'btn btn-success add-to-basket', onClick: this.btnClickHandler.bind(this) },
 								'ADD TO BASKET'
 							)
 						),
@@ -29761,6 +29777,215 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouter = __webpack_require__(159);
+
+	var _basketStore = __webpack_require__(224);
+
+	var _basketStore2 = _interopRequireDefault(_basketStore);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Menu = function (_React$Component) {
+		_inherits(Menu, _React$Component);
+
+		function Menu(props) {
+			_classCallCheck(this, Menu);
+
+			var _this = _possibleConstructorReturn(this, (Menu.__proto__ || Object.getPrototypeOf(Menu)).call(this, props));
+
+			_this.state = {
+				total: _basketStore2.default.getTotal()
+			};
+			return _this;
+		}
+
+		_createClass(Menu, [{
+			key: 'displayBasket',
+			value: function displayBasket() {
+				jQuery('#basket').modal('show');
+			}
+		}, {
+			key: 'onBasketChange',
+			value: function onBasketChange() {
+				this.setState({
+					total: _basketStore2.default.getTotal(),
+					totalQuantity: _basketStore2.default.getTotalQuantity()
+				});
+			}
+		}, {
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				_basketStore2.default.addChagneListener(this.onBasketChange.bind(this));
+			}
+		}, {
+			key: 'componentWillUnmount',
+			value: function componentWillUnmount() {
+				_basketStore2.default.removeChangeListener(this.onBasketChange);
+			}
+		}, {
+			key: 'getChildrenMenu',
+			value: function getChildrenMenu(data) {
+				var that = this;
+
+				console.log('meunu data', data);
+
+				var lis = data.map(function (d, k) {
+					if (d.children && d.children.length > 0) {
+						return _react2.default.createElement(
+							'li',
+							{ key: d.url },
+							d.title,
+							that.getChildrenMenu(d.children)
+						);
+					};
+
+					var link = d.active ? _react2.default.createElement(
+						_reactRouter.Link,
+						{ to: d.href, className: 'active' },
+						d.title
+					) : _react2.default.createElement(
+						_reactRouter.Link,
+						{ to: d.href },
+						d.title
+					);
+
+					return _react2.default.createElement(
+						'li',
+						{ key: k },
+						' ',
+						link,
+						' '
+					);
+				});
+
+				return _react2.default.createElement(
+					'div',
+					{ className: 'sub-nav' },
+					_react2.default.createElement(
+						'div',
+						{ className: 'menu-section' },
+						_react2.default.createElement(
+							'div',
+							{ className: 'menu-actions' },
+							' MENU '
+						)
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: 'basket-section' },
+						_react2.default.createElement(
+							'div',
+							{ className: 'btn-success glyphicon glyphicon-shopping-cart square-btn basket',
+								onClick: this.displayBasket.bind(this) },
+							' ',
+							this.state.currency,
+							this.state.total
+						)
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: 'menu-categories' },
+						_react2.default.createElement(
+							'ul',
+							null,
+							lis
+						)
+					)
+				);
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				return _react2.default.createElement(
+					'div',
+					null,
+					this.getChildrenMenu(this.props.data)
+				);
+			}
+		}]);
+
+		return Menu;
+	}(_react2.default.Component);
+
+	Menu.propTypes = {
+		data: _react2.default.PropTypes.array
+	};
+
+	Menu.defaultProps = {
+		data: []
+	};
+
+	exports.default = Menu;
+
+/***/ },
+/* 251 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _apiService = __webpack_require__(233);
+
+	var _apiService2 = _interopRequireDefault(_apiService);
+
+	var _dispatcher = __webpack_require__(225);
+
+	var _dispatcher2 = _interopRequireDefault(_dispatcher);
+
+	var _menuConstants = __webpack_require__(235);
+
+	var _menuConstants2 = _interopRequireDefault(_menuConstants);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	module.exports = {
+		setActiveUrl: function setActiveUrl(currentUrl) {
+			var payLoad = {
+				action: _menuConstants2.default.SET_ACTIVE_URL,
+				data: currentUrl
+			};
+
+			_dispatcher2.default.dispatch(payLoad);
+		},
+
+		setMenus: function setMenus(activeUrl) {
+			var _this = this;
+
+			_apiService2.default.getCategories().then(function (catgories) {
+				var payLoad = {
+					action: _menuConstants2.default.SET_MENUS,
+					data: catgories
+				};
+
+				_dispatcher2.default.dispatch(payLoad);
+				_this.setActiveUrl(activeUrl);
+			}).catch(function (err) {
+				console.error(err);
+			});
+		}
+	};
+
+/***/ },
+/* 252 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 	'uset strict';
 
 	Object.defineProperty(exports, "__esModule", {
@@ -29843,7 +30068,7 @@
 	exports.default = Product;
 
 /***/ },
-/* 251 */
+/* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29896,7 +30121,7 @@
 	exports.default = NoMatch;
 
 /***/ },
-/* 252 */
+/* 254 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29911,7 +30136,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _facebookBtn = __webpack_require__(253);
+	var _facebookBtn = __webpack_require__(255);
 
 	var _facebookBtn2 = _interopRequireDefault(_facebookBtn);
 
@@ -29919,17 +30144,17 @@
 
 	var _userStore2 = _interopRequireDefault(_userStore);
 
-	var _userAction = __webpack_require__(254);
+	var _userAction = __webpack_require__(256);
 
 	var _userAction2 = _interopRequireDefault(_userAction);
 
 	var _reactRouter = __webpack_require__(159);
 
-	var _urlService = __webpack_require__(255);
+	var _urlService = __webpack_require__(257);
 
 	var _urlService2 = _interopRequireDefault(_urlService);
 
-	var _facebookCallback = __webpack_require__(256);
+	var _facebookCallback = __webpack_require__(258);
 
 	var _facebookCallback2 = _interopRequireDefault(_facebookCallback);
 
@@ -30068,7 +30293,7 @@
 	exports.default = Login;
 
 /***/ },
-/* 253 */
+/* 255 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30123,7 +30348,7 @@
 	exports.default = FacebookBtn;
 
 /***/ },
-/* 254 */
+/* 256 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30173,7 +30398,7 @@
 	};
 
 /***/ },
-/* 255 */
+/* 257 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -30213,7 +30438,7 @@
 	exports.default = urlService;
 
 /***/ },
-/* 256 */
+/* 258 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30228,7 +30453,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _userAction = __webpack_require__(254);
+	var _userAction = __webpack_require__(256);
 
 	var _userAction2 = _interopRequireDefault(_userAction);
 
@@ -30274,7 +30499,7 @@
 	exports.default = FacebookCallback;
 
 /***/ },
-/* 257 */
+/* 259 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30289,7 +30514,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _facebookBtn = __webpack_require__(253);
+	var _facebookBtn = __webpack_require__(255);
 
 	var _facebookBtn2 = _interopRequireDefault(_facebookBtn);
 
@@ -30297,7 +30522,7 @@
 
 	var _apiService2 = _interopRequireDefault(_apiService);
 
-	var _userAction = __webpack_require__(254);
+	var _userAction = __webpack_require__(256);
 
 	var _userAction2 = _interopRequireDefault(_userAction);
 
@@ -30307,7 +30532,7 @@
 
 	var _reactRouter = __webpack_require__(159);
 
-	var _facebookCallback = __webpack_require__(256);
+	var _facebookCallback = __webpack_require__(258);
 
 	var _facebookCallback2 = _interopRequireDefault(_facebookCallback);
 
@@ -30490,7 +30715,7 @@
 	exports.default = Register;
 
 /***/ },
-/* 258 */
+/* 260 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30505,23 +30730,23 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _deliveryTimeAndNote = __webpack_require__(259);
+	var _deliveryTimeAndNote = __webpack_require__(261);
 
 	var _deliveryTimeAndNote2 = _interopRequireDefault(_deliveryTimeAndNote);
 
-	var _deliveryAddress = __webpack_require__(261);
+	var _deliveryAddress = __webpack_require__(263);
 
 	var _deliveryAddress2 = _interopRequireDefault(_deliveryAddress);
 
-	var _deliveryConfirm = __webpack_require__(262);
+	var _deliveryConfirm = __webpack_require__(264);
 
 	var _deliveryConfirm2 = _interopRequireDefault(_deliveryConfirm);
 
-	var _timeCounter = __webpack_require__(264);
+	var _timeCounter = __webpack_require__(266);
 
 	var _timeCounter2 = _interopRequireDefault(_timeCounter);
 
-	var _error = __webpack_require__(265);
+	var _error = __webpack_require__(267);
 
 	var _error2 = _interopRequireDefault(_error);
 
@@ -30529,7 +30754,7 @@
 
 	var _userStore2 = _interopRequireDefault(_userStore);
 
-	var _deliveryStore = __webpack_require__(263);
+	var _deliveryStore = __webpack_require__(265);
 
 	var _deliveryStore2 = _interopRequireDefault(_deliveryStore);
 
@@ -30537,7 +30762,7 @@
 
 	var _basketStore2 = _interopRequireDefault(_basketStore);
 
-	var _urlService = __webpack_require__(255);
+	var _urlService = __webpack_require__(257);
 
 	var _urlService2 = _interopRequireDefault(_urlService);
 
@@ -30545,7 +30770,7 @@
 
 	var _apiService2 = _interopRequireDefault(_apiService);
 
-	var _stateEngin = __webpack_require__(266);
+	var _stateEngin = __webpack_require__(268);
 
 	var _stateEngin2 = _interopRequireDefault(_stateEngin);
 
@@ -30733,7 +30958,7 @@
 	exports.default = Checkout;
 
 /***/ },
-/* 259 */
+/* 261 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30748,7 +30973,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _timeService = __webpack_require__(260);
+	var _timeService = __webpack_require__(262);
 
 	var _timeService2 = _interopRequireDefault(_timeService);
 
@@ -30882,7 +31107,7 @@
 	exports.default = DeliveryTimeAndNote;
 
 /***/ },
-/* 260 */
+/* 262 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31007,7 +31232,7 @@
 	};
 
 /***/ },
-/* 261 */
+/* 263 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31142,7 +31367,7 @@
 	exports.default = DeliveryAddress;
 
 /***/ },
-/* 262 */
+/* 264 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31161,7 +31386,7 @@
 
 	var _recipt2 = _interopRequireDefault(_recipt);
 
-	var _deliveryStore = __webpack_require__(263);
+	var _deliveryStore = __webpack_require__(265);
 
 	var _deliveryStore2 = _interopRequireDefault(_deliveryStore);
 
@@ -31260,7 +31485,7 @@
 	exports.default = DeliveryConfirm;
 
 /***/ },
-/* 263 */
+/* 265 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31318,7 +31543,7 @@
 	module.exports = deliveryStore;
 
 /***/ },
-/* 264 */
+/* 266 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31421,7 +31646,7 @@
 	exports.default = TimeCounter;
 
 /***/ },
-/* 265 */
+/* 267 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31489,7 +31714,7 @@
 	exports.default = Error;
 
 /***/ },
-/* 266 */
+/* 268 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -31583,7 +31808,7 @@
 	exports.default = statesEngin;
 
 /***/ },
-/* 267 */
+/* 269 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31598,11 +31823,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _pageHeader = __webpack_require__(268);
+	var _pageHeader = __webpack_require__(270);
 
 	var _pageHeader2 = _interopRequireDefault(_pageHeader);
 
-	var _menu = __webpack_require__(274);
+	var _menu = __webpack_require__(250);
 
 	var _menu2 = _interopRequireDefault(_menu);
 
@@ -31610,7 +31835,7 @@
 
 	var _loader2 = _interopRequireDefault(_loader);
 
-	var _urlService = __webpack_require__(255);
+	var _urlService = __webpack_require__(257);
 
 	var _urlService2 = _interopRequireDefault(_urlService);
 
@@ -31618,7 +31843,7 @@
 
 	var _menuStore2 = _interopRequireDefault(_menuStore);
 
-	var _menuAction = __webpack_require__(269);
+	var _menuAction = __webpack_require__(251);
 
 	var _menuAction2 = _interopRequireDefault(_menuAction);
 
@@ -31719,7 +31944,7 @@
 	exports.default = Home;
 
 /***/ },
-/* 268 */
+/* 270 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31734,25 +31959,9 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _login = __webpack_require__(252);
-
-	var _login2 = _interopRequireDefault(_login);
-
-	var _menuStore = __webpack_require__(234);
-
-	var _menuStore2 = _interopRequireDefault(_menuStore);
-
 	var _shopStore = __webpack_require__(231);
 
 	var _shopStore2 = _interopRequireDefault(_shopStore);
-
-	var _menuAction = __webpack_require__(269);
-
-	var _menuAction2 = _interopRequireDefault(_menuAction);
-
-	var _productAction = __webpack_require__(243);
-
-	var _productAction2 = _interopRequireDefault(_productAction);
 
 	var _reactRouter = __webpack_require__(159);
 
@@ -31760,19 +31969,23 @@
 
 	var _userStore2 = _interopRequireDefault(_userStore);
 
-	var _userAction = __webpack_require__(254);
+	var _userAction = __webpack_require__(256);
 
 	var _userAction2 = _interopRequireDefault(_userAction);
 
-	__webpack_require__(270);
+	__webpack_require__(271);
 
-	var _basketStore = __webpack_require__(224);
-
-	var _basketStore2 = _interopRequireDefault(_basketStore);
-
-	var _menu = __webpack_require__(274);
+	var _menu = __webpack_require__(250);
 
 	var _menu2 = _interopRequireDefault(_menu);
+
+	var _menuStore = __webpack_require__(234);
+
+	var _menuStore2 = _interopRequireDefault(_menuStore);
+
+	var _menuAction = __webpack_require__(251);
+
+	var _menuAction2 = _interopRequireDefault(_menuAction);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -31793,21 +32006,12 @@
 			_this.state = {
 				menus: _menuStore2.default.getMenus(),
 				isLogin: _userStore2.default.isLogin(),
-				shopInfo: {},
-				total: _basketStore2.default.getTotal()
+				shopInfo: {}
 			};
 			return _this;
 		}
 
 		_createClass(PageHeader, [{
-			key: 'onBasketChange',
-			value: function onBasketChange() {
-				this.setState({
-					total: _basketStore2.default.getTotal(),
-					totalQuantity: _basketStore2.default.getTotalQuantity()
-				});
-			}
-		}, {
 			key: 'componentWillReceiveProps',
 			value: function componentWillReceiveProps(nextProps, nextState) {
 				if (nextProps.activeUrl != this.props.activeUrl) {
@@ -31828,7 +32032,6 @@
 				_menuStore2.default.addChagneListener(this.onMenuChange.bind(this));
 				_userStore2.default.registerUserLogin(this.onUserStateChange.bind(this));
 				_userStore2.default.registerUserLogout(this.onUserStateChange.bind(this));
-				_basketStore2.default.addChagneListener(this.onBasketChange.bind(this));
 			}
 		}, {
 			key: 'componentWillUnmount',
@@ -31837,7 +32040,6 @@
 				_userStore2.default.removeUserLoginListener(this.onUserStateChange);
 				_userStore2.default.removeUserLogoutListener(this.onUserStateChange);
 				_shopStore2.default.removeShopInfoListener(this.onShopInfoChange);
-				_basketStore2.default.removeChangeListener(this.onBasketChange);
 			}
 		}, {
 			key: 'onShopInfoChange',
@@ -31861,11 +32063,6 @@
 				_userAction2.default.userLogout();
 			}
 		}, {
-			key: 'displayBasket',
-			value: function displayBasket() {
-				jQuery('#basket').modal('show');
-			}
-		}, {
 			key: 'render',
 			value: function render() {
 				var userStates = null;
@@ -31886,7 +32083,7 @@
 							' ',
 							_react2.default.createElement(
 								_reactRouter.Link,
-								{ to: '/login', activeClassName: 'active' },
+								{ to: '/login', activeClassName: 'active', className: 'account-link' },
 								'Login'
 							)
 						),
@@ -31895,20 +32092,8 @@
 							null,
 							_react2.default.createElement(
 								_reactRouter.Link,
-								{ to: '/register', activeClassName: 'active' },
+								{ to: '/register', activeClassName: 'active', className: 'account-link' },
 								'Sign up'
-							)
-						),
-						_react2.default.createElement(
-							'li',
-							null,
-							_react2.default.createElement(
-								'div',
-								{ className: 'btn-success glyphicon glyphicon-shopping-cart square-btn',
-									onClick: this.displayBasket.bind(this) },
-								' ',
-								this.state.currency,
-								this.state.total
 							)
 						)
 					);
@@ -31932,7 +32117,36 @@
 					_react2.default.createElement(
 						'div',
 						{ className: 'container' },
-						_react2.default.createElement('div', { className: 'navbar-header' })
+						_react2.default.createElement(
+							'div',
+							{ className: 'navbar-header' },
+							_react2.default.createElement(
+								'button',
+								{ type: 'button', 'data-target': '#navbarCollapse', 'data-toggle': 'collapse',
+									className: 'navbar-toggle', 'aria-expanded': 'true' },
+								_react2.default.createElement(
+									'span',
+									{ className: 'sr-only' },
+									'Toggle navigation'
+								),
+								_react2.default.createElement('span', { className: 'glyphicon glyphicon-user' })
+							),
+							_react2.default.createElement(
+								'a',
+								{ className: 'navbar-brand', href: '/' },
+								infoDom
+							)
+						),
+						_react2.default.createElement(
+							'div',
+							{ id: 'navbarCollapse', className: 'navbar-collapse collapse', 'aria-expanded': 'true' },
+							userStates
+						),
+						_react2.default.createElement(
+							'div',
+							{ className: 'container' },
+							_react2.default.createElement(_menu2.default, { data: this.state.menus })
+						)
 					)
 				);
 			}
@@ -31948,63 +32162,16 @@
 	exports.default = PageHeader;
 
 /***/ },
-/* 269 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _apiService = __webpack_require__(233);
-
-	var _apiService2 = _interopRequireDefault(_apiService);
-
-	var _dispatcher = __webpack_require__(225);
-
-	var _dispatcher2 = _interopRequireDefault(_dispatcher);
-
-	var _menuConstants = __webpack_require__(235);
-
-	var _menuConstants2 = _interopRequireDefault(_menuConstants);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	module.exports = {
-		setActiveUrl: function setActiveUrl(currentUrl) {
-			var payLoad = {
-				action: _menuConstants2.default.SET_ACTIVE_URL,
-				data: currentUrl
-			};
-
-			_dispatcher2.default.dispatch(payLoad);
-		},
-
-		setMenus: function setMenus(activeUrl) {
-			var _this = this;
-
-			_apiService2.default.getCategories().then(function (catgories) {
-				var payLoad = {
-					action: _menuConstants2.default.SET_MENUS,
-					data: catgories
-				};
-
-				_dispatcher2.default.dispatch(payLoad);
-				_this.setActiveUrl(activeUrl);
-			}).catch(function (err) {
-				console.error(err);
-			});
-		}
-	};
-
-/***/ },
-/* 270 */
+/* 271 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(271);
+	var content = __webpack_require__(272);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(273)(content, {});
+	var update = __webpack_require__(274)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -32021,21 +32188,21 @@
 	}
 
 /***/ },
-/* 271 */
+/* 272 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(272)();
+	exports = module.exports = __webpack_require__(273)();
 	// imports
 
 
 	// module
-	exports.push([module.id, "#login-dp {\n  min-width: 250px;\n  padding: 14px 14px 0;\n  overflow: hidden;\n  background-color: rgba(255, 255, 255, 0.8); }\n\n#login-dp .help-block {\n  font-size: 12px; }\n\n#login-dp .bottom {\n  background-color: rgba(255, 255, 255, 0.8);\n  border-top: 1px solid #ddd;\n  clear: both;\n  padding: 14px; }\n\n#login-dp .social-buttons {\n  margin: 12px 0; }\n\n#login-dp .social-buttons a {\n  width: 49%; }\n\n#login-dp .form-group {\n  margin-bottom: 10px; }\n\n.btn-fb {\n  color: #fff;\n  background-color: #3b5998; }\n\n.btn-fb:hover {\n  color: #fff;\n  background-color: #496ebc; }\n\n.btn-tw {\n  color: #fff;\n  background-color: #55acee; }\n\n.btn-tw:hover {\n  color: #fff;\n  background-color: #59b5fa; }\n\n@media (max-width: 768px) {\n  #login-dp {\n    background-color: inherit;\n    color: #fff; }\n  #login-dp .bottom {\n    background-color: inherit;\n    border-top: 0 none; } }\n\n@media (max-width: 768px) and (min-width: 768px) {\n  .navbar-toggle {\n    display: none; } }\n\n@media (max-width: 768px) and (min-width: 768px) {\n  .navbar-collapse, .navbar-fixed-top .navbar-collapse {\n    padding-right: 0;\n    padding-left: 0; } }\n\n@media (max-width: 768px) {\n  .nav-background {\n    background-color: #13729e; }\n  .capitalize {\n    text-transform: capitalize; }\n  .navbar-toggle {\n    position: relative;\n    float: right;\n    padding: 9px 10px;\n    margin-top: 8px;\n    margin-right: 15px;\n    margin-bottom: 8px;\n    background-color: transparent;\n    background-image: none;\n    border: 1px solid transparent;\n    border-radius: 4px; } }\n", ""]);
+	exports.push([module.id, "#login-dp {\n  min-width: 250px;\n  padding: 14px 14px 0;\n  overflow: hidden;\n  background-color: rgba(255, 255, 255, 0.8); }\n\n#login-dp .help-block {\n  font-size: 12px; }\n\n#login-dp .bottom {\n  background-color: rgba(255, 255, 255, 0.8);\n  border-top: 1px solid #ddd;\n  clear: both;\n  padding: 14px; }\n\n#login-dp .social-buttons {\n  margin: 12px 0; }\n\n#login-dp .social-buttons a {\n  width: 49%; }\n\n#login-dp .form-group {\n  margin-bottom: 10px; }\n\n.btn-fb {\n  color: #fff;\n  background-color: #3b5998; }\n\n.btn-fb:hover {\n  color: #fff;\n  background-color: #496ebc; }\n\n.btn-tw {\n  color: #fff;\n  background-color: #55acee; }\n\n.btn-tw:hover {\n  color: #fff;\n  background-color: #59b5fa; }\n\n@media (max-width: 768px) {\n  #login-dp {\n    background-color: inherit;\n    color: #fff; }\n  #login-dp .bottom {\n    background-color: inherit;\n    border-top: 0 none; } }\n\n@media (max-width: 768px) and (min-width: 768px) {\n  .navbar-toggle {\n    display: none; } }\n\n@media (max-width: 768px) {\n  .nav-background {\n    background-color: #13729e; }\n  .capitalize {\n    text-transform: capitalize; }\n  .navbar-toggle {\n    position: relative;\n    float: right;\n    padding: 9px 10px;\n    margin-top: 8px;\n    margin-right: 15px;\n    margin-bottom: 8px;\n    background-color: transparent;\n    background-image: none;\n    border: 1px solid transparent;\n    border-radius: 4px; } }\n", ""]);
 
 	// exports
 
 
 /***/ },
-/* 272 */
+/* 273 */
 /***/ function(module, exports) {
 
 	/*
@@ -32091,7 +32258,7 @@
 
 
 /***/ },
-/* 273 */
+/* 274 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -32343,110 +32510,6 @@
 
 
 /***/ },
-/* 274 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactRouter = __webpack_require__(159);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var Menu = function (_React$Component) {
-		_inherits(Menu, _React$Component);
-
-		function Menu(props) {
-			_classCallCheck(this, Menu);
-
-			var _this = _possibleConstructorReturn(this, (Menu.__proto__ || Object.getPrototypeOf(Menu)).call(this, props));
-
-			_this.state = {};
-			return _this;
-		}
-
-		_createClass(Menu, [{
-			key: 'getChildrenMenu',
-			value: function getChildrenMenu(data) {
-				var that = this;
-
-				console.log('meunu data', data);
-
-				var lis = data.map(function (d, k) {
-					if (d.children && d.children.length > 0) {
-						return _react2.default.createElement(
-							'li',
-							{ key: d.url },
-							d.title,
-							that.getChildrenMenu(d.children)
-						);
-					};
-
-					var link = d.active ? _react2.default.createElement(
-						_reactRouter.Link,
-						{ to: d.href, className: 'active' },
-						d.title
-					) : _react2.default.createElement(
-						_reactRouter.Link,
-						{ to: d.href },
-						d.title
-					);
-
-					return _react2.default.createElement(
-						'li',
-						{ key: k },
-						' ',
-						link,
-						' '
-					);
-				});
-
-				return _react2.default.createElement(
-					'ul',
-					{ className: 'nav navbar-nav' },
-					lis
-				);
-			}
-		}, {
-			key: 'render',
-			value: function render() {
-				return _react2.default.createElement(
-					'div',
-					null,
-					this.getChildrenMenu(this.props.data)
-				);
-			}
-		}]);
-
-		return Menu;
-	}(_react2.default.Component);
-
-	Menu.propTypes = {
-		data: _react2.default.PropTypes.array
-	};
-
-	Menu.defaultProps = {
-		data: []
-	};
-
-	exports.default = Menu;
-
-/***/ },
 /* 275 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -32613,7 +32676,7 @@
 	var content = __webpack_require__(278);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(273)(content, {});
+	var update = __webpack_require__(274)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -32633,12 +32696,12 @@
 /* 278 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(272)();
+	exports = module.exports = __webpack_require__(273)();
 	// imports
 
 
 	// module
-	exports.push([module.id, "/**\n* all the animations goes here\n**/\n@-webkit-keyframes fadeout {\n  from {\n    bottom: 46px;\n    opacity: 1; }\n  to {\n    bottom: 120px;\n    opacity: 0; } }\n\n@-moz-keyframes fadeout {\n  from {\n    bottom: 46px;\n    opacity: 1; }\n  to {\n    bottom: 120px;\n    opacity: 0; } }\n\n@-ms-keyframes fadeout {\n  from {\n    bottom: 46px;\n    opacity: 1; }\n  to {\n    bottom: 120px;\n    opacity: 0; } }\n\n@-o-keyframes fadeout {\n  from {\n    bottom: 46px;\n    opacity: 1; }\n  to {\n    bottom: 120px;\n    opacity: 0; } }\n\n@keyframes fadeout {\n  from {\n    bottom: 46px;\n    opacity: 1; }\n  to {\n    bottom: 120px;\n    opacity: 0; } }\n\n/* main sass file */\n/**\n* common css\n**/\n.square-btn {\n  padding: 18px;\n  text-align: center;\n  color: white;\n  display: block;\n  border: none;\n  width: 100%;\n  position: initial; }\n\n.facebook-bg {\n  background-color: #3651a0; }\n\n.small-text {\n  font-size: 12px; }\n\n.load-more {\n  margin-left: auto;\n  margin-right: auto;\n  display: block;\n  width: 100px; }\n\nbody {\n  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;\n  color: #5b5e61;\n  padding: 50px; }\n\nsection.main-section .title {\n  width: 230px;\n  margin-bottom: 20px;\n  margin-top: 20px;\n  text-transform: capitalize;\n  font-size: 20px;\n  font-style: italic; }\n\nheader {\n  background-color: #f8f8f8;\n  padding-top: 1px;\n  border-bottom: solid 1px #cac6c6; }\n  header img {\n    max-width: 50px; }\n  header h4 {\n    font-style: italic;\n    padding-left: 5px;\n    padding-bottom: 14px;\n    border-bottom: solid 1px #dddddd; }\n    header h4 a {\n      font-size: 15px;\n      padding-right: 6px;\n      font-style: normal; }\n\n@media (min-width: 767px) {\n  .search {\n    padding-top: 20px; }\n    .search .input-group {\n      display: block !important; }\n    .search .input-group-addon {\n      width: 25%;\n      display: inline-block;\n      background-color: #286090;\n      color: #ffffff;\n      height: 44px;\n      font-size: 16px;\n      line-height: 19px;\n      border-radius: 3px;\n      border-left: 0px; }\n    .search .search-input {\n      width: 75%;\n      height: 44px;\n      outline: none;\n      font-size: 16px;\n      border-radius: 3px;\n      line-height: 19px;\n      padding: 8px 165px 8px 30px;\n      border-right: 0px; }\n  /**\n    * css for productThumail\n    **/\n  .product-thumbnail {\n    width: 230px;\n    margin-bottom: 20px;\n    position: relative; }\n    .product-thumbnail .product-img {\n      width: 230px;\n      height: 230px; }\n    .product-thumbnail .product-description {\n      text-align: center;\n      padding-top: 8px;\n      white-space: nowrap;\n      text-overflow: ellipsis;\n      width: 230px;\n      height: 35px;\n      overflow: hidden;\n      background: rgba(0, 0, 0, 0.7);\n      color: #ffffff;\n      font-size: 15px; }\n      .product-thumbnail .product-description .capitalize {\n        text-transform: capitalize; }\n    .product-thumbnail .product-action {\n      font-size: 15px;\n      background-color: #13729E; }\n      .product-thumbnail .product-action .price {\n        float: left;\n        padding-top: 6px;\n        font-size: 16px;\n        color: #ffffff;\n        padding-left: 20px; }\n      .product-thumbnail .product-action .actions {\n        float: right; }\n        .product-thumbnail .product-action .actions .basket {\n          -webkit-border-radius: 0px;\n          -moz-border-radius: 0px;\n          border-radius: 0px; }\n    .product-thumbnail .plus-sign {\n      position: absolute;\n      right: 30px;\n      bottom: 46px;\n      font-size: 20px;\n      font-weight: bold;\n      opacity: 0; }\n    .product-thumbnail .plus-fade-out {\n      -webkit-animation: 1s fadeout ease-in;\n      -moz-animation: 1s fadeout ease-in;\n      -ms-animation: 1s fadeout ease-in;\n      -o-animation: 1s fadeout ease-in;\n      animation: 1s fadeout ease-in; }\n  .footer {\n    margin-top: 10px;\n    margin-bottom: 82px;\n    width: 100%;\n    height: 60px;\n    background-color: #f8f8f8; }\n    .footer .text-muted {\n      margin: 20px 0 20px 0;\n      text-align: center; }\n  .fix-footer {\n    position: fixed;\n    background-color: white;\n    bottom: 0px;\n    width: 100%;\n    padding: 20px;\n    border-top: solid 1px #dddddd;\n    border-bottom: solid 1px #dddddd;\n    box-sizing: border-box; }\n  .basket .sections-container {\n    margin-top: 15px; }\n  .basket [class^=\"col-\"] {\n    padding-left: 0px; }\n    .basket [class^=\"col-\"] label {\n      margin-left: 5px;\n      vertical-align: middle; }\n    .basket [class^=\"col-\"] .small-text {\n      margin-left: 17px; }\n  .basket .section {\n    padding: 10px;\n    border: solid 1px #dddddd; }\n    .basket .section.no-bottom-border {\n      border-bottom: none; }\n    .basket .section .item-container:not(:last-child) {\n      margin-bottom: 8px; }\n    .basket .section .item-container button {\n      padding: 5px;\n      border: solid 1px #cac6c6;\n      width: 25px;\n      height: 25px;\n      background-color: white;\n      margin-right: 7px;\n      position: relative;\n      top: -2px; }\n      .basket .section .item-container button .glyphicon {\n        position: relative;\n        font-size: 11px;\n        top: -2px; }\n    .basket .section .item-container .item-title strong {\n      font-size: 12px; }\n    .basket .section .summary-container {\n      font-weight: 200; }\n      .basket .section .summary-container.large-text {\n        margin-top: 20px;\n        font-size: 17px; }\n    .basket .section .title {\n      font-size: 15px;\n      font-weight: bold;\n      margin-bottom: 7px;\n      width: auto; }\n  .eshop-form {\n    padding: 20px; }\n    .eshop-form input[type='submit'], .eshop-form input[type='button'], .eshop-form button {\n      width: 100%; }\n    .eshop-form .seperator {\n      margin-top: 10px;\n      margin-bottom: 10px;\n      text-align: center; }\n      .eshop-form .seperator span {\n        min-width: 100px;\n        text-align: center;\n        display: inline-block;\n        position: relative;\n        z-index: 100;\n        background-color: white; }\n      .eshop-form .seperator .line {\n        content: \"\";\n        display: block;\n        width: 100%;\n        background-color: #dddddd;\n        height: 1px;\n        position: relative;\n        top: 11px;\n        z-index: 1; }\n  .loader {\n    position: fixed;\n    left: 0px;\n    top: 0px;\n    width: 100%;\n    height: 100%;\n    z-index: 1000;\n    background: rgba(99, 99, 99, 0.7); }\n    .loader .square {\n      width: 120px;\n      height: 120px;\n      border-radius: 8px;\n      color: white;\n      position: absolute;\n      left: calc(50% - 60px);\n      top: calc(50% - 60px);\n      background: #565656;\n      background: -webkit-linear-gradiant(top, #565656 0%, black 100%);\n      background: linear-gradient(to bottom, #565656 0%, black 100%); }\n      .loader .square:before {\n        content: \"loading ...\";\n        position: relative;\n        top: 47px;\n        left: 24px;\n        font-size: 18px; } }\n", ""]);
+	exports.push([module.id, "/**\n* all the animations goes here\n**/\n@-webkit-keyframes fadeout {\n  from {\n    bottom: 46px;\n    opacity: 1; }\n  to {\n    bottom: 120px;\n    opacity: 0; } }\n\n@-moz-keyframes fadeout {\n  from {\n    bottom: 46px;\n    opacity: 1; }\n  to {\n    bottom: 120px;\n    opacity: 0; } }\n\n@-ms-keyframes fadeout {\n  from {\n    bottom: 46px;\n    opacity: 1; }\n  to {\n    bottom: 120px;\n    opacity: 0; } }\n\n@-o-keyframes fadeout {\n  from {\n    bottom: 46px;\n    opacity: 1; }\n  to {\n    bottom: 120px;\n    opacity: 0; } }\n\n@keyframes fadeout {\n  from {\n    bottom: 46px;\n    opacity: 1; }\n  to {\n    bottom: 120px;\n    opacity: 0; } }\n\n/**\n* all the animations goes here\n**/\n@-webkit-keyframes fadeout {\n  from {\n    bottom: 46px;\n    opacity: 1; }\n  to {\n    bottom: 120px;\n    opacity: 0; } }\n\n@-moz-keyframes fadeout {\n  from {\n    bottom: 46px;\n    opacity: 1; }\n  to {\n    bottom: 120px;\n    opacity: 0; } }\n\n@-ms-keyframes fadeout {\n  from {\n    bottom: 46px;\n    opacity: 1; }\n  to {\n    bottom: 120px;\n    opacity: 0; } }\n\n@-o-keyframes fadeout {\n  from {\n    bottom: 46px;\n    opacity: 1; }\n  to {\n    bottom: 120px;\n    opacity: 0; } }\n\n@keyframes fadeout {\n  from {\n    bottom: 46px;\n    opacity: 1; }\n  to {\n    bottom: 120px;\n    opacity: 0; } }\n\n/* main sass file */\n@media (max-width: 767px) {\n  body {\n    padding: 0 !important; }\n  .nav li {\n    border-bottom: 1px solid #E7E7E7; }\n    .nav li a.account-link {\n      text-align: center;\n      color: #006491;\n      text-transform: uppercase;\n      font-size: 16px;\n      font-weight: 400; }\n    .nav li a:hover.account-link {\n      background-color: #e31837; }\n    .nav li a.account-link-underline {\n      text-decoration: underline; }\n    .nav li ul li a {\n      display: block;\n      color: white;\n      text-align: center;\n      padding: 16px;\n      text-decoration: none; }\n    .nav li ul li a:hover {\n      background-color: #e31837; }\n  .sub-nav {\n    padding-top: 70px; }\n    .sub-nav .menu-categories {\n      background-color: #ffffff;\n      color: #333333;\n      text-align: center;\n      width: 100%;\n      display: table;\n      table-layout: fixed;\n      border: 1px solid #ebebf0; }\n      .sub-nav .menu-categories ul {\n        padding: 0; }\n      .sub-nav .menu-categories li {\n        list-style-type: none;\n        margin: 0;\n        padding: 0;\n        overflow: hidden;\n        border-color: rgba(255, 255, 255, 0.2);\n        text-align: center; }\n        .sub-nav .menu-categories li a {\n          color: #337ab7; }\n        .sub-nav .menu-categories li a:hover {\n          background-color: #e31837;\n          color: #ffffff; }\n    .sub-nav .menu-section {\n      float: left;\n      width: 65%;\n      background-color: #333333;\n      text-align: center;\n      height: 52px;\n      padding-top: 15px;\n      color: #FFFFFF; }\n    .sub-nav .menu-actions {\n      font-size: 16px;\n      font-weight: bold; }\n    .sub-nav .basket-section {\n      float: right;\n      width: 35%;\n      background-color: #0076ab;\n      font-size: 16px;\n      font-weight: bold; }\n  ul li a {\n    display: block;\n    color: white;\n    text-align: center;\n    padding: 16px;\n    text-decoration: none; }\n  ul li a:hover {\n    background-color: #e31837; }\n  .search {\n    padding-top: 430px; }\n    .search .input-group {\n      display: block !important; }\n    .search .input-group-addon {\n      width: 100%;\n      display: inline-block;\n      background-color: #286090;\n      color: #ffffff;\n      height: 44px;\n      font-size: 16px;\n      line-height: 19px;\n      border-radius: 3px; }\n    .search .search-input {\n      width: 100%;\n      height: 44px;\n      outline: none;\n      font-size: 16px;\n      border-radius: 3px;\n      line-height: 19px;\n      padding: 8px 150px 8px 150px;\n      text-align: center; }\n  /**\n  * css for productThumail\n  **/\n  .product-thumbnail {\n    width: 100%;\n    margin-bottom: 30px;\n    position: relative; }\n    .product-thumbnail .product-img {\n      width: 150px;\n      height: 150px;\n      float: left; }\n    .product-thumbnail .product-description {\n      padding: 10px 10px 10px 160px;\n      height: 130px; }\n    .product-thumbnail .product-name {\n      text-align: center;\n      padding-top: 8px;\n      white-space: nowrap;\n      text-overflow: ellipsis;\n      width: 100%;\n      height: 35px;\n      overflow: hidden;\n      background: rgba(0, 0, 0, 0.7);\n      color: #ffffff;\n      font-size: 15px; }\n      .product-thumbnail .product-name .capitalize {\n        text-transform: capitalize; }\n    .product-thumbnail .product-action {\n      font-size: 15px;\n      background-color: #13729E; }\n      .product-thumbnail .product-action .price {\n        float: left;\n        padding-top: 6px;\n        font-size: 16px;\n        color: #ffffff;\n        padding-left: 20px;\n        width: 50%; }\n      .product-thumbnail .product-action .actions .add-to-basket {\n        width: 100%;\n        -webkit-border-radius: 0px;\n        -moz-border-radius: 0px;\n        border-radius: 0px; }\n    .product-thumbnail .plus-sign {\n      position: absolute;\n      right: 30px;\n      bottom: 46px;\n      font-size: 20px;\n      font-weight: bold;\n      opacity: 0; }\n    .product-thumbnail .plus-fade-out {\n      -webkit-animation: 1s fadeout ease-in;\n      -moz-animation: 1s fadeout ease-in;\n      -ms-animation: 1s fadeout ease-in;\n      -o-animation: 1s fadeout ease-in;\n      animation: 1s fadeout ease-in; }\n  .footer {\n    margin-top: 10px;\n    margin-bottom: 82px;\n    width: 100%;\n    height: 60px;\n    background-color: #f8f8f8; }\n    .footer .text-muted {\n      margin: 20px 0 20px 0;\n      text-align: center; }\n  .fix-footer {\n    position: fixed;\n    background-color: white;\n    bottom: 0px;\n    width: 100%;\n    padding: 20px;\n    border-top: solid 1px #dddddd;\n    border-bottom: solid 1px #dddddd;\n    box-sizing: border-box; }\n  .basket .sections-container {\n    margin-top: 15px; }\n  .basket [class^=\"col-\"] {\n    padding-left: 0px; }\n    .basket [class^=\"col-\"] label {\n      margin-left: 5px;\n      vertical-align: middle; }\n    .basket [class^=\"col-\"] .small-text {\n      margin-left: 17px; }\n  .basket .section {\n    padding: 10px;\n    border: solid 1px #dddddd; }\n    .basket .section.no-bottom-border {\n      border-bottom: none; }\n    .basket .section .item-container:not(:last-child) {\n      margin-bottom: 8px; }\n    .basket .section .item-container button {\n      padding: 5px;\n      border: solid 1px #cac6c6;\n      width: 25px;\n      height: 25px;\n      background-color: white;\n      margin-right: 7px;\n      position: relative;\n      top: -2px; }\n      .basket .section .item-container button .glyphicon {\n        position: relative;\n        font-size: 11px;\n        top: -2px; }\n    .basket .section .item-container .item-title strong {\n      font-size: 12px; }\n    .basket .section .summary-container {\n      font-weight: 200; }\n      .basket .section .summary-container.large-text {\n        margin-top: 20px;\n        font-size: 17px; }\n    .basket .section .title {\n      font-size: 15px;\n      font-weight: bold;\n      margin-bottom: 7px;\n      width: auto;\n      text-align: center; }\n  .eshop-form {\n    padding: 20px; }\n    .eshop-form input[type='submit'], .eshop-form input[type='button'], .eshop-form button {\n      width: 100%; }\n    .eshop-form .seperator {\n      margin-top: 10px;\n      margin-bottom: 10px;\n      text-align: center; }\n      .eshop-form .seperator span {\n        min-width: 100px;\n        text-align: center;\n        display: inline-block;\n        position: relative;\n        z-index: 100;\n        background-color: white; }\n      .eshop-form .seperator .line {\n        content: \"\";\n        display: block;\n        width: 100%;\n        background-color: #dddddd;\n        height: 1px;\n        position: relative;\n        top: 11px;\n        z-index: 1; }\n  .loader {\n    position: fixed;\n    left: 0px;\n    top: 0px;\n    width: 100%;\n    height: 100%;\n    z-index: 1000;\n    background: rgba(99, 99, 99, 0.7); }\n    .loader .square {\n      width: 120px;\n      height: 120px;\n      border-radius: 8px;\n      color: white;\n      position: absolute;\n      left: calc(50% - 60px);\n      top: calc(50% - 60px);\n      background: #565656;\n      background: -webkit-linear-gradiant(top, #565656 0%, black 100%);\n      background: linear-gradient(to bottom, #565656 0%, black 100%); }\n      .loader .square:before {\n        content: \"loading ....\";\n        position: relative;\n        top: 47px;\n        left: 24px;\n        font-size: 18px; } }\n\n@media (min-width: 767px) {\n  .sub-nav {\n    padding-top: 15px; }\n    .sub-nav .menu-categories {\n      background-color: #ffffff;\n      color: #333333;\n      text-align: center;\n      width: 100%;\n      display: table;\n      table-layout: fixed;\n      border: 1px solid #ebebf0; }\n      .sub-nav .menu-categories ul {\n        padding: 0; }\n      .sub-nav .menu-categories li {\n        float: left;\n        list-style-type: none;\n        margin: 0;\n        padding: 0;\n        overflow: hidden;\n        width: 25%;\n        border-color: rgba(255, 255, 255, 0.2);\n        text-align: center; }\n        .sub-nav .menu-categories li a {\n          color: #337ab7; }\n        .sub-nav .menu-categories li a:hover {\n          background-color: #e31837;\n          color: #ffffff; }\n    .sub-nav .menu-section {\n      float: left;\n      width: 65%;\n      background-color: #333333;\n      text-align: center;\n      height: 52px;\n      padding-top: 15px;\n      color: #FFFFFF; }\n    .sub-nav .menu-actions {\n      font-size: 16px;\n      font-weight: bold; }\n    .sub-nav .basket-section {\n      float: right;\n      width: 35%;\n      background-color: #0076ab;\n      font-size: 16px;\n      font-weight: bold; }\n  li a {\n    display: block;\n    color: white;\n    text-align: center;\n    padding: 16px;\n    text-decoration: none; }\n  li a:hover {\n    background-color: #e31837; }\n  .search {\n    padding: 200px 200px 30px 200px; }\n    .search .input-group {\n      display: block !important; }\n    .search .input-group-addon {\n      width: 25%;\n      display: inline-block;\n      background-color: #286090;\n      color: #ffffff;\n      height: 44px;\n      font-size: 16px;\n      line-height: 19px;\n      border-radius: 3px;\n      border-left: 0px;\n      position: absolute;\n      right: 70px; }\n    .search .search-input {\n      width: 75%;\n      height: 44px;\n      outline: none;\n      font-size: 16px;\n      border-radius: 3px;\n      line-height: 19px;\n      padding: 8px 80px 8px 25px;\n      border-right: 0;\n      position: initial;\n      text-align: center; }\n  /**\n  * css for productThumail\n  **/\n  .product-thumbnail {\n    width: 280px;\n    margin-bottom: 50px;\n    position: relative; }\n    .product-thumbnail .product-img {\n      width: 120px;\n      height: 120px;\n      float: left; }\n    .product-thumbnail .product-description {\n      width: 140px;\n      float: right;\n      padding: 10px 10px 10px 0; }\n    .product-thumbnail .product-name {\n      text-align: center;\n      padding-top: 8px;\n      white-space: nowrap;\n      text-overflow: ellipsis;\n      width: 280px;\n      height: 35px;\n      overflow: hidden;\n      background: rgba(0, 0, 0, 0.7);\n      color: #ffffff;\n      font-size: 15px; }\n      .product-thumbnail .product-name .capitalize {\n        text-transform: capitalize; }\n    .product-thumbnail .product-action {\n      width: 280px;\n      font-size: 16px;\n      background-color: #13729E; }\n      .product-thumbnail .product-action .price {\n        float: left;\n        padding-top: 6px;\n        font-size: 16px;\n        color: #ffffff;\n        padding-left: 18px; }\n      .product-thumbnail .product-action .actions .add-to-basket {\n        width: 100%;\n        -webkit-border-radius: 0px;\n        -moz-border-radius: 0px;\n        border-radius: 0px; }\n    .product-thumbnail .plus-sign {\n      position: absolute;\n      right: 30px;\n      bottom: 46px;\n      font-size: 20px;\n      font-weight: bold;\n      opacity: 0; }\n    .product-thumbnail .plus-fade-out {\n      -webkit-animation: 1s fadeout ease-in;\n      -moz-animation: 1s fadeout ease-in;\n      -ms-animation: 1s fadeout ease-in;\n      -o-animation: 1s fadeout ease-in;\n      animation: 1s fadeout ease-in; }\n  .footer {\n    margin-top: 10px;\n    margin-bottom: 82px;\n    width: 100%;\n    height: 60px;\n    background-color: #f8f8f8; }\n    .footer .text-muted {\n      margin: 20px 0 20px 0;\n      text-align: center; }\n  .fix-footer {\n    position: fixed;\n    background-color: white;\n    bottom: 0px;\n    width: 100%;\n    padding: 20px;\n    border-top: solid 1px #dddddd;\n    border-bottom: solid 1px #dddddd;\n    box-sizing: border-box; }\n  .basket .sections-container {\n    margin-top: 15px; }\n  .basket [class^=\"col-\"] {\n    padding-left: 0px; }\n    .basket [class^=\"col-\"] label {\n      margin-left: 5px;\n      vertical-align: middle; }\n    .basket [class^=\"col-\"] .small-text {\n      margin-left: 17px; }\n  .basket .section {\n    padding: 10px;\n    border: solid 1px #dddddd; }\n    .basket .section.no-bottom-border {\n      border-bottom: none; }\n    .basket .section .item-container:not(:last-child) {\n      margin-bottom: 8px; }\n    .basket .section .item-container button {\n      padding: 5px;\n      border: solid 1px #cac6c6;\n      width: 25px;\n      height: 25px;\n      background-color: white;\n      margin-right: 7px;\n      position: relative;\n      top: -2px; }\n      .basket .section .item-container button .glyphicon {\n        position: relative;\n        font-size: 11px;\n        top: -2px; }\n    .basket .section .item-container .item-title strong {\n      font-size: 12px; }\n    .basket .section .summary-container {\n      font-weight: 200; }\n      .basket .section .summary-container.large-text {\n        margin-top: 20px;\n        font-size: 17px; }\n    .basket .section .title {\n      font-size: 15px;\n      font-weight: bold;\n      margin-bottom: 7px;\n      width: auto; }\n  .eshop-form {\n    padding: 20px; }\n    .eshop-form input[type='submit'], .eshop-form input[type='button'], .eshop-form button {\n      width: 100%; }\n    .eshop-form .seperator {\n      margin-top: 10px;\n      margin-bottom: 10px;\n      text-align: center; }\n      .eshop-form .seperator span {\n        min-width: 100px;\n        text-align: center;\n        display: inline-block;\n        position: relative;\n        z-index: 100;\n        background-color: white; }\n      .eshop-form .seperator .line {\n        content: \"\";\n        display: block;\n        width: 100%;\n        background-color: #dddddd;\n        height: 1px;\n        position: relative;\n        top: 11px;\n        z-index: 1; }\n  .loader {\n    position: fixed;\n    left: 0px;\n    top: 0px;\n    width: 100%;\n    height: 100%;\n    z-index: 1000;\n    background: rgba(99, 99, 99, 0.7); }\n    .loader .square {\n      width: 120px;\n      height: 120px;\n      border-radius: 8px;\n      color: white;\n      position: absolute;\n      left: calc(50% - 60px);\n      top: calc(50% - 60px);\n      background: #565656;\n      background: -webkit-linear-gradiant(top, #565656 0%, black 100%);\n      background: linear-gradient(to bottom, #565656 0%, black 100%); }\n      .loader .square:before {\n        content: \"loading ...\";\n        position: relative;\n        top: 47px;\n        left: 24px;\n        font-size: 18px; } }\n\n/* main sass file */\n/**\n* common css\n**/\n.square-btn {\n  padding: 18px;\n  text-align: center;\n  color: white;\n  display: block;\n  border: none;\n  width: 100%;\n  position: initial; }\n\n.facebook-bg {\n  background-color: #3651a0; }\n\n.small-text {\n  font-size: 12px; }\n\n.load-more {\n  margin-left: auto;\n  margin-right: auto;\n  display: block;\n  width: 100px; }\n\nbody {\n  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;\n  color: #5b5e61;\n  padding: 50px; }\n\nsection.main-section .title {\n  width: 230px;\n  margin-bottom: 20px;\n  margin-top: 20px;\n  text-transform: capitalize;\n  font-size: 20px;\n  font-style: italic; }\n\nheader {\n  background-color: #f8f8f8;\n  padding-top: 1px;\n  border-bottom: solid 1px #cac6c6; }\n  header img {\n    max-width: 50px; }\n  header h4 {\n    font-style: italic;\n    padding-left: 5px;\n    padding-bottom: 14px;\n    border-bottom: solid 1px #dddddd; }\n    header h4 a {\n      font-size: 15px;\n      padding-right: 6px;\n      font-style: normal; }\n", ""]);
 
 	// exports
 
