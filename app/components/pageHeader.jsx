@@ -9,7 +9,7 @@ import userStore from '../stores/userStore';
 import userAction from '../actions/userAction';
 import '../../public/styles/header.scss';
 import basketStore from '../stores/basketStore';
-import Menu from '../components/menu.jsx';
+
 
 
 class PageHeader extends React.Component {
@@ -90,13 +90,13 @@ class PageHeader extends React.Component {
 		}else{
 			userStates = (
 				<ul className="nav navbar-nav navbar-right">
-					<li> <Link to="/login" activeClassName="active">Login</Link></li>
-					<li><Link to="/register" activeClassName="active">Sign up</Link></li>
-                    <li>
-                        <div className="btn-success glyphicon glyphicon-shopping-cart square-btn"
-                             onClick={this.displayBasket.bind(this)}> {this.state.currency}{this.state.total}
-                        </div>
-                    </li>
+					<li> <Link to="/login" activeClassName="active" className="account-link account-link-underline">Login</Link></li>
+					<li><Link to="/register" activeClassName="active" className="account-link">Sign up</Link></li>
+                    {/*// <li>*/}
+                    {/*//     <div className="btn-success glyphicon glyphicon-shopping-cart square-btn"*/}
+                             {/*onClick={this.displayBasket.bind(this)}> {this.state.currency}{this.state.total}*/}
+                        {/*</div>*/}
+                    {/*</li>*/}
 				</ul>
 			);
 		}
@@ -120,9 +120,9 @@ class PageHeader extends React.Component {
 								<a className="navbar-brand" href="/">{infoDom}</a>
 							</div>
 							<div id="navbarCollapse" className="navbar-collapse collapse in" aria-expanded="true">
-									<Menu data={this.state.menus}></Menu>
 									{userStates}
 							</div>
+
 
 					</div>
 				</nav>

@@ -2,11 +2,33 @@
 
 import React from 'react';
 import { Link } from 'react-router';
+import basketStore from '../stores/basketStore';
 
 class Menu extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = {
+            total: basketStore.getTotal(),
+		};
+	}
+
+    displayBasket() {
+        jQuery('#basket').modal('show');
+    }
+
+    onBasketChange() {
+        this.setState({
+            total: basketStore.getTotal(),
+            totalQuantity: basketStore.getTotalQuantity()
+        });
+    }
+
+    componentDidMount() {
+        basketStore.addChagneListener(this.onBasketChange.bind(this));
+	}
+
+    componentWillUnmount() {
+        basketStore.removeChangeListener(this.onBasketChange);
 	}
 
 	getChildrenMenu(data) {
@@ -29,7 +51,22 @@ class Menu extends React.Component {
 			return <li key={k}> {link} </li>;
 		});
 
-		return (<ul className="nav navbar-nav">{lis}</ul>);
+		return (<div>
+					<div className="menu-section">
+						<div className="menu-actions"> MENU </div>
+						<select name="categories" className="categories-select">
+
+						</select>
+					</div>
+					<div className="basket-section">
+						<div className="btn-success glyphicon glyphicon-shopping-cart square-btn basket"
+							 onClick={this.displayBasket.bind(this)}> {this.state.currency}{this.state.total}
+						</div>
+					</div>
+					<div>
+						<ul className="nav navbar-nav menu-categories">{lis}</ul>
+					</div>
+				</div>);
 	}
 
 	render() {

@@ -11,6 +11,79 @@ $image-width: 150px;
 $image-height: 150px;
 
 @media (min-width: 767px) {
+
+  .menu-categories {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #ffffff;
+    color: #333333;
+    text-align: center;
+    width:  100%;
+    display: table;
+    border-top-width: 0;
+    table-layout: fixed;
+
+    li {
+      width: 25%;
+      border-color: rgba(255,255,255,.2);
+      a {
+        color: #337ab7;;
+      }
+      a:hover {
+        background-color: #e31837;
+        color: #ffffff;
+      }
+    }
+  }
+
+  .menu-section {
+    float: left;
+    width:  65%;
+    background-color: #333333;
+    text-align: center;
+    height: 52px;
+    padding-top: 15px;
+    color: #FFFFFF;
+
+    li {
+      a:hover {
+        background-color: #e31837;
+        color: #ffffff;
+      }
+    }
+  }
+
+  .menu-actions {
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  .categories-select {
+    display: none;
+  }
+
+  .basket-section {
+    float: right;
+    width:35%;
+    background-color: #0076ab;
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 16px;
+    text-decoration: none;
+  }
+
+  li a:hover {
+    background-color: #e31837;
+  }
+
   .search {
     padding-top: 20px;
     .input-group {
