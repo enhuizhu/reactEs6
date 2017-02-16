@@ -5,10 +5,10 @@ $dark-line-color: #cac6c6;
 $header-bg: rgb(248, 248, 248);
 $active-color: rgb(26, 161, 184);
 $facebook-bg: #3651a0;
-$container-width: 330px;
-$container-height: 330px;
-$image-width: 150px;
-$image-height: 150px;
+$container-width: 280px;
+$container-height: 280px;
+$image-width: 120px;
+$image-height: 120px;
 
 @media (min-width: 767px) {
 
@@ -151,22 +151,22 @@ $image-height: 150px;
     }
 
     .product-action {
-      width:  100%;
+      width:  $container-width;
       font-size: 16px;
       background-color: #13729E;
 
       .price {
-        width:  40%;
+        //width:  40%;
         float: left;
         padding-top: 6px;
         font-size: 16px;
         color: #ffffff;
-        padding-left: 20px;
+        padding-left: 18px;
       }
 
       .actions {
         float: right;
-        width:  60%;
+        width:  71%;
         .add-to-basket {
           padding-left:  75px;
           -webkit-border-radius: 0px;
