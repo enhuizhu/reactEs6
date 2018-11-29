@@ -82,11 +82,12 @@ class PageHeader extends React.Component {
 		let infoDom = null;
 		
 		if (this.state.shopInfo.logo) {
-			let logoPath = '/cms/uploads/' + this.state.shopInfo.logo;
+			let logoPath = `${config.apiPath}/uploads/${this.state.shopInfo.logo}`;
 			infoDom = <img src={logoPath}/>;
 		}else{
 			infoDom = <span>{this.state.shopInfo.shopName}</span>;
 		}
+		
 		return (
 			<header>
 				<h4>

@@ -4,6 +4,6 @@ var path = __dirname + "/public";
 
 console.info("path is:", path);
 
-connect().use(serveStatic(path)).listen(8080, function(){
-    console.log('Server running on 8080...');
+connect().use(serveStatic(path)).listen(4000, function(){
+    console.log('Server running on 4000...');
 });
